@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D593A8B6-4364-41C2-BE9F-B808042EA67E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SMS.CORE</RootNamespace>
+    <AssemblyName>SMS.CORE</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BaseEntity.cs" />
+    <Compile Include="Data\BangDiemHKMH.cs" />
+    <Compile Include="Data\CotDiem.cs" />
+    <Compile Include="Data\CT_LichGiangDay.cs" />
+    <Compile Include="Data\CT_QuyetDinhKhenThuong.cs" />
+    <Compile Include="Data\CT_QuyetDinhKyLuat.cs" />
+    <Compile Include="Data\GiaoVien.cs" />
+    <Compile Include="Data\HocKy.cs" />
+    <Compile Include="Data\HocKyNamHoc.cs" />
+    <Compile Include="Data\HocSinh.cs" />
+    <Compile Include="Data\KhoiLop.cs" />
+    <Compile Include="Data\LoaiDiem.cs" />
+    <Compile Include="Data\LopHoc.cs" />
+    <Compile Include="Data\MonHoc.cs" />
+    <Compile Include="Data\MonHocKhoi.cs" />
+    <Compile Include="Data\NamHoc.cs" />
+    <Compile Include="Data\Nguoi.cs" />
+    <Compile Include="Data\PersonType.cs" />
+    <Compile Include="Data\PhongHoc.cs" />
+    <Compile Include="Data\TTDKPhongHocChinh.cs" />
+    <Compile Include="Data\QuyetDinhKhenThuong.cs" />
+    <Compile Include="Data\QuyetDinhKyLuat.cs" />
+    <Compile Include="Data\ThongTinKhenThuong.cs" />
+    <Compile Include="Data\ThongTinKyLuat.cs" />
+    <Compile Include="Data\TietHoc.cs" />
+    <Compile Include="Data\LichGiangDay.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
