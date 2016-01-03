@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using SMS.CORE.Data;
 
 namespace SMS.DATA.IRepository
 {
-    public partial interface IHocKyRepository
+    /// <summary>
+    /// IRepo hocky
+    /// </summary>
+    public interface IHocKyRepository
     {
         /// <summary>
         /// get hocky
         /// </summary>
         /// <returns>list hocky</returns>
-        IEnumerable<HocKy> GetAllHocKy();
+        List<HocKy> GetAllHocKy();
     }
 }

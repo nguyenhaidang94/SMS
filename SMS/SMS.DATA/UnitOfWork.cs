@@ -1,9 +1,4 @@
-﻿using SMS.CORE;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using SMS.DATA.IRepository;
 using SMS.DATA.Repository;
 using System.Data.Entity.Validation;
@@ -13,30 +8,30 @@ namespace SMS.DATA
     /// <summary>
     /// unit of work pattern
     /// </summary>
-    public partial class UnitOfWork
+    public class UnitOfWork
     {
         private readonly SMSContext _db;
-        private bool disposed;
+        private bool _disposed;
+        
+        //repository namhoc
         private INamHocRepository _NamHocRepository;
         public INamHocRepository NamHocRepository 
         {
-            get 
-            {
-                if (_NamHocRepository == null)
-                    _NamHocRepository = new NamHocRepository(_db);
-                return _NamHocRepository;
-            }
+            get { return _NamHocRepository ?? (_NamHocRepository = new NamHocRepository(_db)); }
         }
 
+        //repository hocky
         private IHocKyRepository _HocKyRepository;
         public IHocKyRepository HocKyRepository
         {
-            get
-            {
-                if (_HocKyRepository == null)
-                    _HocKyRepository = new HocKyRepository(_db);
-                return _HocKyRepository;
-            }
+            get { return _HocKyRepository ?? (_HocKyRepository = new HocKyRepository(_db)); }
+        }
+
+        //repository khenthuong
+        private IKhenThuongRepository _KhenThuongRepository;
+        public IKhenThuongRepository KhenThuongRepository
+        {
+            get { return _KhenThuongRepository ?? (_KhenThuongRepository = new KhenThuongRepository(_db)); }
         }
 
         public UnitOfWork()
@@ -46,7 +41,7 @@ namespace SMS.DATA
 
         public UnitOfWork(SMSContext context)
         {
-            this._db = context;
+            _db = context;
         }
 
         /// <summary>
@@ -85,16 +80,16 @@ namespace SMS.DATA
         /// dispose context
         /// </summary>
         /// <param name="disposing"></param>
-        public virtual void Dispose(bool disposing)
+        protected virtual void Dispose(bool disposing)
         {
-            if (!disposed)
+            if (!_disposed)
             {
                 if (disposing)
                 {
                     _db.Dispose();
                 }
             }
-            disposed = true;
+            _disposed = true;
         }
     }
 }

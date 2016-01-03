@@ -22,5 +22,8 @@ namespace SMS.CORE.Data
 
         public virtual LichGiangDay LichGiangDay { get; set; }
         public virtual GiaoVien GiaoVien { get; set; }
+
+        public CT_LichGiangDay()
+        { }
     }
 }

@@ -29,5 +29,8 @@ namespace SMS.CORE.Data
         public virtual GiaoVien GiaoVien { get; set; }
         public virtual HocSinh HocSinh { get; set; }
         public virtual TietHoc TietHoc { get; set; }
+
+        public ThongTinKhenThuong()
+        { }
     }
 }

@@ -1,19 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using SMS.CORE.Data;
 
 namespace SMS.SERVICE.IService
 {
-    public partial interface INamHocService
+    /// <summary>
+    /// IService namhoc
+    /// </summary>
+    public interface INamHocService
     {
         /// <summary>
         /// get namhoc
         /// </summary>
         /// <returns>list namhoc</returns>
-        IEnumerable<NamHoc> GetAllNamHoc();
+        List<NamHoc> GetAllNamHoc();
 
         /// <summary>
         /// add namhoc

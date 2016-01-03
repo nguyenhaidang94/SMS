@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SMS.DATA.IRepository;
 using SMS.CORE.Data;
 
 namespace SMS.DATA.Repository
 {
-    public partial class NamHocRepository: BaseRepository<NamHoc>, INamHocRepository
+    /// <summary>
+    /// Repo namhoc
+    /// </summary>
+    public class NamHocRepository: BaseRepository<NamHoc>, INamHocRepository
     {
         public NamHocRepository(SMSContext context)
             : base(context)
@@ -18,7 +18,7 @@ namespace SMS.DATA.Repository
         /// get namhoc
         /// </summary>
         /// <returns>list namhoc</returns>
-        public IEnumerable<NamHoc> GetAllNamHoc()
+        public List<NamHoc> GetAllNamHoc()
         {
             try
             {
