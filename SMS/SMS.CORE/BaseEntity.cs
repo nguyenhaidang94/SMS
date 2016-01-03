@@ -15,5 +15,8 @@ namespace SMS.CORE
         /// when entity is deleded, set Active = false
         /// </summary>
         public virtual bool Active { get; set; }
+
+        public BaseEntity()
+        { }
     }
 }
