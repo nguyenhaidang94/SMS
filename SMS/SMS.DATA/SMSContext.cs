@@ -10,6 +10,7 @@ namespace SMS.DATA
         public SMSContext()
             : base("name=SMSContext")
         {
+            this.Configuration.LazyLoadingEnabled = false;
         }
 
         public virtual DbSet<BangDiemHKMH> DbBangDiemHKNH { get; set; }

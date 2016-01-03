@@ -65,16 +65,17 @@
   <ItemGroup>
     <Compile Include="BaseRepository.cs" />
     <Compile Include="IRepository\IHocKyRepository.cs" />
+    <Compile Include="IRepository\IKhenThuongRepository.cs" />
     <Compile Include="IRepository\INamHocRepository.cs" />
+    <Compile Include="Models\KhenThuongViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\HocKyRepository.cs" />
+    <Compile Include="Repository\KhenThuongRepository.cs" />
     <Compile Include="Repository\NamHocRepository.cs" />
     <Compile Include="SMSContext.cs" />
     <Compile Include="UnitOfWork.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\SMS.CORE\SMS.CORE.csproj">
       <Project>{d593a8b6-4364-41c2-be9f-b808042ea67e}</Project>
