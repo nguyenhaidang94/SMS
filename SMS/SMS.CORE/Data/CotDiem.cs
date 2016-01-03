@@ -27,5 +27,8 @@ namespace SMS.CORE.Data
 
         public virtual BangDiemHKMH BangDiemHKMH { get; set; }
         public virtual LoaiDiem LoaiDiem { get; set; }
+
+        public CotDiem()
+        { }
     }
 }
