@@ -39,8 +39,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IService\IKhenThuongService.cs" />
     <Compile Include="IService\INamHocService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\KhenThuongService.cs" />
     <Compile Include="Service\NamHocService.cs" />
   </ItemGroup>
   <ItemGroup>
