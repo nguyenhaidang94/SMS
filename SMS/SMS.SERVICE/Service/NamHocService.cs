@@ -1,20 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using SMS.SERVICE.IService;
-using SMS.DATA.Repository;
 using SMS.DATA;
 using SMS.CORE.Data;
 using SMS.DATA.IRepository;
 
 namespace SMS.SERVICE.Service
 {
-    public partial class NamHocService: INamHocService
+    /// <summary>
+    /// service namhoc
+    /// </summary>
+    public class NamHocService: INamHocService
     {
-        private UnitOfWork _UnitOfWork;
-        private INamHocRepository _NamHocRepository;
+        private readonly UnitOfWork _UnitOfWork;
+        private readonly INamHocRepository _NamHocRepository;
         
         public NamHocService(UnitOfWork unitOfWork)
         {
@@ -26,7 +24,7 @@ namespace SMS.SERVICE.Service
         /// get namhoc
         /// </summary>
         /// <returns>list namhoc</returns>
-        public IEnumerable<NamHoc> GetAllNamHoc()
+        public List<NamHoc> GetAllNamHoc()
         {
             return _NamHocRepository.GetAllNamHoc();
         }
