@@ -39,11 +39,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IService\IGiaoVienService.cs" />
+    <Compile Include="IService\IHocSinhService.cs" />
     <Compile Include="IService\IKhenThuongService.cs" />
     <Compile Include="IService\INamHocService.cs" />
+    <Compile Include="IService\ITietHocService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\GiaoVienService.cs" />
+    <Compile Include="Service\HocSinhService.cs" />
     <Compile Include="Service\KhenThuongService.cs" />
     <Compile Include="Service\NamHocService.cs" />
+    <Compile Include="Service\TietHocService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SMS.CORE\SMS.CORE.csproj">
