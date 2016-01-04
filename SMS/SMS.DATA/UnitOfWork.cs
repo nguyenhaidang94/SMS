@@ -34,6 +34,28 @@ namespace SMS.DATA
             get { return _KhenThuongRepository ?? (_KhenThuongRepository = new KhenThuongRepository(_db)); }
         }
 
+        //repository hocsinh
+        private IHocSinhRepository _HocSinhRepository;
+        public IHocSinhRepository HocSinhRepository
+        {
+            get { return _HocSinhRepository ?? (_HocSinhRepository = new HocSinhRepository(_db)); }
+        }
+
+        //repository giaovien
+        private IGiaoVienRepository _GiaoVienRepository;
+        public IGiaoVienRepository GiaoVienRepository
+        {
+            get { return _GiaoVienRepository ?? (_GiaoVienRepository = new GiaoVienRepository(_db)); }
+        }
+
+        //repository tiethoc
+        private ITietHocRepository _TietHocRepository;
+
+        public ITietHocRepository TietHocRepository
+        {
+            get { return _TietHocRepository ?? (_TietHocRepository = new TietHocRepository(_db)); }
+        }
+
         public UnitOfWork()
         {
             _db = new SMSContext();
