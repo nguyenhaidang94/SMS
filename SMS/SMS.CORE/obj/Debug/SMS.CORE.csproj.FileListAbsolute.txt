@@ -1,4 +1,0 @@
-F:\Document\Visual Studio 2013\C#\Web Application\ASP.NET MVC\SMS\SMS.CORE\bin\Debug\SMS.CORE.dll
-F:\Document\Visual Studio 2013\C#\Web Application\ASP.NET MVC\SMS\SMS.CORE\bin\Debug\SMS.CORE.pdb
-F:\Document\Visual Studio 2013\C#\Web Application\ASP.NET MVC\SMS\SMS.CORE\obj\Debug\SMS.CORE.dll
-F:\Document\Visual Studio 2013\C#\Web Application\ASP.NET MVC\SMS\SMS.CORE\obj\Debug\SMS.CORE.pdb
