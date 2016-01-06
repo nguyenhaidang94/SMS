@@ -17,6 +17,8 @@ namespace SMS.CORE
         public virtual bool Active { get; set; }
 
         public BaseEntity()
-        { }
+        {
+            Active = true;
+        }
     }
 }

@@ -137,7 +137,8 @@ namespace SMS.DATA
                 if (entity == null)
                     throw new ArgumentNullException("entity is null");
 
-                this.Entities.Remove(entity);
+                entity.Active = false;
+                this._db.Entry<T>(entity).State = EntityState.Modified;
             }
             catch
             {

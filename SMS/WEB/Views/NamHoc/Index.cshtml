@@ -1,0 +1,84 @@
+﻿@using Newtonsoft.Json
+
+
+<link rel="stylesheet" href="~/Content/kendo/2015.3.1111/kendo.common.min.css" />
+<link rel="stylesheet" href="~/Content/kendo/2015.3.1111/kendo.default.min.css" />
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h3>Quản lý năm học</h3>
+<div id="grid"></div>
+
+@section scripts{
+    @Scripts.Render("~/bundles/kendo")
+
+    <script>
+        $(document).ready(function () {
+            dataSource = new kendo.data.DataSource({
+                    type: "json",
+                    transport: {   
+                        read: {
+                            url: "@Html.Raw(Url.Action("Read"))",
+                            type: "POST",
+                            dataType: "json",
+                        },
+                        update: {
+                            url: "@Html.Raw(Url.Action("Update"))",
+                            type: "POST",
+                            dataType: "json",
+                        },
+                        destroy: {
+                            url: "@Html.Raw(Url.Action("Destroy"))",
+                            type: "POST",
+                            dataType: "json",
+                        },
+                        create: {
+                            url: "@Html.Raw(Url.Action("Create"))",
+                            type: "POST",
+                            dataType: "json",
+                        },
+                        parameterMap: function (options, operation) {
+                            if (operation !== "read" && options.models) {
+                                return { models: kendo.stringify(options.models) };
+                            }
+                        }
+                    },
+                    batch: true,
+                    pageSize: 20,
+                    schema: {
+                        model: {
+                            id: "MaNamHoc",
+                            fields: {
+                                MaNamHoc: {editable: false, nullable: true },
+                                NamBatDau: {type:"number" , validation: { required: true, min: 2000, max: 9999} },
+                                NamKetThuc: { type: "number", validation: { required: true, min: 2000, max: 9999 } },
+                                Active: {type: "boolean"}
+                            }
+                        }
+                    }
+                });
+
+            $("#grid").kendoGrid({
+                dataSource: dataSource,
+                filterable: true,
+                sortable: true,
+                pageable: {
+                    refresh: true,
+                    pageSizes: true,
+                    buttonCount: 5
+                },
+                height: 500,
+                toolbar: ["create"],
+                columns: [
+                    "MaNamHoc",
+                    { field: "NamBatDau", format: "{0:0}",title: "Năm Bắt Đầu" },
+                    { field: "NamKetThuc", format: "{0:0}", title: "Năm Kết Thúc" },
+                    { field: "Active", title: "Active" },
+                    { command: ["edit", "destroy"], title: "&nbsp;", width: "250px" }],
+                editable: "inline",
+            });
+        });   
+    </script>
+}

@@ -1,12 +1,5 @@
-﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
-}
-
-/* Set padding to keep content from hitting the edges */
-.body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+﻿html, body {
+    height:100%;
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
@@ -21,4 +14,25 @@ input,
 select,
 textarea {
     max-width: 280px;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+/* Wrapper for page content to push down footer */
+.wrap {
+  min-height: 100%;
+  height: auto;
+  margin: 0 auto -50px;
+  padding: 0 0 50px 0;
+}
+
+/* Set the fixed height of the footer here */
+footer {
+  min-height: 50px;
+  background-color:#f1f1f1;
+}
+
+.footer-content {
+    line-height:50px;
+    vertical-align: middle;
 }
