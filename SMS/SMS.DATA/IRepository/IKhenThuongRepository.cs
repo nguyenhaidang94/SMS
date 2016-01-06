@@ -12,6 +12,12 @@ namespace SMS.DATA.IRepository
         /// get all khenthuong
         /// </summary>
         /// <returns>list khenthuong</returns>
-        List<ThongTinKhenThuong> GetAllKhenThuong();
+        IEnumerable<ThongTinKhenThuong> GetAllKhenThuong();
+
+        /// <summary>
+        /// add thongtinkhenthuong
+        /// </summary>
+        /// <param name="entity">thongtinkhenthuong</param>
+        void AddKhenThuong(ThongTinKhenThuong entity);
     }
 }

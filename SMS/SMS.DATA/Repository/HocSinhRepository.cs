@@ -1,8 +1,7 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using System.Linq;
 using SMS.CORE.Data;
 using SMS.DATA.IRepository;
-using System.Collections.Generic;
-using System.Linq;
 using SMS.DATA.Models;
 
 namespace SMS.DATA.Repository
@@ -17,23 +16,16 @@ namespace SMS.DATA.Repository
         { }
 
         /// <summary>
-        /// get all hocsinh options
+        /// get hocsinh viewmodel
         /// </summary>
-        /// <returns>list hocsinh options</returns>
-        public List<StringOption> GetAllHocSinhOptions()
+        /// <returns>list PersonViewModel</returns>
+        public IEnumerable<PersonViewModel> GetHocSinhViewModels()
         {
-            try
+            return Entities.Select(e => new PersonViewModel()
             {
-                return Entities.Select(e => new StringOption()
-                {
-                    DisplayText = e.HoTen,
-                    Value = e.PersonId
-                }).ToList();
-            }
-            catch
-            {           
-                throw;
-            }
+                MaHocSinh = e.PersonId,
+                HoTen = e.HoTen
+            }).ToList();
         }
     }
 }

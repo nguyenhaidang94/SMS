@@ -7,3 +7,16 @@
 /SMS.DATA.dll
 /SMS.DATA.dll.config
 /SMS.DATA.pdb
+/Microsoft.Web.Infrastructure.dll
+/System.Web.Helpers.dll
+/System.Web.Helpers.xml
+/System.Web.Mvc.dll
+/System.Web.Mvc.xml
+/System.Web.Razor.dll
+/System.Web.Razor.xml
+/System.Web.WebPages.Deployment.dll
+/System.Web.WebPages.Deployment.xml
+/System.Web.WebPages.Razor.dll
+/System.Web.WebPages.Razor.xml
+/System.Web.WebPages.dll
+/System.Web.WebPages.xml

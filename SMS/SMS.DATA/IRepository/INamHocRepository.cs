@@ -12,7 +12,7 @@ namespace SMS.DATA.IRepository
         /// get namhoc
         /// </summary>
         /// <returns>list namhoc</returns>
-        List<NamHoc> GetAllNamHoc();
+        IEnumerable<NamHoc> GetAllNamHoc();
 
         /// <summary>
         /// add namhoc
@@ -31,5 +31,11 @@ namespace SMS.DATA.IRepository
         /// </summary>
         /// <param name="entity">namhoc</param>
         void DeleteNamHoc(NamHoc entity);
+
+        /// <summary>
+        /// set entity to inactive
+        /// </summary>
+        /// <param name="entity">namhoc</param>
+        void FakeDeleteNamHoc(NamHoc entity);
     }
 }

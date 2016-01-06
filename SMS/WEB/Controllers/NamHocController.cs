@@ -94,5 +94,15 @@ namespace WEB.Controllers
                 return Json(new { error = e.Message});
             }
         }
+
+        /// <summary>
+        /// override function Dispose
+        /// Dispose _UnitOfWork
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            _UnitOfWork.Dispose();
+            base.Dispose(disposing);
+        }
     }
 }

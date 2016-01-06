@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using SMS.DATA;
 using SMS.DATA.IRepository;
 using SMS.DATA.Models;
@@ -22,19 +21,12 @@ namespace SMS.SERVICE.Service
         }
 
         /// <summary>
-        /// get all hocsinh options
+        /// get hocsinh viewmodel
         /// </summary>
-        /// <returns>list hocsinh options</returns>
-        public List<StringOption> GetAllHocSinhOptions()
+        /// <returns>list PersonViewModel</returns>
+        public IEnumerable<PersonViewModel> GetHocSinhViewModels()
         {
-            try
-            {
-                return _HocSinhRepository.GetAllHocSinhOptions();
-            }
-            catch
-            {
-                throw;
-            }
+            return _HocSinhRepository.GetHocSinhViewModels();
         }
     }
 }

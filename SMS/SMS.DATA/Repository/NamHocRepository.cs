@@ -18,17 +18,10 @@ namespace SMS.DATA.Repository
         /// get namhoc
         /// </summary>
         /// <returns>list namhoc</returns>
-        public List<NamHoc> GetAllNamHoc()
+        public IEnumerable<NamHoc> GetAllNamHoc()
         {
-            try
-            {
-                var namhoc = Entities.ToList();
-                return namhoc;
-            }
-            catch
-            {
-                throw;
-            }
+            var namhoc = Entities.ToList();
+            return namhoc;
         }
 
         /// <summary>
@@ -37,14 +30,7 @@ namespace SMS.DATA.Repository
         /// <param name="entity">namhoc</param>
         public void AddNamHoc(NamHoc entity)
         {
-            try
-            {
-                Insert(entity);
-            }
-            catch
-            {
-                throw;
-            }
+            Insert(entity);
         }
 
         /// <summary>
@@ -53,14 +39,7 @@ namespace SMS.DATA.Repository
         /// <param name="entity">namhoc</param>
         public void UpdateNamHoc(NamHoc entity)
         {
-            try
-            {
-                Update(entity);
-            }
-            catch
-            {
-                throw;
-            }
+            Update(entity);
         }
 
         /// <summary>
@@ -69,14 +48,16 @@ namespace SMS.DATA.Repository
         /// <param name="entity">namhoc</param>
         public void DeleteNamHoc(NamHoc entity)
         {
-            try
-            {
-                Delete(entity);
-            }
-            catch
-            {
-                throw;
-            }
+            Delete(entity);
+        }
+
+        /// <summary>
+        /// set entity to inactive
+        /// </summary>
+        /// <param name="entity">namhoc</param>
+        public void FakeDeleteNamHoc(NamHoc entity)
+        {
+            FakeDelete(entity);
         }
     }
 }

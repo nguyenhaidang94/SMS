@@ -18,16 +18,9 @@ namespace SMS.DATA.Repository
         /// get hocky
         /// </summary>
         /// <returns>list hocky</returns>
-        public List<HocKy> GetAllHocKy()
-        {
-            try
-            {
-                return Entities.ToList();
-            }
-            catch
-            {
-                throw;
-            }
-        }
+        public IEnumerable<HocKy> GetAllHocKy()
+         {
+             return Entities.ToList();
+         }
     }
 }

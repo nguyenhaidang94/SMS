@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SMS.CORE;
 using System.Data.Entity;
 using System.Data.Entity.Validation;
@@ -13,7 +10,7 @@ namespace SMS.DATA
     /// base repository
     /// </summary>
     /// <typeparam name="T">entity</typeparam>
-    public partial class BaseRepository<T> where T: BaseEntity
+    public class BaseRepository<T> where T: BaseEntity
     {
         protected readonly SMSContext _db;
         private IDbSet<T> _Entities;
@@ -70,10 +67,6 @@ namespace SMS.DATA
                 this._db.Configuration.AutoDetectChangesEnabled = false;
                 entity = this._Entities.Find(ids);
             }
-            catch 
-            {
-                throw;            
-            }
             finally
             {
                 this._db.Configuration.AutoDetectChangesEnabled = true;
@@ -113,17 +106,10 @@ namespace SMS.DATA
         /// <param name="entity">entity</param>
         public virtual void Update(T entity)
         {
-            try
-            {
-                if (entity == null)
-                    throw new ArgumentNullException("entity is null");
+            if (entity == null)
+                throw new ArgumentNullException("entity is null");
 
-                this._db.Entry<T>(entity).State = EntityState.Modified;
-            }
-            catch
-            {
-                throw;
-            }
+            this._db.Entry<T>(entity).State = EntityState.Modified;
         }
 
         /// <summary>
@@ -132,18 +118,10 @@ namespace SMS.DATA
         /// <param name="entity">entity</param>
         public virtual void Delete(T entity)
         {
-            try
-            {
-                if (entity == null)
-                    throw new ArgumentNullException("entity is null");
+            if (entity == null)
+                throw new ArgumentNullException("entity is null");
 
-                entity.Active = false;
-                this._db.Entry<T>(entity).State = EntityState.Modified;
-            }
-            catch
-            {
-                throw;
-            }
+            this.Entities.Remove(entity);
         }
 
         /// <summary>
@@ -152,16 +130,9 @@ namespace SMS.DATA
         /// <param name="ids">entity's primary key</param>
         public virtual void DeleteById(params object[] ids)
         {
-            try
-            {
-                var entity = GetEntityById(ids);
-                if (entity != null)
-                    Delete(entity);
-            }
-            catch
-            {
-                throw;
-            }
+            var entity = GetEntityById(ids);
+            if (entity != null)
+                Delete(entity);
         }
 
         /// <summary>
@@ -170,18 +141,11 @@ namespace SMS.DATA
         /// <param name="entity">entity</param>
         public virtual void FakeDelete(T entity)
         {
-            try
-            {
-                if (entity == null)
-                    throw new ArgumentNullException("entity is null");
+            if (entity == null)
+                throw new ArgumentNullException("entity is null");
 
-                entity.Active = false;
-                this._db.Entry<T>(entity).State = EntityState.Modified;
-            }
-            catch
-            {
-                throw;
-            }
+            entity.Active = false;
+            this._db.Entry<T>(entity).State = EntityState.Modified;
         }
         
         /// <summary>
@@ -190,16 +154,9 @@ namespace SMS.DATA
         /// <param name="ids">entity's primary key</param>
         public void FakeDeleteById(params object[] ids)
         {
-            try
-            {
-                var entity = GetEntityById(ids);
-                if (entity != null)
-                    FakeDelete(entity);
-            }
-            catch
-            {
-                throw;
-            }
+            var entity = GetEntityById(ids);
+            if (entity != null)
+                FakeDelete(entity);
         }
     }
 }
