@@ -24,16 +24,22 @@ namespace SMS.SERVICE.Service
         /// get all khenthuong
         /// </summary>
         /// <returns>list khenthuong</returns>
-        public List<ThongTinKhenThuong> GetAllKhenThuong()
+        public IEnumerable<ThongTinKhenThuong> GetAllKhenThuong()
         {
-            try
+            return _KhenThuongRepository.GetAllKhenThuong();
+        }
+
+        /// <summary>
+        /// add ds khenthuong
+        /// </summary>
+        /// <param name="entity">list thongtinkhenthuon</param>
+        public void AddDsKhenThuong(IEnumerable<ThongTinKhenThuong> dsKhenThuong)
+        {
+            foreach (var khenthuong in dsKhenThuong)
             {
-                return _KhenThuongRepository.GetAllKhenThuong();
+                _KhenThuongRepository.AddKhenThuong(khenthuong);
             }
-            catch
-            {
-                throw;
-            }
+            _UnitOfWork.SaveChanges();
         }
     }
 }

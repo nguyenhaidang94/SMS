@@ -24,7 +24,7 @@ namespace SMS.SERVICE.Service
         /// get namhoc
         /// </summary>
         /// <returns>list namhoc</returns>
-        public List<NamHoc> GetAllNamHoc()
+        public IEnumerable<NamHoc> GetAllNamHoc()
         {
             return _NamHocRepository.GetAllNamHoc();
         }
@@ -55,7 +55,7 @@ namespace SMS.SERVICE.Service
         /// <param name="entity">namhoc</param>
         public void DeleteNamHoc(NamHoc entity)
         {
-            _NamHocRepository.DeleteNamHoc(entity);
+            _NamHocRepository.FakeDeleteNamHoc(entity);
             _UnitOfWork.SaveChanges();
         }
     }

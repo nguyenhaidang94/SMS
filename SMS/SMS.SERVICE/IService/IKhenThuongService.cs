@@ -12,6 +12,12 @@ namespace SMS.SERVICE.IService
         /// get all khenthuong
         /// </summary>
         /// <returns>list khenthuong</returns>
-        List<ThongTinKhenThuong> GetAllKhenThuong();
+        IEnumerable<ThongTinKhenThuong> GetAllKhenThuong();
+
+        /// <summary>
+        /// add ds khenthuong
+        /// </summary>
+        /// <param name="entity">list thongtinkhenthuon</param>
+        void AddDsKhenThuong(IEnumerable<ThongTinKhenThuong> dsKhenThuong);
     }
 }

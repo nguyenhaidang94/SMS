@@ -1,8 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using SMS.CORE.Data;
+﻿using SMS.CORE.Data;
 using SMS.DATA.IRepository;
-using SMS.DATA.Models;
 
 namespace SMS.DATA.Repository
 {
@@ -15,24 +12,6 @@ namespace SMS.DATA.Repository
             : base(context)
         { }
 
-        /// <summary>
-        /// get all giaovien options
-        /// </summary>
-        /// <returns>list giaovien options</returns>
-        public List<StringOption> GetAllGiaoVienOptions()
-        {
-            try
-            {
-                return Entities.Select(e => new StringOption()
-                {
-                    DisplayText = e.HoTen,
-                    Value = e.PersonId
-                }).ToList();
-            }
-            catch
-            {           
-                throw;
-            }
-        }
+
     }
 }

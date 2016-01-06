@@ -12,6 +12,6 @@ namespace SMS.DATA.IRepository
         /// get hocky
         /// </summary>
         /// <returns>list hocky</returns>
-        List<HocKy> GetAllHocKy();
+        IEnumerable<HocKy> GetAllHocKy();
     }
 }

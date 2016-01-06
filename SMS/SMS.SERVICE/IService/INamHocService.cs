@@ -12,7 +12,7 @@ namespace SMS.SERVICE.IService
         /// get namhoc
         /// </summary>
         /// <returns>list namhoc</returns>
-        List<NamHoc> GetAllNamHoc();
+        IEnumerable<NamHoc> GetAllNamHoc();
 
         /// <summary>
         /// add namhoc

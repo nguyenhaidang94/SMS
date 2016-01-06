@@ -1,4 +1,5 @@
-﻿using SMS.CORE.Data;
+﻿using System;
+using SMS.CORE.Data;
 using SMS.DATA.IRepository;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,16 +19,18 @@ namespace SMS.DATA.Repository
         /// get all khenthuong
         /// </summary>
         /// <returns>list khenthuong</returns>
-        public List<ThongTinKhenThuong> GetAllKhenThuong()
+        public IEnumerable<ThongTinKhenThuong> GetAllKhenThuong()
         {
-            try
-            {
-                return Entities.ToList();
-            }
-            catch
-            {
-                throw;
-            }
+            return Entities.ToList();
+        }
+
+        /// <summary>
+        /// add thongtinkhenthuong
+        /// </summary>
+        /// <param name="entity">thongtinkhenthuong</param>
+        public void AddKhenThuong(ThongTinKhenThuong entity)
+        {
+            Insert(entity);
         }
     }
 }

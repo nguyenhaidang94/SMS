@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿
+using System.Collections.Generic;
 using SMS.DATA.Models;
 
 namespace SMS.SERVICE.IService
@@ -9,9 +10,9 @@ namespace SMS.SERVICE.IService
     public interface IHocSinhService
     {
         /// <summary>
-        /// get all hocsinh options
+        /// get hocsinh viewmodel
         /// </summary>
-        /// <returns>list hocsinh options</returns>
-        List<StringOption> GetAllHocSinhOptions();
+        /// <returns>list PersonViewModel</returns>
+        IEnumerable<PersonViewModel> GetHocSinhViewModels();
     }
 }

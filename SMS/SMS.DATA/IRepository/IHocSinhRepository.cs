@@ -1,6 +1,5 @@
-﻿using SMS.DATA.Models;
-using System.Collections.Generic;
-
+﻿using System.Collections.Generic;
+using SMS.DATA.Models;
 
 namespace SMS.DATA.IRepository
 {
@@ -10,9 +9,9 @@ namespace SMS.DATA.IRepository
     public interface IHocSinhRepository
     {
         /// <summary>
-        /// get all hocsinh options
+        /// get hocsinh viewmodel
         /// </summary>
-        /// <returns>list hocsinh options</returns>
-        List<StringOption> GetAllHocSinhOptions();
+        /// <returns>list PersonViewModel</returns>
+        IEnumerable<PersonViewModel> GetHocSinhViewModels();
     }
 }
