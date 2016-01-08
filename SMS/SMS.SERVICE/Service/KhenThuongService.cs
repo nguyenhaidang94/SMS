@@ -26,7 +26,7 @@ namespace SMS.SERVICE.Service
         /// <returns>list khenthuong</returns>
         public IEnumerable<ThongTinKhenThuong> GetAllKhenThuong()
         {
-            return _KhenThuongRepository.Entities.ToList();
+            return _KhenThuongRepository.Entities.Where(e => e.Active == true);
         }
 
         /// <summary>
@@ -35,10 +35,25 @@ namespace SMS.SERVICE.Service
         /// <param name="entity">list thongtinkhenthuon</param>
         public void AddDsKhenThuong(IEnumerable<ThongTinKhenThuong> dsKhenThuong)
         {
-            foreach (var khenthuong in dsKhenThuong)
-            {
-                _KhenThuongRepository.Insert(khenthuong);
-            }
+            _KhenThuongRepository.Insert(dsKhenThuong);
+        }
+
+        /// <summary>
+        /// update ds khenthuong
+        /// </summary>
+        /// <param name="dsKhenThuong">list khenthuong</param>
+        public void UpdateDsKhenThuong(IEnumerable<ThongTinKhenThuong> dsKhenThuong)
+        {
+            _KhenThuongRepository.Update(dsKhenThuong);
+        }
+
+        /// <summary>
+        /// delete dskhenthuong
+        /// </summary>
+        /// <param name="dsKhenThuong">list khenthuong</param>
+        public void DeleteDsKhenThuong(IEnumerable<ThongTinKhenThuong> dsKhenThuong)
+        {
+            _KhenThuongRepository.FakeDelete(dsKhenThuong);
         }
     }
 }
