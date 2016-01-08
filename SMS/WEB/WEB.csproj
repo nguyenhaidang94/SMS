@@ -860,6 +860,8 @@
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\cultures\kendo.culture.vi-VN.min.js" />
+    <Content Include="Scripts\cultures\kendo.culture.vi.min.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />
     <Content Include="Scripts\jquery-2.1.4.min.map" />
@@ -1496,6 +1498,7 @@
     <Content Include="Scripts\kendo\2015.3.1111\messages\kendo.messages.sv-SE.min.js" />
     <Content Include="Scripts\kendo\2015.3.1111\messages\kendo.messages.tr-TR.min.js" />
     <Content Include="Scripts\kendo\2015.3.1111\messages\kendo.messages.uk-UA.min.js" />
+    <Content Include="Scripts\kendo\2015.3.1111\messages\kendo.messages.vi-VN.js" />
     <Content Include="Scripts\kendo\2015.3.1111\messages\kendo.messages.zh-CN.min.js" />
     <Content Include="Scripts\kendo\2015.3.1111\messages\kendo.messages.zh-HK.min.js" />
     <Content Include="Scripts\kendo\2015.3.1111\messages\kendo.messages.zh-TW.min.js" />

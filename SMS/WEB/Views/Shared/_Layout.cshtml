@@ -6,7 +6,9 @@
     <title>@ViewBag.Title - Student Management System</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-
+    @{
+        var culture =  System.Globalization.CultureInfo.CurrentCulture.ToString();
+    }
 </head>
 <body>
     <div class="navbar navbar-inverse">
@@ -50,6 +52,13 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/kendo")
+    <!-- Localization -->
+    <script src="@Url.Content("~/Scripts/cultures/kendo.culture." + culture + ".min.js")"></script>
+    <script src="~/Scripts/kendo/2015.3.1111/messages/kendo.messages.vi-VN.js"></script>
+    <script>
+        kendo.culture("@culture");
+    </script>
     @RenderSection("scripts", required: false)
 </body>
 </html>
