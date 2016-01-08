@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using SMS.CORE.Data;
 using SMS.DATA;
-using SMS.DATA.IRepository;
 using SMS.SERVICE.IService;
 
 namespace SMS.SERVICE.Service
@@ -12,12 +12,12 @@ namespace SMS.SERVICE.Service
     public class KhenThuongService: IKhenThuongService
     {
         private readonly UnitOfWork _UnitOfWork;
-        private readonly IKhenThuongRepository _KhenThuongRepository;
+        private readonly GenericRepository<ThongTinKhenThuong> _KhenThuongRepository;
 
         public KhenThuongService(UnitOfWork unitOfWork)
         {
             _UnitOfWork = unitOfWork;
-            _KhenThuongRepository = _UnitOfWork.KhenThuongRepository;
+            _KhenThuongRepository = _UnitOfWork.Repository<ThongTinKhenThuong>();
         }
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace SMS.SERVICE.Service
         /// <returns>list khenthuong</returns>
         public IEnumerable<ThongTinKhenThuong> GetAllKhenThuong()
         {
-            return _KhenThuongRepository.GetAllKhenThuong();
+            return _KhenThuongRepository.Entities.ToList();
         }
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace SMS.SERVICE.Service
         {
             foreach (var khenthuong in dsKhenThuong)
             {
-                _KhenThuongRepository.AddKhenThuong(khenthuong);
+                _KhenThuongRepository.Insert(khenthuong);
             }
             _UnitOfWork.SaveChanges();
         }
