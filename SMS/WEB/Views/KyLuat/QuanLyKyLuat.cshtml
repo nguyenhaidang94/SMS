@@ -1,0 +1,93 @@
+﻿@using Newtonsoft.Json
+
+
+@{
+    ViewBag.Title = "Quản Lý Kỷ Luật";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" href="~/Content/kendo/2015.3.1111/kendo.common.min.css" />
+<link rel="stylesheet" href="~/Content/kendo/2015.3.1111/kendo.default.min.css" />
+
+<h3>Quản Lý Kỷ Luật</h3>
+
+<div id="grid-kyluat"></div>
+
+@section scripts{
+    <script>
+        var dsHocSinh = @Html.Raw(ViewBag.dsHocSinh);
+        var dsGiaoVien = @Html.Raw(ViewBag.dsGiaoVien);
+        var dsTietHoc = @Html.Raw(ViewBag.dsTietHoc);
+
+        $(document).ready(function () {
+            var dataSource = new kendo.data.DataSource({
+                type: "json",
+                transport: {
+                    create: {
+                        url: "@Url.Action("Create")",
+                        type: "POST",
+                        dataType: "json"
+                    },
+                    read: {
+                        url: "@Url.Action("Read")",
+                        type: "POST",
+                        dataType: "json"
+                    },
+                    update: {
+                        url: "@Url.Action("Update")",
+                        type: "POST",
+                        dataType: "json"
+                    },
+                    destroy: {
+                        url: "@Url.Action("Delete")",
+                        type: "POST",
+                        dataType: "json"
+                    },
+                parameterMap: function(options, operation) {
+                    if (operation !== "read" && options.models) {
+                        return { models: kendo.stringify(options.models) };
+                    }
+                }
+            },
+            batch: true,
+            pageSize: 20,
+            schema: {
+                model: {
+                    id: "MaTTKyLuat",
+                    fields: {
+                        MaTTKyLuat: { type:"number", editable: false, nullable: false },
+                        MaGiaoVien: { type: "number", field: "MaGiaoVien", nullable: false },
+                        MaHocSinh: { type: "number", field: "MaHocSinh", nullable: false },
+                        MaTietHoc: { type: "number", field: "MaTietHoc", nullable: false },
+                        NoiDungKyLuat: { validation: { required: true } },
+                        NgayKyLuat: { type: "date", validation: { required: true } },
+                        Active: { type: "boolean", defaultValue: true }
+                    }
+                }
+            }
+        });
+
+        $("#grid-kyluat").kendoGrid({
+            dataSource: dataSource,
+            filterable: false,
+            sortable: true,
+            pageable: {
+                refresh: true,
+                pageSizes: true,
+                buttonCount: 5
+            },
+            height: 500,
+            toolbar: ["create"],
+            columns: [
+                { field: "MaGiaoVien", values: dsGiaoVien, title: "Giáo Viên"},
+                { field: "MaHocSinh", values: dsHocSinh, title: "Học Sinh"},
+                { field: "MaTietHoc", values: dsTietHoc, title: "Tiết Học"},
+                { field: "NoiDungKyLuat", title: "Nội Dung" },
+                { field: "NgayKyLuat", title: "Ngày", template: "#= kendo.toString(NgayKyLuat, 'dd/MM/yyyy') #" },
+                { command: ["edit", "destroy"], title: "&nbsp;", width: "150px" }
+            ],
+            editable: "inline"
+        });
+    });
+    </script>
+}
