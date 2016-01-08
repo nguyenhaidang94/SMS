@@ -6,3 +6,4 @@
 /WEB.dll
 /WEB.pdb
 *.force
+*.Migrations.INITIAL.resources
