@@ -3,3 +3,4 @@
 /SMS.SERVICE.csprojResolveAssemblyReference.cache
 /SMS.SERVICE.dll
 /SMS.SERVICE.pdb
+*.force

@@ -5,3 +5,4 @@
 /WEB.csproj.GenerateResource
 /WEB.dll
 /WEB.pdb
+*.force
