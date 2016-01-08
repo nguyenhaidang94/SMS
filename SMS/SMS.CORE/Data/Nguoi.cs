@@ -8,8 +8,8 @@ namespace SMS.CORE.Data
     [Table("Nguoi")]
     public partial class Nguoi: BaseEntity
     {
-        [Key, StringLength(50), Column(TypeName="varchar")]
-        public string PersonId { get; set; }
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int PersonId { get; set; }
 
         [Required]
         public int PersonTypeId { get; set; }

@@ -36,7 +36,6 @@ namespace SMS.SERVICE.Service
         public void AddNamHoc(NamHoc entity)
         {
             _NamHocRepository.Insert(entity);
-            _UnitOfWork.SaveChanges();
         }
 
         /// <summary>
@@ -46,7 +45,6 @@ namespace SMS.SERVICE.Service
         public void UpdateNamHoc(NamHoc entity)
         {
             _NamHocRepository.Update(entity);
-            _UnitOfWork.SaveChanges();
         }
 
         /// <summary>
@@ -56,7 +54,6 @@ namespace SMS.SERVICE.Service
         public void DeleteNamHoc(NamHoc entity)
         {
             _NamHocRepository.FakeDelete(entity);
-            _UnitOfWork.SaveChanges();
         }
     }
 }

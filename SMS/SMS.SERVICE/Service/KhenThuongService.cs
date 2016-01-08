@@ -39,7 +39,6 @@ namespace SMS.SERVICE.Service
             {
                 _KhenThuongRepository.Insert(khenthuong);
             }
-            _UnitOfWork.SaveChanges();
         }
     }
 }
