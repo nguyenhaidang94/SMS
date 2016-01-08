@@ -4,6 +4,7 @@ namespace SMS.DATA
     using System.Data.Entity;
     using System.Linq;
     using CORE.Data;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     public class SMSContext : DbContext
     {
@@ -82,14 +83,14 @@ namespace SMS.DATA
             modelBuilder.Entity<HocKyNamHoc>()
                 .HasMany(e => e.dsBangDiemHKMH)
                 .WithRequired(o => o.HocKyNamHoc)
-                .HasForeignKey(o => new { o.MaHocKy, o.MaNamHoc })
+                .HasForeignKey(o => new { o.MaNamHoc, o.MaHocKy })
                 .WillCascadeOnDelete(false);
 
             //map lichgiangday to hockynamhoc
             modelBuilder.Entity<HocKyNamHoc>()
                .HasMany(e => e.dsLichGiangDay)
                .WithRequired(o => o.HocKyNamHoc)
-               .HasForeignKey(o => new { o.MaHocKy, o.MaNamHoc })
+               .HasForeignKey(o => new { o.MaNamHoc, o.MaHocKy })
                .WillCascadeOnDelete(false);
 
             //map bangdiemhknh to hocsinh

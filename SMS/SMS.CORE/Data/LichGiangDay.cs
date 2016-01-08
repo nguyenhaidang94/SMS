@@ -12,8 +12,8 @@ namespace SMS.CORE.Data
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int MaLichGiangDay { get; set; }
 
-        [Required, StringLength(50), Column(TypeName = "varchar")]
-        public string MaNamHoc { get; set; }
+        [Required]
+        public int MaNamHoc { get; set; }
 
         [Required, StringLength(50), Column(TypeName = "varchar")]
         public string MaHocKy { get; set; }
@@ -21,14 +21,14 @@ namespace SMS.CORE.Data
         [Required]
         public int MaLopHoc { get; set; }
 
-        [Required, StringLength(50), Column(TypeName = "varchar")]
-        public string MaMonHoc { get; set; }
+        [Required]
+        public int MaMonHoc { get; set; }
 
         [Required]
         public int MaTietHoc { get; set; }
 
-        [Required, StringLength(50), Column(TypeName = "varchar")]
-        public string MaPhongHoc { get; set; }
+        [Required]
+        public int MaPhongHoc { get; set; }
 
         [Required, StringLength(50)]
         public string Thu { get; set; }

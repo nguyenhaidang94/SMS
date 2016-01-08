@@ -7,9 +7,8 @@ namespace SMS.CORE.Data
     [Table("NamHoc")]
     public partial class NamHoc: BaseEntity
     {
-        [Key]
-        [StringLength(50), Column(TypeName="varchar")]
-        public string MaNamHoc { get; set; }
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int MaNamHoc { get; set; }
 
         [Required]
         public int NamBatDau { get; set; }

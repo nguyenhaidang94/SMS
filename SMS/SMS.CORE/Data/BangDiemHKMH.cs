@@ -16,16 +16,14 @@ namespace SMS.CORE.Data
         public string MaHocSinh { get; set; }
 
         [Required]
-        [StringLength(50), Column(TypeName = "varchar")]
-        public string MaNamHoc { get; set; }
+        public int MaNamHoc { get; set; }
 
         [Required]
         [StringLength(50), Column(TypeName = "varchar")]
         public string MaHocKy { get; set; }
 
         [Required]
-        [StringLength(50), Column(TypeName = "varchar")]
-        public string MaMonHoc { get; set; }
+        public int MaMonHoc { get; set; }
 
         public virtual HocKyNamHoc HocKyNamHoc { get; set; }
         public virtual HocSinh HocSinh { get; set; }

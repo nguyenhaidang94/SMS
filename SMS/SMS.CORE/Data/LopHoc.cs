@@ -11,8 +11,7 @@ namespace SMS.CORE.Data
         public int MaLopHoc { get; set; }
 
         [Required]
-        [StringLength(50), Column(TypeName = "varchar")]
-        public string MaNamHoc { get; set; }
+        public int MaNamHoc { get; set; }
 
         [Required]
         public int MaKhoi { get; set; }

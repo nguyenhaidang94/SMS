@@ -7,6 +7,9 @@ namespace SMS.CORE.Data
 {
     public partial class GiaoVien: Nguoi
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int MaGiaoVien { get; set; }
+
         public ICollection<CT_LichGiangDay> dsCT_LichGiangDay { get; set; }
         public ICollection<ThongTinKhenThuong> dsThongTinKhenThuong { get; set; }
         public ICollection<ThongTinKyLuat> dsThongTinKyLuat { get; set; }

@@ -8,8 +8,8 @@ namespace SMS.CORE.Data
     [Table("MonHoc")]
     public partial class MonHoc: BaseEntity
     {
-        [Key, StringLength(50), Column(TypeName="varchar")]
-        public string MaMonHoc { get; set; }
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int MaMonHoc { get; set; }
 
         [Required, StringLength(100)]
         public string TenMonHoc { get; set; }

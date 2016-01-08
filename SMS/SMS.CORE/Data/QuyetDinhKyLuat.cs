@@ -11,8 +11,8 @@ namespace SMS.CORE.Data
         [Key, StringLength(50), Column(TypeName="varchar")]
         public string SoQuyetDinh { get; set; }
 
-        [Required, StringLength(50), Column(TypeName="varchar")]
-        public string MaNamHoc { get; set; }
+        [Required]
+        public int MaNamHoc { get; set; }
 
         [Required, Column(TypeName="date")]
         public DateTime NgayQD { get; set; }

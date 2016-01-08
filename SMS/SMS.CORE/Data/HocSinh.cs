@@ -7,6 +7,9 @@ namespace SMS.CORE.Data
 {
     public partial class HocSinh: Nguoi
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int MaHocSinh { get; set; }
+
         [Required, StringLength(100)]
         public string HoTenCha { get; set; }
 
