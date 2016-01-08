@@ -1,4 +1,6 @@
 ﻿
+using SMS.CORE.Data;
+using System.Collections.Generic;
 namespace SMS.SERVICE.IService
 {
     /// <summary>
@@ -6,6 +8,10 @@ namespace SMS.SERVICE.IService
     /// </summary>
     public interface IGiaoVienService
     {
-
+        /// <summary>
+        /// get all giaovien
+        /// </summary>
+        /// <returns>list nguoi as giaovien</returns>
+        IEnumerable<Nguoi> GetAllGiaoVien();
     }
 }

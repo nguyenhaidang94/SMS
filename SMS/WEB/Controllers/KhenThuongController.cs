@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using SMS.CORE.Data;
 using SMS.DATA;
+using System.Linq;
 using SMS.SERVICE.IService;
 using SMS.SERVICE.Service;
 using Newtonsoft.Json;
@@ -32,6 +33,12 @@ namespace WEB.Controllers
         /// <returns>QuanLyKhenThuong.cshtml</returns>
         public ActionResult QuanLyKhenThuong()
         {
+            ViewBag.dsHocSinh = JsonConvert.SerializeObject(_HocSinhService.GetAllHocSinh()
+                .Select(e => new { value = e.PersonId, text = e.HoTen }));
+            ViewBag.dsGiaoVien = JsonConvert.SerializeObject(_GiaoVienService.GetAllGiaoVien()
+                .Select(e => new { value = e.PersonId, text = e.HoTen }));
+            ViewBag.dsTietHoc = JsonConvert.SerializeObject(_TietHocService.GetAllTietHoc()
+               .Select(e => new { value = e.MaTietHoc, text = "Tiết " + e.MaTietHoc }));
             return View();
         }
 
@@ -82,17 +89,46 @@ namespace WEB.Controllers
             }
         }
 
+        /// <summary>
+        /// update khenthuong
+        /// </summary>
+        /// <param name="models">json data</param>
+        /// <returns>json data</returns>
         [HttpPost]
-        public JsonResult ReadHocSinh()
+        public JsonResult Update(string models)
         {
             try
             {
-                var hocsinhViewModels = _HocSinhService.GetHocSinhViewModels();
-                if (hocsinhViewModels == null)
+                var dsKhenThuong = JsonConvert.DeserializeObject<IEnumerable<ThongTinKhenThuong>>(models);
+                if (dsKhenThuong != null)
                 {
-                    return Json(null);
+                    _KhenThuongService.UpdateDsKhenThuong(dsKhenThuong);
                 }
-                return Json(hocsinhViewModels);
+                return Json(dsKhenThuong);
+            }
+            catch (Exception ex)
+            {
+                //ShowMessage here
+                return Json(null);
+            }
+        }
+
+        /// <summary>
+        /// delete khenthuong
+        /// </summary>
+        /// <param name="models">json data</param>
+        /// <returns>json data</returns>
+        [HttpPost]
+        public JsonResult Delete(string models)
+        {
+            try
+            {
+                var dsKhenThuong = JsonConvert.DeserializeObject<IEnumerable<ThongTinKhenThuong>>(models);
+                if (dsKhenThuong != null)
+                {
+                    _KhenThuongService.DeleteDsKhenThuong(dsKhenThuong);
+                }
+                return Json(dsKhenThuong);
             }
             catch (Exception ex)
             {

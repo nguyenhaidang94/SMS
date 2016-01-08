@@ -19,5 +19,17 @@ namespace SMS.SERVICE.IService
         /// </summary>
         /// <param name="entity">list thongtinkhenthuon</param>
         void AddDsKhenThuong(IEnumerable<ThongTinKhenThuong> dsKhenThuong);
+
+        /// <summary>
+        /// update ds khenthuong
+        /// </summary>
+        /// <param name="dsKhenThuong">list khenthuong</param>
+        void UpdateDsKhenThuong(IEnumerable<ThongTinKhenThuong> dsKhenThuong);
+
+        /// <summary>
+        /// delete ds khenthuong
+        /// </summary>
+        /// <param name="dsKhenThuong">list khenthuong</param>
+        void DeleteDsKhenThuong(IEnumerable<ThongTinKhenThuong> dsKhenThuong);
     }
 }

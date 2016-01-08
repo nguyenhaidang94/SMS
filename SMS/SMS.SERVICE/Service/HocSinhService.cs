@@ -2,7 +2,6 @@
 using System.Linq;
 using SMS.CORE.Data;
 using SMS.DATA;
-using SMS.DATA.Models;
 using SMS.SERVICE.IService;
 
 namespace SMS.SERVICE.Service
@@ -14,24 +13,25 @@ namespace SMS.SERVICE.Service
     {
         private readonly UnitOfWork _UnitOfWork;
         private readonly GenericRepository<HocSinh> _HocSinhRepository;
+        private readonly GenericRepository<Nguoi> _NguoiRepository;
 
         public HocSinhService(UnitOfWork unitOfWork)
         {
             _UnitOfWork = unitOfWork;
             _HocSinhRepository = _UnitOfWork.Repository<HocSinh>();
+            _NguoiRepository = _UnitOfWork.Repository<Nguoi>();
         }
 
         /// <summary>
-        /// get hocsinh viewmodel
+        /// get all hocsinh
         /// </summary>
-        /// <returns>list PersonViewModel</returns>
-        public IEnumerable<PersonViewModel> GetHocSinhViewModels()
+        /// <returns></returns>
+        public IEnumerable<Nguoi> GetAllHocSinh()
         {
-            return _HocSinhRepository.Entities.Select(e => new PersonViewModel()
-            {
-                MaHocSinh = e.PersonId,
-                HoTen = e.HoTen
-            }).ToList(); 
+            //giaovien's persontypeid is 2
+            return _NguoiRepository.Entities
+                .Where(e => e.PersonTypeId == 2 && e.Active == true);
         }
+        
     }
 }
