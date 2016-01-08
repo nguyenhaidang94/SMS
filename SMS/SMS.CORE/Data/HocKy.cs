@@ -7,8 +7,7 @@ namespace SMS.CORE.Data
     [Table("HocKy")]
     public partial class HocKy: BaseEntity
     {
-        [Key]
-        [StringLength(50), Column(TypeName="varchar")]
+        [Key, StringLength(50), Column(TypeName="varchar")]
         public string MaHocKy { get; set; }
 
         [Required]

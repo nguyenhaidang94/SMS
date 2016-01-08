@@ -13,17 +13,17 @@ namespace WEB.Migrations
                     {
                         MaBangDiem = c.Int(nullable: false, identity: true),
                         MaHocSinh = c.String(nullable: false, maxLength: 50, unicode: false),
-                        MaNamHoc = c.String(nullable: false, maxLength: 50, unicode: false),
+                        MaNamHoc = c.Int(nullable: false),
                         MaHocKy = c.String(nullable: false, maxLength: 50, unicode: false),
-                        MaMonHoc = c.String(nullable: false, maxLength: 50, unicode: false),
+                        MaMonHoc = c.Int(nullable: false),
                         Active = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.MaBangDiem)
-                .ForeignKey("dbo.HocKyNamHoc", t => new { t.MaHocKy, t.MaNamHoc })
+                .ForeignKey("dbo.HocKyNamHoc", t => new { t.MaNamHoc, t.MaHocKy })
                 .ForeignKey("dbo.HocSinh", t => t.MaHocSinh)
                 .ForeignKey("dbo.MonHoc", t => t.MaMonHoc)
                 .Index(t => t.MaHocSinh)
-                .Index(t => new { t.MaHocKy, t.MaNamHoc })
+                .Index(t => new { t.MaNamHoc, t.MaHocKy })
                 .Index(t => t.MaMonHoc);
             
             CreateTable(
@@ -58,7 +58,7 @@ namespace WEB.Migrations
                 "dbo.HocKyNamHoc",
                 c => new
                     {
-                        MaNamHoc = c.String(nullable: false, maxLength: 50, unicode: false),
+                        MaNamHoc = c.Int(nullable: false),
                         MaHocKy = c.String(nullable: false, maxLength: 50, unicode: false),
                         Active = c.Boolean(nullable: false),
                     })
@@ -73,12 +73,12 @@ namespace WEB.Migrations
                 c => new
                     {
                         MaLichGiangDay = c.Int(nullable: false, identity: true),
-                        MaNamHoc = c.String(nullable: false, maxLength: 50, unicode: false),
+                        MaNamHoc = c.Int(nullable: false),
                         MaHocKy = c.String(nullable: false, maxLength: 50, unicode: false),
                         MaLopHoc = c.Int(nullable: false),
-                        MaMonHoc = c.String(nullable: false, maxLength: 50, unicode: false),
+                        MaMonHoc = c.Int(nullable: false),
                         MaTietHoc = c.Int(nullable: false),
-                        MaPhongHoc = c.String(nullable: false, maxLength: 50, unicode: false),
+                        MaPhongHoc = c.Int(nullable: false),
                         Thu = c.String(nullable: false, maxLength: 50),
                         Active = c.Boolean(nullable: false),
                     })
@@ -87,8 +87,8 @@ namespace WEB.Migrations
                 .ForeignKey("dbo.PhongHoc", t => t.MaPhongHoc)
                 .ForeignKey("dbo.MonHoc", t => t.MaMonHoc)
                 .ForeignKey("dbo.TietHoc", t => t.MaTietHoc)
-                .ForeignKey("dbo.HocKyNamHoc", t => new { t.MaHocKy, t.MaNamHoc })
-                .Index(t => new { t.MaHocKy, t.MaNamHoc })
+                .ForeignKey("dbo.HocKyNamHoc", t => new { t.MaNamHoc, t.MaHocKy })
+                .Index(t => new { t.MaNamHoc, t.MaHocKy })
                 .Index(t => t.MaLopHoc)
                 .Index(t => t.MaMonHoc)
                 .Index(t => t.MaTietHoc)
@@ -173,7 +173,7 @@ namespace WEB.Migrations
                 c => new
                     {
                         SoQuyetDinh = c.String(nullable: false, maxLength: 50, unicode: false),
-                        MaNamHoc = c.String(nullable: false, maxLength: 50, unicode: false),
+                        MaNamHoc = c.Int(nullable: false),
                         NgayQD = c.DateTime(nullable: false, storeType: "date"),
                         NoiDungQD = c.String(nullable: false, maxLength: 200),
                         Active = c.Boolean(nullable: false),
@@ -186,7 +186,7 @@ namespace WEB.Migrations
                 "dbo.NamHoc",
                 c => new
                     {
-                        MaNamHoc = c.String(nullable: false, maxLength: 50, unicode: false),
+                        MaNamHoc = c.Int(nullable: false, identity: true),
                         NamBatDau = c.Int(nullable: false),
                         NamKetThuc = c.Int(nullable: false),
                         Active = c.Boolean(nullable: false),
@@ -198,7 +198,7 @@ namespace WEB.Migrations
                 c => new
                     {
                         MaLopHoc = c.Int(nullable: false, identity: true),
-                        MaNamHoc = c.String(nullable: false, maxLength: 50, unicode: false),
+                        MaNamHoc = c.Int(nullable: false),
                         MaKhoi = c.Int(nullable: false),
                         MaPhong = c.String(nullable: false, maxLength: 50, unicode: false),
                         TenLop = c.String(nullable: false, maxLength: 50),
@@ -215,7 +215,7 @@ namespace WEB.Migrations
                 "dbo.TTDKPhongHocChinh",
                 c => new
                     {
-                        MaPhong = c.String(nullable: false, maxLength: 50, unicode: false),
+                        MaPhong = c.Int(nullable: false),
                         MaLop = c.Int(nullable: false),
                         NgayDangKy = c.DateTime(nullable: false, storeType: "date"),
                         BuoiHoc = c.String(nullable: false, maxLength: 50),
@@ -231,7 +231,7 @@ namespace WEB.Migrations
                 "dbo.PhongHoc",
                 c => new
                     {
-                        MaPhong = c.String(nullable: false, maxLength: 50, unicode: false),
+                        MaPhong = c.Int(nullable: false, identity: true),
                         TenPhong = c.String(maxLength: 50),
                         SucChua = c.Int(),
                         Active = c.Boolean(nullable: false),
@@ -244,7 +244,6 @@ namespace WEB.Migrations
                     {
                         MaKhoi = c.Int(nullable: false, identity: true),
                         TenKhoi = c.String(maxLength: 100),
-                        BuoiHoc = c.String(nullable: false, maxLength: 100),
                         Active = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.MaKhoi);
@@ -253,9 +252,9 @@ namespace WEB.Migrations
                 "dbo.MonHocKhoi",
                 c => new
                     {
-                        MaNamHoc = c.String(nullable: false, maxLength: 50, unicode: false),
+                        MaNamHoc = c.Int(nullable: false),
                         MaKhoi = c.Int(nullable: false),
-                        MaMonHoc = c.String(nullable: false, maxLength: 50, unicode: false),
+                        MaMonHoc = c.Int(nullable: false),
                         Active = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => new { t.MaNamHoc, t.MaKhoi, t.MaMonHoc })
@@ -270,7 +269,7 @@ namespace WEB.Migrations
                 "dbo.MonHoc",
                 c => new
                     {
-                        MaMonHoc = c.String(nullable: false, maxLength: 50, unicode: false),
+                        MaMonHoc = c.Int(nullable: false, identity: true),
                         TenMonHoc = c.String(nullable: false, maxLength: 100),
                         HeSo = c.Single(nullable: false),
                         SoTiet = c.Int(),
@@ -283,7 +282,7 @@ namespace WEB.Migrations
                 c => new
                     {
                         SoQuyetDinh = c.String(nullable: false, maxLength: 50, unicode: false),
-                        MaNamHoc = c.String(nullable: false, maxLength: 50, unicode: false),
+                        MaNamHoc = c.Int(nullable: false),
                         NgayQD = c.DateTime(nullable: false, storeType: "date"),
                         NoiDungQD = c.String(nullable: false, maxLength: 200),
                         NgayHieuLuc = c.DateTime(nullable: false, storeType: "date"),
@@ -367,6 +366,7 @@ namespace WEB.Migrations
                 c => new
                     {
                         PersonId = c.String(nullable: false, maxLength: 50, unicode: false),
+                        MaGiaoVien = c.Int(nullable: false, identity: true),
                     })
                 .PrimaryKey(t => t.PersonId)
                 .ForeignKey("dbo.Nguoi", t => t.PersonId)
@@ -377,6 +377,7 @@ namespace WEB.Migrations
                 c => new
                     {
                         PersonId = c.String(nullable: false, maxLength: 50, unicode: false),
+                        MaHocSinh = c.Int(nullable: false, identity: true),
                         HoTenCha = c.String(nullable: false, maxLength: 100),
                         NgheNghiepCha = c.String(nullable: false, maxLength: 100),
                         HoTenMe = c.String(nullable: false, maxLength: 100),
@@ -393,7 +394,7 @@ namespace WEB.Migrations
             DropForeignKey("dbo.HocSinh", "PersonId", "dbo.Nguoi");
             DropForeignKey("dbo.GiaoVien", "PersonId", "dbo.Nguoi");
             DropForeignKey("dbo.HocKyNamHoc", "MaHocKy", "dbo.HocKy");
-            DropForeignKey("dbo.LichGiangDay", new[] { "MaHocKy", "MaNamHoc" }, "dbo.HocKyNamHoc");
+            DropForeignKey("dbo.LichGiangDay", new[] { "MaNamHoc", "MaHocKy" }, "dbo.HocKyNamHoc");
             DropForeignKey("dbo.CT_LichGiangDay", "MaLichGiangDay", "dbo.LichGiangDay");
             DropForeignKey("dbo.ThongTinKyLuat", "MaGiaoVien", "dbo.GiaoVien");
             DropForeignKey("dbo.ThongTinKhenThuong", "MaGiaoVien", "dbo.GiaoVien");
@@ -423,7 +424,7 @@ namespace WEB.Migrations
             DropForeignKey("dbo.CT_QuyetDinhKhenThuong", "SoQuyetDinh", "dbo.QuyetDinhKhenThuong");
             DropForeignKey("dbo.BangDiemHKMH", "MaHocSinh", "dbo.HocSinh");
             DropForeignKey("dbo.CT_LichGiangDay", "MaGiaoVien", "dbo.GiaoVien");
-            DropForeignKey("dbo.BangDiemHKMH", new[] { "MaHocKy", "MaNamHoc" }, "dbo.HocKyNamHoc");
+            DropForeignKey("dbo.BangDiemHKMH", new[] { "MaNamHoc", "MaHocKy" }, "dbo.HocKyNamHoc");
             DropForeignKey("dbo.CotDiem", "MaBangDiem", "dbo.BangDiemHKMH");
             DropForeignKey("dbo.CotDiem", "MaLoaiDiem", "dbo.LoaiDiem");
             DropIndex("dbo.HocSinh", new[] { "PersonId" });
@@ -454,13 +455,13 @@ namespace WEB.Migrations
             DropIndex("dbo.LichGiangDay", new[] { "MaTietHoc" });
             DropIndex("dbo.LichGiangDay", new[] { "MaMonHoc" });
             DropIndex("dbo.LichGiangDay", new[] { "MaLopHoc" });
-            DropIndex("dbo.LichGiangDay", new[] { "MaHocKy", "MaNamHoc" });
+            DropIndex("dbo.LichGiangDay", new[] { "MaNamHoc", "MaHocKy" });
             DropIndex("dbo.HocKyNamHoc", new[] { "MaHocKy" });
             DropIndex("dbo.HocKyNamHoc", new[] { "MaNamHoc" });
             DropIndex("dbo.CotDiem", new[] { "MaLoaiDiem" });
             DropIndex("dbo.CotDiem", new[] { "MaBangDiem" });
             DropIndex("dbo.BangDiemHKMH", new[] { "MaMonHoc" });
-            DropIndex("dbo.BangDiemHKMH", new[] { "MaHocKy", "MaNamHoc" });
+            DropIndex("dbo.BangDiemHKMH", new[] { "MaNamHoc", "MaHocKy" });
             DropIndex("dbo.BangDiemHKMH", new[] { "MaHocSinh" });
             DropTable("dbo.HocSinh");
             DropTable("dbo.GiaoVien");

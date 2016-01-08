@@ -1,10 +1,6 @@
+using System.Data.Entity.Migrations;
 namespace WEB.Migrations
 {
-    using System;
-    using System.Data.Entity;
-    using System.Data.Entity.Migrations;
-    using System.Linq;
-
     internal sealed class Configuration : DbMigrationsConfiguration<SMS.DATA.SMSContext>
     {
         public Configuration()

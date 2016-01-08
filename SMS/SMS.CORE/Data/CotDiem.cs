@@ -8,8 +8,7 @@ namespace SMS.CORE.Data
     [Table("CotDiem")]
     public partial class CotDiem: BaseEntity
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int MaCotDiem { get; set; }
 
         [Required]

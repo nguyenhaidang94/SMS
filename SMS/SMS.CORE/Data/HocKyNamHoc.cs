@@ -7,12 +7,10 @@ namespace SMS.CORE.Data
     [Table("HocKyNamHoc")]
     public partial class HocKyNamHoc: BaseEntity
     {
-        [Key]
-        [StringLength(50), Column(TypeName="varchar", Order=0)]
-        public string MaNamHoc { get; set; }
+        [Key, Column(Order=0)]
+        public int MaNamHoc { get; set; }
 
-        [Key]
-        [StringLength(50), Column(TypeName="varchar", Order=1)]
+        [Key, StringLength(50), Column(TypeName="varchar", Order=1)]
         public string MaHocKy { get; set; }
 
         public virtual NamHoc NamHoc { get; set; }

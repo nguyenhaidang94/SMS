@@ -8,9 +8,8 @@ namespace SMS.CORE.Data
     [Table("PhongHoc")]
     public partial class PhongHoc: BaseEntity
     {
-        [Key]
-        [StringLength(50), Column(TypeName = "varchar")]
-        public string MaPhong { get; set; }
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int MaPhong { get; set; }
 
         [StringLength(50), Column(TypeName = "nvarchar")]
         public string TenPhong { get; set; }

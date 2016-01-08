@@ -51,7 +51,7 @@
                         model: {
                             id: "MaNamHoc",
                             fields: {
-                                MaNamHoc: {editable: false, nullable: true },
+                                MaNamHoc: { type:"number", nullable: false },
                                 NamBatDau: {type:"number" , validation: { required: true, min: 2000, max: 9999} },
                                 NamKetThuc: { type: "number", validation: { required: true, min: 2000, max: 9999 } },
                                 Active: {type: "boolean"}
@@ -72,7 +72,6 @@
                 height: 500,
                 toolbar: ["create"],
                 columns: [
-                    "MaNamHoc",
                     { field: "NamBatDau", format: "{0:0}",title: "Năm Bắt Đầu" },
                     { field: "NamKetThuc", format: "{0:0}", title: "Năm Kết Thúc" },
                     { field: "Active", title: "Active" },

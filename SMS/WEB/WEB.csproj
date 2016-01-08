@@ -166,9 +166,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201601020322030_initial.cs" />
-    <Compile Include="Migrations\201601020322030_initial.Designer.cs">
-      <DependentUpon>201601020322030_initial.cs</DependentUpon>
+    <Compile Include="Migrations\201601080536356_initial.cs" />
+    <Compile Include="Migrations\201601080536356_initial.Designer.cs">
+      <DependentUpon>201601080536356_initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -1633,11 +1633,6 @@
     <Content Include="Scripts\kendo\2015.3.1111\kendo.columnmenu.min.js.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201601020322030_initial.resx">
-      <DependentUpon>201601020322030_initial.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
   </ItemGroup>
@@ -1655,7 +1650,11 @@
       <Name>SMS.SERVICE</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201601080536356_initial.resx">
+      <DependentUpon>201601080536356_initial.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

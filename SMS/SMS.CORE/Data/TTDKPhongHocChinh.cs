@@ -8,8 +8,8 @@ namespace SMS.CORE.Data
     [Table("TTDKPhongHocChinh")]
     public partial class TTDKPhongHocChinh: BaseEntity
     {
-        [Key, StringLength(50), Column(Order=0, TypeName="varchar")]
-        public string MaPhong { get; set; }
+        [Key, Column(Order = 0)]
+        public int MaPhong { get; set; }
 
         [Key, Column(Order = 1)]
         public int MaLop { get; set; }
