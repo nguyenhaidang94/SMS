@@ -1,5 +1,5 @@
-﻿using SMS.DATA;
-using SMS.DATA.IRepository;
+﻿using SMS.CORE.Data;
+using SMS.DATA;
 using SMS.SERVICE.IService;
 
 namespace SMS.SERVICE.Service
@@ -10,12 +10,12 @@ namespace SMS.SERVICE.Service
     public class GiaoVienService: IGiaoVienService
     {
         private readonly UnitOfWork _UnitOfWork;
-        private readonly IGiaoVienRepository _GiaoVienRepository;
+        private readonly GenericRepository<GiaoVien> _GiaoVienRepository;
 
         public GiaoVienService(UnitOfWork unitOfWork)
         {
             _UnitOfWork = unitOfWork;
-            _GiaoVienRepository = _UnitOfWork.GiaoVienRepository;
+            _GiaoVienRepository = _UnitOfWork.Repository<GiaoVien>();
         }
 
     }

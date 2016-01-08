@@ -10,15 +10,15 @@ namespace SMS.DATA
     /// base repository
     /// </summary>
     /// <typeparam name="T">entity</typeparam>
-    public class BaseRepository<T> where T: BaseEntity
+    public class GenericRepository<T> where T: BaseEntity
     {
-        protected readonly SMSContext _db;
+        private readonly SMSContext _db;
         private IDbSet<T> _Entities;
 
         /// <summary>
         /// get all entities
         /// </summary>
-        protected virtual IDbSet<T> Entities
+        public virtual IDbSet<T> Entities
         {
             get
             {
@@ -40,16 +40,10 @@ namespace SMS.DATA
         }
 
         /// <summary>
-        /// default constructor
-        /// </summary>
-        public BaseRepository()
-        { }
-
-        /// <summary>
         /// constructor
         /// </summary>
         /// <param name="dbContext">dbcontext</param>
-        public BaseRepository(SMSContext dbContext)
+        public GenericRepository(SMSContext dbContext)
         {
             this._db = dbContext;
         }

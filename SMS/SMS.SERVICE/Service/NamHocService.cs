@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using SMS.SERVICE.IService;
 using SMS.DATA;
 using SMS.CORE.Data;
-using SMS.DATA.IRepository;
 
 namespace SMS.SERVICE.Service
 {
@@ -12,12 +12,12 @@ namespace SMS.SERVICE.Service
     public class NamHocService: INamHocService
     {
         private readonly UnitOfWork _UnitOfWork;
-        private readonly INamHocRepository _NamHocRepository;
+        private readonly GenericRepository<NamHoc> _NamHocRepository;
         
         public NamHocService(UnitOfWork unitOfWork)
         {
             _UnitOfWork = unitOfWork;
-            _NamHocRepository = _UnitOfWork.NamHocRepository;
+            _NamHocRepository = _UnitOfWork.Repository<NamHoc>();
         }
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace SMS.SERVICE.Service
         /// <returns>list namhoc</returns>
         public IEnumerable<NamHoc> GetAllNamHoc()
         {
-            return _NamHocRepository.GetAllNamHoc();
+            return _NamHocRepository.Entities.ToList();
         }
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace SMS.SERVICE.Service
         /// <param name="entity">namhoc</param>
         public void AddNamHoc(NamHoc entity)
         {
-            _NamHocRepository.AddNamHoc(entity);
+            _NamHocRepository.Insert(entity);
             _UnitOfWork.SaveChanges();
         }
 
@@ -45,7 +45,7 @@ namespace SMS.SERVICE.Service
         /// <param name="entity">namhoc</param>
         public void UpdateNamHoc(NamHoc entity)
         {
-            _NamHocRepository.UpdateNamHoc(entity);
+            _NamHocRepository.Update(entity);
             _UnitOfWork.SaveChanges();
         }
 
@@ -55,7 +55,7 @@ namespace SMS.SERVICE.Service
         /// <param name="entity">namhoc</param>
         public void DeleteNamHoc(NamHoc entity)
         {
-            _NamHocRepository.FakeDeleteNamHoc(entity);
+            _NamHocRepository.FakeDelete(entity);
             _UnitOfWork.SaveChanges();
         }
     }

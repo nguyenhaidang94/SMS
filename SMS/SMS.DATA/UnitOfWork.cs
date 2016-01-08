@@ -1,7 +1,7 @@
 ﻿using System;
-using SMS.DATA.IRepository;
-using SMS.DATA.Repository;
+using System.Collections.Generic;
 using System.Data.Entity.Validation;
+using SMS.CORE;
 
 namespace SMS.DATA
 {
@@ -12,49 +12,7 @@ namespace SMS.DATA
     {
         private readonly SMSContext _db;
         private bool _disposed;
-        
-        //repository namhoc
-        private INamHocRepository _NamHocRepository;
-        public INamHocRepository NamHocRepository 
-        {
-            get { return _NamHocRepository ?? (_NamHocRepository = new NamHocRepository(_db)); }
-        }
-
-        //repository hocky
-        private IHocKyRepository _HocKyRepository;
-        public IHocKyRepository HocKyRepository
-        {
-            get { return _HocKyRepository ?? (_HocKyRepository = new HocKyRepository(_db)); }
-        }
-
-        //repository khenthuong
-        private IKhenThuongRepository _KhenThuongRepository;
-        public IKhenThuongRepository KhenThuongRepository
-        {
-            get { return _KhenThuongRepository ?? (_KhenThuongRepository = new KhenThuongRepository(_db)); }
-        }
-
-        //repository hocsinh
-        private IHocSinhRepository _HocSinhRepository;
-        public IHocSinhRepository HocSinhRepository
-        {
-            get { return _HocSinhRepository ?? (_HocSinhRepository = new HocSinhRepository(_db)); }
-        }
-
-        //repository giaovien
-        private IGiaoVienRepository _GiaoVienRepository;
-        public IGiaoVienRepository GiaoVienRepository
-        {
-            get { return _GiaoVienRepository ?? (_GiaoVienRepository = new GiaoVienRepository(_db)); }
-        }
-
-        //repository tiethoc
-        private ITietHocRepository _TietHocRepository;
-
-        public ITietHocRepository TietHocRepository
-        {
-            get { return _TietHocRepository ?? (_TietHocRepository = new TietHocRepository(_db)); }
-        }
+        private Dictionary<string, object> Repositories;
 
         public UnitOfWork()
         {
@@ -87,6 +45,29 @@ namespace SMS.DATA
                 var fail = new Exception(msg, dbEx);
                 throw fail;
             }
+        }
+
+        /// <summary>
+        /// manage all repositories
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public GenericRepository<T> Repository<T>() where T : BaseEntity
+        {
+            if (Repositories == null)
+            {
+                Repositories = new Dictionary<string, object>();
+            }
+
+            var type = typeof(T).Name;
+
+            if (!Repositories.ContainsKey(type))
+            {
+                var repositoryType = typeof(GenericRepository<>);
+                var repositoryInstance = Activator.CreateInstance(repositoryType.MakeGenericType(typeof(T)), _db);
+                Repositories.Add(type, repositoryInstance);
+            }
+            return (GenericRepository<T>)Repositories[type];
         }
 
         /// <summary>
