@@ -161,6 +161,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\KhenThuongController.cs" />
+    <Compile Include="Controllers\KyLuatController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\NamHocController.cs" />
     <Compile Include="Global.asax.cs">
@@ -1634,6 +1635,7 @@
     <Content Include="Views\NamHoc\Index.cshtml" />
     <Content Include="Scripts\kendo\2015.3.1111\kendo.grid.min.js.map" />
     <Content Include="Scripts\kendo\2015.3.1111\kendo.columnmenu.min.js.map" />
+    <Content Include="Views\KyLuat\QuanLyKyLuat.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -1658,6 +1660,7 @@
       <DependentUpon>201601080603092_INITIAL.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

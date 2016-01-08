@@ -30,7 +30,7 @@ namespace SMS.SERVICE.Service
         {
             //giaovien's persontypeid is 1
             return _NguoiRepository.Entities
-                .Where(e => e.PersonTypeId == 1 && e.Active == true);
+                .Where(e => e.PersonTypeId == 1 && e.Active);
         }
     }
 }

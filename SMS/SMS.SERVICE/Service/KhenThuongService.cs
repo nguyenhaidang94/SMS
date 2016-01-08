@@ -26,7 +26,7 @@ namespace SMS.SERVICE.Service
         /// <returns>list khenthuong</returns>
         public IEnumerable<ThongTinKhenThuong> GetAllKhenThuong()
         {
-            return _KhenThuongRepository.Entities.Where(e => e.Active == true);
+            return _KhenThuongRepository.Entities.Where(e => e.Active);
         }
 
         /// <summary>
