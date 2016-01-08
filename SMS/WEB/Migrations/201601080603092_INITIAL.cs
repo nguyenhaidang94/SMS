@@ -3,7 +3,7 @@ namespace WEB.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class initial : DbMigration
+    public partial class INITIAL : DbMigration
     {
         public override void Up()
         {
@@ -12,7 +12,7 @@ namespace WEB.Migrations
                 c => new
                     {
                         MaBangDiem = c.Int(nullable: false, identity: true),
-                        MaHocSinh = c.String(nullable: false, maxLength: 50, unicode: false),
+                        MaHocSinh = c.Int(nullable: false),
                         MaNamHoc = c.Int(nullable: false),
                         MaHocKy = c.String(nullable: false, maxLength: 50, unicode: false),
                         MaMonHoc = c.Int(nullable: false),
@@ -99,7 +99,7 @@ namespace WEB.Migrations
                 c => new
                     {
                         MaLichGiangDay = c.Int(nullable: false),
-                        MaGiaoVien = c.String(nullable: false, maxLength: 50, unicode: false),
+                        MaGiaoVien = c.Int(nullable: false),
                         NgayBatDau = c.DateTime(nullable: false, storeType: "date"),
                         NgayKetThuc = c.DateTime(storeType: "date"),
                         Active = c.Boolean(nullable: false),
@@ -114,7 +114,7 @@ namespace WEB.Migrations
                 "dbo.Nguoi",
                 c => new
                     {
-                        PersonId = c.String(nullable: false, maxLength: 50, unicode: false),
+                        PersonId = c.Int(nullable: false, identity: true),
                         PersonTypeId = c.Int(nullable: false),
                         HoTen = c.String(nullable: false, maxLength: 100),
                         GioiTinh = c.Boolean(nullable: false),
@@ -136,8 +136,8 @@ namespace WEB.Migrations
                 c => new
                     {
                         MaTTKhenThuong = c.Int(nullable: false, identity: true),
-                        MaGiaoVien = c.String(nullable: false, maxLength: 50, unicode: false),
-                        MaHocSinh = c.String(nullable: false, maxLength: 50, unicode: false),
+                        MaGiaoVien = c.Int(nullable: false),
+                        MaHocSinh = c.Int(nullable: false),
                         MaTietHoc = c.Int(nullable: false),
                         NoiDungKhenThuong = c.String(nullable: false, maxLength: 500),
                         NgayKhenThuong = c.DateTime(nullable: false, storeType: "date"),
@@ -156,7 +156,7 @@ namespace WEB.Migrations
                 c => new
                     {
                         SoQuyetDinh = c.String(nullable: false, maxLength: 50, unicode: false),
-                        MaHocSinh = c.String(nullable: false, maxLength: 50, unicode: false),
+                        MaHocSinh = c.Int(nullable: false),
                         LyDoKhenThuong = c.String(nullable: false, maxLength: 200),
                         HinhThucKhenThuong = c.String(nullable: false, maxLength: 200),
                         GiaTriKhenThuong = c.Long(),
@@ -296,7 +296,7 @@ namespace WEB.Migrations
                 c => new
                     {
                         SoQuyetDinh = c.String(nullable: false, maxLength: 50, unicode: false),
-                        MaHocSinh = c.String(nullable: false, maxLength: 50, unicode: false),
+                        MaHocSinh = c.Int(nullable: false),
                         LyDoKyLuat = c.String(nullable: false, maxLength: 200),
                         HinhThucKyLuat = c.String(nullable: false, maxLength: 200),
                         GhiVaoHocBa = c.Boolean(nullable: false),
@@ -313,8 +313,8 @@ namespace WEB.Migrations
                 c => new
                     {
                         MaTTKyLuat = c.Int(nullable: false, identity: true),
-                        MaGiaoVien = c.String(nullable: false, maxLength: 50, unicode: false),
-                        MaHocSinh = c.String(nullable: false, maxLength: 50, unicode: false),
+                        MaGiaoVien = c.Int(nullable: false),
+                        MaHocSinh = c.Int(nullable: false),
                         MaTietHoc = c.Int(nullable: false),
                         NoiDungKyLuat = c.String(nullable: false, maxLength: 500),
                         NgayKyLuat = c.DateTime(nullable: false, storeType: "date"),
@@ -365,7 +365,7 @@ namespace WEB.Migrations
                 "dbo.GiaoVien",
                 c => new
                     {
-                        PersonId = c.String(nullable: false, maxLength: 50, unicode: false),
+                        PersonId = c.Int(nullable: false),
                         MaGiaoVien = c.Int(nullable: false, identity: true),
                     })
                 .PrimaryKey(t => t.PersonId)
@@ -376,7 +376,7 @@ namespace WEB.Migrations
                 "dbo.HocSinh",
                 c => new
                     {
-                        PersonId = c.String(nullable: false, maxLength: 50, unicode: false),
+                        PersonId = c.Int(nullable: false),
                         MaHocSinh = c.Int(nullable: false, identity: true),
                         HoTenCha = c.String(nullable: false, maxLength: 100),
                         NgheNghiepCha = c.String(nullable: false, maxLength: 100),

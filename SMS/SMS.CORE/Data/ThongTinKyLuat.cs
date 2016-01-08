@@ -11,11 +11,11 @@ namespace SMS.CORE.Data
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int MaTTKyLuat { get; set; }
 
-        [Required, StringLength(50), Column(TypeName = "varchar")]
-        public string MaGiaoVien { get; set; }
+        [Required]
+        public int MaGiaoVien { get; set; }
 
-        [Required, StringLength(50), Column(TypeName = "varchar")]
-        public string MaHocSinh { get; set; }
+        [Required]
+        public int MaHocSinh { get; set; }
 
         [Required]
         public int MaTietHoc { get; set; }

@@ -3,6 +3,7 @@ using System.Linq;
 using SMS.CORE;
 using System.Data.Entity;
 using System.Data.Entity.Validation;
+using System.Collections.Generic;
 
 namespace SMS.DATA
 {
@@ -12,7 +13,7 @@ namespace SMS.DATA
     /// <typeparam name="T">entity</typeparam>
     public class GenericRepository<T> where T: BaseEntity
     {
-        private readonly SMSContext _db;
+        private readonly SMSContext _context;
         private IDbSet<T> _Entities;
 
         /// <summary>
@@ -23,7 +24,7 @@ namespace SMS.DATA
             get
             {
                 if (this._Entities == null)
-                    this._Entities = _db.Set<T>();
+                    this._Entities = _context.Set<T>();
                 return this._Entities;
             }
         }
@@ -45,7 +46,7 @@ namespace SMS.DATA
         /// <param name="dbContext">dbcontext</param>
         public GenericRepository(SMSContext dbContext)
         {
-            this._db = dbContext;
+            this._context = dbContext;
         }
 
         /// <summary>
@@ -58,12 +59,12 @@ namespace SMS.DATA
             T entity;
             try
             {
-                this._db.Configuration.AutoDetectChangesEnabled = false;
+                this._context.Configuration.AutoDetectChangesEnabled = false;
                 entity = this._Entities.Find(ids);
             }
             finally
             {
-                this._db.Configuration.AutoDetectChangesEnabled = true;
+                this._context.Configuration.AutoDetectChangesEnabled = true;
             }
             return entity;
         }
@@ -80,6 +81,36 @@ namespace SMS.DATA
                     throw new ArgumentNullException("entity is null");
 
                 this.Entities.Add(entity);
+                this._context.SaveChanges();
+            }
+            catch (DbEntityValidationException dbEx)
+            {
+                var msg = string.Empty;
+
+                foreach (var validationErrors in dbEx.EntityValidationErrors)
+                    foreach (var validationError in validationErrors.ValidationErrors)
+                        msg += string.Format("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage) + Environment.NewLine;
+
+                var fail = new Exception(msg, dbEx);
+                throw fail;
+            }
+        }
+
+        /// <summary>
+        /// Insert entities
+        /// </summary>
+        /// <param name="entities">Entities</param>
+        public virtual void Insert(IEnumerable<T> entities)
+        {
+            try
+            {
+                if (entities == null)
+                    throw new ArgumentNullException("entities");
+
+                foreach (var entity in entities)
+                    this.Entities.Add(entity);
+
+                this._context.SaveChanges();
             }
             catch (DbEntityValidationException dbEx)
             {
@@ -103,7 +134,8 @@ namespace SMS.DATA
             if (entity == null)
                 throw new ArgumentNullException("entity is null");
 
-            this._db.Entry<T>(entity).State = EntityState.Modified;
+            this._context.Entry<T>(entity).State = EntityState.Modified;
+            this._context.SaveChanges();
         }
 
         /// <summary>
@@ -116,6 +148,7 @@ namespace SMS.DATA
                 throw new ArgumentNullException("entity is null");
 
             this.Entities.Remove(entity);
+            this._context.SaveChanges();
         }
 
         /// <summary>
@@ -139,7 +172,8 @@ namespace SMS.DATA
                 throw new ArgumentNullException("entity is null");
 
             entity.Active = false;
-            this._db.Entry<T>(entity).State = EntityState.Modified;
+            this._context.Entry<T>(entity).State = EntityState.Modified;
+            this._context.SaveChanges();
         }
         
         /// <summary>

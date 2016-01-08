@@ -11,8 +11,8 @@ namespace SMS.CORE.Data
         [Key, StringLength(50), Column(Order=0, TypeName="varchar")]
         public string SoQuyetDinh { get; set; }
 
-        [Key, StringLength(50), Column(Order=1, TypeName="varchar")]
-        public string MaHocSinh { get; set; }
+        [Key, Column(Order=1)]
+        public int MaHocSinh { get; set; }
 
         [Required, StringLength(200)]
         public string LyDoKhenThuong { get; set; }
