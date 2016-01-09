@@ -167,12 +167,21 @@
     <Compile Include="Controllers\KyLuatController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\NamHocController.cs" />
+    <Compile Include="Controllers\QDKhenThuongController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Migrations\201601080603092_INITIAL.cs" />
     <Compile Include="Migrations\201601080603092_INITIAL.Designer.cs">
       <DependentUpon>201601080603092_INITIAL.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201601091217111_UPDATE-DATABASE-01.cs" />
+    <Compile Include="Migrations\201601091217111_UPDATE-DATABASE-01.Designer.cs">
+      <DependentUpon>201601091217111_UPDATE-DATABASE-01.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201601091221508_UPDATE-DATABASE-02.cs" />
+    <Compile Include="Migrations\201601091221508_UPDATE-DATABASE-02.Designer.cs">
+      <DependentUpon>201601091221508_UPDATE-DATABASE-02.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -514,7 +523,6 @@
     <Content Include="Content\kendo\angular.min.js" />
     <Content Include="Content\kendo\jquery.min.js" />
     <Content Include="Content\kendo\jszip.min.js" />
-    <Content Include="ClassDiagram1.cd" />
     <None Include="Content\kendo\kendo.all-vsdoc.js" />
     <None Include="Content\kendo\kendo.all.min.intellisense.js" />
     <Content Include="Content\kendo\kendo.all.min.js" />
@@ -1643,6 +1651,7 @@
     <Content Include="Views\KhoiLop\Index.cshtml" />
     <Content Include="Views\PhongHoc\Index.cshtml" />
     <Content Include="Views\LopHoc\Index.cshtml" />
+    <Content Include="Views\QDKhenThuong\QuanLyQDKhenThuong.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -1665,6 +1674,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201601080603092_INITIAL.resx">
       <DependentUpon>201601080603092_INITIAL.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201601091217111_UPDATE-DATABASE-01.resx">
+      <DependentUpon>201601091217111_UPDATE-DATABASE-01.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201601091221508_UPDATE-DATABASE-02.resx">
+      <DependentUpon>201601091221508_UPDATE-DATABASE-02.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

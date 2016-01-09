@@ -251,14 +251,14 @@ namespace SMS.DATA
             modelBuilder.Entity<QuyetDinhKhenThuong>()
                 .HasMany(e => e.dsCTQDKhenThuong)
                 .WithRequired(o => o.QDKhenThuong)
-                .HasForeignKey(o => o.SoQuyetDinh)
+                .HasForeignKey(o => o.MaQuyetDinh)
                 .WillCascadeOnDelete(false);
 
             //map ctqdkyluat to qdkyluat
             modelBuilder.Entity<QuyetDinhKyLuat>()
                 .HasMany(e => e.dsCTQDKyLuat)
                 .WithRequired(o => o.QDKyLuat)
-                .HasForeignKey(o => o.SoQuyetDinh)
+                .HasForeignKey(o => o.MaQuyetDinh)
                 .WillCascadeOnDelete(false);
 
             //map thongtinkhenthuong to tiethoc

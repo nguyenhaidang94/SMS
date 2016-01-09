@@ -6,10 +6,10 @@ using System;
 namespace SMS.CORE.Data
 {
     [Table("CT_QuyetDinhKhenThuong")]
-    public partial class CT_QuyetDinhKhenThuong
+    public partial class CT_QuyetDinhKhenThuong: BaseEntity
     {
-        [Key, StringLength(50), Column(Order=0, TypeName="varchar")]
-        public string SoQuyetDinh { get; set; }
+        [Key, Column(Order=0)]
+        public int MaQuyetDinh { get; set; }
 
         [Key, Column(Order=1)]
         public int MaHocSinh { get; set; }

@@ -1,0 +1,89 @@
+﻿@{
+    ViewBag.Title = "QL QD Khen Thưởng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>Quản lý Quyết định khen thưởng</h3>
+
+<link rel="stylesheet" href="~/Content/kendo/2015.3.1111/kendo.common.min.css" />
+<link rel="stylesheet" href="~/Content/kendo/2015.3.1111/kendo.default.min.css" />
+
+<div id="grid-qdkhenthuong"></div>
+
+@section scripts{
+
+    <script>
+        var dsNamHoc = @Html.Raw(ViewBag.dsNamHoc);
+        $(document).ready(function () {
+            var dataSource = new kendo.data.DataSource({
+                type: "json",
+                transport: {
+                    create: {
+                        url: "@Url.Action("Create")",
+                        type: "POST",
+                        dataType: "json"
+                    },
+                    read: {
+                        url: "@Url.Action("Read")",
+                        type: "POST",
+                        dataType: "json"
+                    },
+                    update: {
+                        url: "@Url.Action("Update")",
+                        type: "POST",
+                        dataType: "json"
+                    },
+                    destroy: {
+                        url: "@Url.Action("Delete")",
+                        type: "POST",
+                        dataType: "json"
+                    },
+                    parameterMap: function(options, operation) {
+                        if (operation !== "read" && options.models) {
+                            return { models: kendo.stringify(options.models) };
+                        }
+                    }
+                },
+                batch: true,
+                pageSize: 20,
+                schema: {
+                    model: {
+                        id: "MaQuyetDinh",
+                        fields: {
+                            MaQuyetDinh: { type:"number", editable: false, nullable: false},
+                            SoQuyetDinh: { validation: {required: true} },
+                            MaNamHoc: { type: "number", field: "MaNamHoc", nullable: false },
+                            NoiDungQD: { validation: { required: true } },
+                            NgayQD: { type: "date", validation: { required: true } },
+                            Active: { type: "boolean", defaultValue: true }
+                        }
+                    }
+                }
+            });
+
+            $("#grid-qdkhenthuong").kendoGrid({
+                dataSource: dataSource,
+                filterable: false,
+                sortable: true,
+                pageable: {
+                    refresh: true,
+                    pageSizes: true,
+                    buttonCount: 5
+                },
+                height: 500,
+                toolbar: ["create"],
+                columns: [
+                    { field: "SoQuyetDinh", title: "Số Quyết Định" },
+                    { field: "MaNamHoc", values: dsNamHoc, title: "Năm Học" },
+                    { field: "NoiDungQD", title: "Nội Dung", width: "300px"},
+                    { field: "NgayQD", title: "Ngày", template: "#= kendo.toString(NgayQD, 'dd/MM/yyyy') #" },
+                    { field: "", title:"&nbsp;", template: "<a href='@Url.Action("CTKhenThuong")/#: MaQuyetDinh #'>Chi tiết</a>", width: "100px"},
+                    { command: ["edit", "destroy"], title: "&nbsp;"}
+                ],
+                editable: {
+                    mode: "inline"
+                }
+            });
+        });
+    </script>    
+}
