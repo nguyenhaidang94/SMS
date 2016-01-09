@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "Quản lý năm học";
+    ViewBag.Title = "Quản lý phòng học";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="~/Content/kendo/2015.3.1111/kendo.common.min.css" />
 <link rel="stylesheet" href="~/Content/kendo/2015.3.1111/kendo.default.min.css" />
 
-<h3>Quản lý năm học</h3>
+<h3>Quản lý phòng học</h3>
 <div id="grid"></div>
 
 @section scripts{
@@ -49,11 +49,11 @@
                 pageSize: 20,
                 schema: {
                     model: {
-                        id: "MaNamHoc",
+                        id: "MaPhong",
                         fields: {
-                            MaNamHoc: { type: "number", nullable: false },
-                            NamBatDau: { type: "number", validation: { required: true, min: 2000, max: 9999 } },
-                            NamKetThuc: { type: "number", validation: { required: true, min: 2000, max: 9999 } },
+                            MaPhong: { type: "number", nullable: false },
+                            TenPhong: { validation: { required: true } },
+                            SucChua: { type: "number", validation: { required: true, min: 0, max: 50 } },
                         }
                     }
                 }
@@ -71,8 +71,8 @@
                 height: 500,
                 toolbar: ["create"],
                 columns: [
-                    { field: "NamBatDau", format: "{0:0}", title: "Năm Bắt Đầu" },
-                    { field: "NamKetThuc", format: "{0:0}", title: "Năm Kết Thúc" },
+                    { field: "TenPhong", title: "Tên Phòng" },
+                    { field: "SucChua", format: "{0:0}", title: "Sức Chứa" },
                     { command: ["edit", "destroy"], title: "&nbsp;", width: "250px" }],
                 editable: "inline",
             });

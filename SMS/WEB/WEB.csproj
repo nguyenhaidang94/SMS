@@ -159,6 +159,9 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\LopHocController.cs" />
+    <Compile Include="Controllers\KhoiLopController.cs" />
+    <Compile Include="Controllers\PhongHocController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\KhenThuongController.cs" />
     <Compile Include="Controllers\KyLuatController.cs" />
@@ -511,6 +514,7 @@
     <Content Include="Content\kendo\angular.min.js" />
     <Content Include="Content\kendo\jquery.min.js" />
     <Content Include="Content\kendo\jszip.min.js" />
+    <Content Include="ClassDiagram1.cd" />
     <None Include="Content\kendo\kendo.all-vsdoc.js" />
     <None Include="Content\kendo\kendo.all.min.intellisense.js" />
     <Content Include="Content\kendo\kendo.all.min.js" />
@@ -1636,6 +1640,9 @@
     <Content Include="Scripts\kendo\2015.3.1111\kendo.grid.min.js.map" />
     <Content Include="Scripts\kendo\2015.3.1111\kendo.columnmenu.min.js.map" />
     <Content Include="Views\KyLuat\QuanLyKyLuat.cshtml" />
+    <Content Include="Views\KhoiLop\Index.cshtml" />
+    <Content Include="Views\PhongHoc\Index.cshtml" />
+    <Content Include="Views\LopHoc\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

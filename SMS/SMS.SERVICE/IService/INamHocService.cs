@@ -3,33 +3,72 @@ using SMS.CORE.Data;
 
 namespace SMS.SERVICE.IService
 {
-    /// <summary>
-    /// IService namhoc
-    /// </summary>
     public interface INamHocService
     {
         /// <summary>
-        /// get namhoc
+        /// get NamHoc
         /// </summary>
-        /// <returns>list namhoc</returns>
-        IEnumerable<NamHoc> GetAllNamHoc();
+        /// <returns>list NamHoc</returns>
+        IEnumerable<NamHoc> GetAll();
 
         /// <summary>
-        /// add namhoc
+        /// get all NamHoc that is inactive
         /// </summary>
-        /// <param name="entity">namhoc</param>
-        void AddNamHoc(NamHoc entity);
+        /// <returns>list NamHoc inactive</returns>
+        IEnumerable<NamHoc> GetAllInactive();
 
         /// <summary>
-        /// update namhoc
+        /// get NamHoc by id
         /// </summary>
-        /// <param name="entity">namhoc</param>
-        void UpdateNamHoc(NamHoc entity);
+        /// <returns>list NamHoc</returns>
+        NamHoc GetByID(int id);
 
         /// <summary>
-        /// delete namhoc
+        /// Insert NamHoc
         /// </summary>
-        /// <param name="entity">namhoc</param>
-        void DeleteNamHoc(NamHoc entity);
+        /// <param name="entity">NamHoc</param>
+        void Insert(NamHoc entity);
+
+        /// <summary>
+        /// Insert list NamHoc
+        /// </summary>
+        /// <param name="entity">List NamHoc</param>
+        void Insert(IEnumerable<NamHoc> entities);
+
+        /// <summary>
+        /// update NamHoc 
+        /// </summary>
+        /// <param name="entity">NamHoc</param>
+        void Update(NamHoc entity);
+
+        /// <summary>
+        /// update list NamHoc
+        /// </summary>
+        /// <param name="entity">NamHoc</param>
+        void Update(IEnumerable<NamHoc> entities);
+
+        /// <summary>
+        /// delete NamHoc
+        /// </summary>
+        /// <param name="entity">NamHoc</param>
+        void Delete(NamHoc entity);
+
+        /// <summary>
+        /// delete list NamHoc
+        /// </summary>
+        /// <param name="entity">NamHoc</param>
+        void Delete(IEnumerable<NamHoc> entities);
+
+        /// <summary>
+        /// set NamHoc to unactive
+        /// </summary>
+        /// <param name="entity">NamHoc</param>
+        void FakeDelete(NamHoc entity);
+
+        /// <summary>
+        ///  set list NamHoc to unactive
+        /// </summary>
+        /// <param name="entity">NamHoc</param>
+        void FakeDelete(IEnumerable<NamHoc> entities);
     }
 }

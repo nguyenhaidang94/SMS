@@ -11,66 +11,47 @@ using Newtonsoft.Json;
 
 namespace WEB.Controllers
 {
-    public class NamHocController : Controller
+    public class KhoiLopController : Controller
     {
         private UnitOfWork _UnitOfWork = new UnitOfWork();
-        private readonly INamHocService _NamHocService;
+        private readonly IKhoiLopService _KhoiLopService;
 
-        public NamHocController()
+        public KhoiLopController()
         {
-            _NamHocService = new NamHocService(_UnitOfWork);
+            _KhoiLopService = new KhoiLopService(_UnitOfWork);
         }
 
         //
-        // GET: /NamHoc/
+        // GET: /KhoiLop/
         public ActionResult Index()
         {
             return View();
         }
 
+        //
+        // View list deleted KhoiLop
+        public ActionResult ViewDeleted()
+        {
+            return View();
+        }
+
         /// <summary>
-        /// Get list of NamHoc
+        /// Get list of KhoiLop
         /// </summary>
-        /// <returns>List NamHoc in Json</returns>
+        /// <returns>List KhoiLop in Json</returns>
         [HttpPost]
         public JsonResult Read()
         {
             try
             {
-                IEnumerable<NamHoc> models = _NamHocService.GetAll();
-
-                if (models == null)
-                {
-                    return Json(null, JsonRequestBehavior.AllowGet);
-                }
-
-                models = models.OrderByDescending(m => m.MaNamHoc);
-
-                return Json(models);
-            }
-            catch (Exception e)
-            {
-                return Json(new { error = e.Message });
-            }
-        }
-
-        /// <summary>
-        /// Get list of inactive NamHoc
-        /// </summary>
-        /// <returns>List inactive NamHoc in Json</returns>
-        [HttpPost]
-        public JsonResult ReadInactive()
-        {
-            try
-            {
-                IEnumerable<NamHoc> models = _NamHocService.GetAllInactive();
+                IEnumerable<KhoiLop> models = _KhoiLopService.GetAll();
 
                 if (models == null)
                 {
                     return Json(null);
                 }
 
-                models = models.OrderByDescending(m => m.MaNamHoc);
+                models = models.OrderByDescending(m => m.MaKhoi);
 
                 return Json(models);
             }
@@ -81,7 +62,33 @@ namespace WEB.Controllers
         }
 
         /// <summary>
-        /// Update NamHoc to database
+        /// Get list of inactive KhoiLop
+        /// </summary>
+        /// <returns>List inactive KhoiLop in Json</returns>
+        [HttpPost]
+        public JsonResult ReadInactive()
+        {
+            try
+            {
+                IEnumerable<KhoiLop> models = _KhoiLopService.GetAllInactive();
+
+                if (models == null)
+                {
+                    return Json(null);
+                }
+
+                models = models.OrderByDescending(m => m.MaKhoi);
+
+                return Json(models);
+            }
+            catch (Exception e)
+            {
+                return Json(new { error = e.Message });
+            }
+        }
+
+        /// <summary>
+        /// Update KhoiLop to database
         /// </summary>
         /// <returns></returns>
         [HttpPost]
@@ -89,15 +96,15 @@ namespace WEB.Controllers
         {
             try
             {
-                var namhocs = JsonConvert.DeserializeObject<IEnumerable<NamHoc>>(models);
-                if (namhocs != null)
+                var KhoiLops = JsonConvert.DeserializeObject<IEnumerable<KhoiLop>>(models);
+                if (KhoiLops != null)
                 {
-                    foreach (NamHoc namhoc in namhocs)
+                    foreach (KhoiLop KhoiLop in KhoiLops)
                     {
-                        _NamHocService.Update(namhoc);
+                        _KhoiLopService.Update(KhoiLop);
                     }
                 }
-                return Json(namhocs);
+                return Json(KhoiLops);
             }
             catch (Exception e)
             {
@@ -106,7 +113,7 @@ namespace WEB.Controllers
         }
 
         /// <summary>
-        /// Set NamHoc to inactive
+        /// Set KhoiLop to inactive
         /// </summary>
         /// <returns></returns>
         [HttpPost]
@@ -114,16 +121,16 @@ namespace WEB.Controllers
         {
             try
             {
-                var namhocs = JsonConvert.DeserializeObject<IEnumerable<NamHoc>>(models);
+                var khoiLops = JsonConvert.DeserializeObject<IEnumerable<KhoiLop>>(models);
 
-                if (namhocs != null)
+                if (khoiLops != null)
                 {
-                    foreach (NamHoc namhoc in namhocs)
+                    foreach (KhoiLop khoiLop in khoiLops)
                     {
-                        _NamHocService.FakeDelete(namhoc);
+                        _KhoiLopService.FakeDelete(khoiLop);
                     }
                 }
-                return Json(namhocs);
+                return Json(khoiLops);
             }
             catch (Exception e)
             {
@@ -132,7 +139,7 @@ namespace WEB.Controllers
         }
 
         /// <summary>
-        /// Delete NamHoc from database
+        /// Delete KhoiLop from database
         /// </summary>
         /// <returns></returns>
         [HttpPost]
@@ -140,16 +147,16 @@ namespace WEB.Controllers
         {
             try
             {
-                var namhocs = JsonConvert.DeserializeObject<IEnumerable<NamHoc>>(models);
+                var khoiLops = JsonConvert.DeserializeObject<IEnumerable<KhoiLop>>(models);
 
-                if (namhocs != null)
+                if (khoiLops != null)
                 {
-                    foreach (NamHoc namhoc in namhocs)
+                    foreach (KhoiLop khoiLop in khoiLops)
                     {
-                        _NamHocService.Delete(namhoc);
+                        _KhoiLopService.Delete(khoiLop);
                     }
                 }
-                return Json(namhocs);
+                return Json(khoiLops);
             }
             catch (Exception e)
             {
@@ -158,7 +165,7 @@ namespace WEB.Controllers
         }
 
         /// <summary>
-        /// Add new NamHoc in database
+        /// Add new KhoiLop in database
         /// </summary>
         /// <returns></returns>
         [HttpPost]
@@ -166,17 +173,16 @@ namespace WEB.Controllers
         {
             try
             {
-                var namhocs = JsonConvert.DeserializeObject<IEnumerable<NamHoc>>(models);
+                var KhoiLops = JsonConvert.DeserializeObject<IEnumerable<KhoiLop>>(models);
 
-                if (namhocs != null)
+                if (KhoiLops != null)
                 {
-                    foreach (NamHoc namhoc in namhocs)
-                    {
-                        //namhoc.MaNamHoc = "NH" + namhoc.NamBatDau.ToString().Substring(2) + "-" + namhoc.NamKetThuc.ToString().Substring(2);
-                        _NamHocService.Insert(namhoc);
+                    foreach (KhoiLop KhoiLop in KhoiLops)
+                    {         
+                        _KhoiLopService.Insert(KhoiLop);
                     }
                 }
-                return Json(namhocs);
+                return Json(KhoiLops);
             }
             catch (Exception e)
             {

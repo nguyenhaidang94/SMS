@@ -11,66 +11,49 @@ using Newtonsoft.Json;
 
 namespace WEB.Controllers
 {
-    public class NamHocController : Controller
+    public class LopHocController : Controller
     {
         private UnitOfWork _UnitOfWork = new UnitOfWork();
+        private readonly ILopHocService _LopHocService;
+        private readonly IKhoiLopService _KhoiLopService;
+        private readonly IPhongHocService _PhongHocService;
         private readonly INamHocService _NamHocService;
 
-        public NamHocController()
+        public LopHocController()
         {
+            _LopHocService = new LopHocService(_UnitOfWork);
+            _KhoiLopService = new KhoiLopService(_UnitOfWork);
+            _PhongHocService = new PhongHocService(_UnitOfWork);
             _NamHocService = new NamHocService(_UnitOfWork);
         }
 
         //
-        // GET: /NamHoc/
+        // GET: /LopHoc/
         public ActionResult Index()
         {
+            ViewBag.listKhoiLop = JsonConvert.SerializeObject(_KhoiLopService.GetAll().Select(m => new { value = m.MaKhoi, text = m.TenKhoi }));
+            ViewBag.listPhongHoc = JsonConvert.SerializeObject(_PhongHocService.GetAll().Select(m => new { value = m.MaPhong, text = m.TenPhong }));
+            ViewBag.listNamHoc = JsonConvert.SerializeObject(_NamHocService.GetAll().Select(m => new { value = m.MaNamHoc, text = m.NamBatDau + " - " + m.NamKetThuc }));
             return View();
         }
 
         /// <summary>
-        /// Get list of NamHoc
+        /// Get list of LopHoc
         /// </summary>
-        /// <returns>List NamHoc in Json</returns>
+        /// <returns>List LopHoc in Json</returns>
         [HttpPost]
         public JsonResult Read()
         {
             try
             {
-                IEnumerable<NamHoc> models = _NamHocService.GetAll();
-
-                if (models == null)
-                {
-                    return Json(null, JsonRequestBehavior.AllowGet);
-                }
-
-                models = models.OrderByDescending(m => m.MaNamHoc);
-
-                return Json(models);
-            }
-            catch (Exception e)
-            {
-                return Json(new { error = e.Message });
-            }
-        }
-
-        /// <summary>
-        /// Get list of inactive NamHoc
-        /// </summary>
-        /// <returns>List inactive NamHoc in Json</returns>
-        [HttpPost]
-        public JsonResult ReadInactive()
-        {
-            try
-            {
-                IEnumerable<NamHoc> models = _NamHocService.GetAllInactive();
+                IEnumerable<LopHoc> models = _LopHocService.GetAll();
 
                 if (models == null)
                 {
                     return Json(null);
                 }
 
-                models = models.OrderByDescending(m => m.MaNamHoc);
+                models = models.OrderByDescending(m => m.MaLopHoc);
 
                 return Json(models);
             }
@@ -81,7 +64,33 @@ namespace WEB.Controllers
         }
 
         /// <summary>
-        /// Update NamHoc to database
+        /// Get list of inactive LopHoc
+        /// </summary>
+        /// <returns>List inactive LopHoc in Json</returns>
+        [HttpPost]
+        public JsonResult ReadInactive()
+        {
+            try
+            {
+                IEnumerable<LopHoc> models = _LopHocService.GetAllInactive();
+
+                if (models == null)
+                {
+                    return Json(null);
+                }
+
+                models = models.OrderByDescending(m => m.MaLopHoc);
+
+                return Json(models);
+            }
+            catch (Exception e)
+            {
+                return Json(new { error = e.Message });
+            }
+        }
+
+        /// <summary>
+        /// Update LopHoc to database
         /// </summary>
         /// <returns></returns>
         [HttpPost]
@@ -89,15 +98,15 @@ namespace WEB.Controllers
         {
             try
             {
-                var namhocs = JsonConvert.DeserializeObject<IEnumerable<NamHoc>>(models);
-                if (namhocs != null)
+                var LopHocs = JsonConvert.DeserializeObject<IEnumerable<LopHoc>>(models);
+                if (LopHocs != null)
                 {
-                    foreach (NamHoc namhoc in namhocs)
+                    foreach (LopHoc LopHoc in LopHocs)
                     {
-                        _NamHocService.Update(namhoc);
+                        _LopHocService.Update(LopHoc);
                     }
                 }
-                return Json(namhocs);
+                return Json(LopHocs);
             }
             catch (Exception e)
             {
@@ -106,7 +115,7 @@ namespace WEB.Controllers
         }
 
         /// <summary>
-        /// Set NamHoc to inactive
+        /// Set LopHoc to inactive
         /// </summary>
         /// <returns></returns>
         [HttpPost]
@@ -114,16 +123,16 @@ namespace WEB.Controllers
         {
             try
             {
-                var namhocs = JsonConvert.DeserializeObject<IEnumerable<NamHoc>>(models);
+                var lopHocs = JsonConvert.DeserializeObject<IEnumerable<LopHoc>>(models);
 
-                if (namhocs != null)
+                if (lopHocs != null)
                 {
-                    foreach (NamHoc namhoc in namhocs)
+                    foreach (LopHoc lopHoc in lopHocs)
                     {
-                        _NamHocService.FakeDelete(namhoc);
+                        _LopHocService.FakeDelete(lopHoc);
                     }
                 }
-                return Json(namhocs);
+                return Json(lopHocs);
             }
             catch (Exception e)
             {
@@ -132,7 +141,7 @@ namespace WEB.Controllers
         }
 
         /// <summary>
-        /// Delete NamHoc from database
+        /// Delete LopHoc from database
         /// </summary>
         /// <returns></returns>
         [HttpPost]
@@ -140,16 +149,16 @@ namespace WEB.Controllers
         {
             try
             {
-                var namhocs = JsonConvert.DeserializeObject<IEnumerable<NamHoc>>(models);
+                var lopHocs = JsonConvert.DeserializeObject<IEnumerable<LopHoc>>(models);
 
-                if (namhocs != null)
+                if (lopHocs != null)
                 {
-                    foreach (NamHoc namhoc in namhocs)
+                    foreach (LopHoc lopHoc in lopHocs)
                     {
-                        _NamHocService.Delete(namhoc);
+                        _LopHocService.Delete(lopHoc);
                     }
                 }
-                return Json(namhocs);
+                return Json(lopHocs);
             }
             catch (Exception e)
             {
@@ -158,7 +167,7 @@ namespace WEB.Controllers
         }
 
         /// <summary>
-        /// Add new NamHoc in database
+        /// Add new LopHoc in database
         /// </summary>
         /// <returns></returns>
         [HttpPost]
@@ -166,17 +175,17 @@ namespace WEB.Controllers
         {
             try
             {
-                var namhocs = JsonConvert.DeserializeObject<IEnumerable<NamHoc>>(models);
+                var LopHocs = JsonConvert.DeserializeObject<IEnumerable<LopHoc>>(models);
 
-                if (namhocs != null)
+                if (LopHocs != null)
                 {
-                    foreach (NamHoc namhoc in namhocs)
+                    foreach (LopHoc LopHoc in LopHocs)
                     {
-                        //namhoc.MaNamHoc = "NH" + namhoc.NamBatDau.ToString().Substring(2) + "-" + namhoc.NamKetThuc.ToString().Substring(2);
-                        _NamHocService.Insert(namhoc);
+                        //LopHoc.MaLopHoc = "NH" + LopHoc.NamBatDau.ToString().Substring(2) + "-" + LopHoc.NamKetThuc.ToString().Substring(2);
+                        _LopHocService.Insert(LopHoc);
                     }
                 }
-                return Json(namhocs);
+                return Json(LopHocs);
             }
             catch (Exception e)
             {

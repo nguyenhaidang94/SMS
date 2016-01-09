@@ -11,40 +11,40 @@ using Newtonsoft.Json;
 
 namespace WEB.Controllers
 {
-    public class NamHocController : Controller
+    public class PhongHocController : Controller
     {
         private UnitOfWork _UnitOfWork = new UnitOfWork();
-        private readonly INamHocService _NamHocService;
+        private readonly IPhongHocService _PhongHocService;
 
-        public NamHocController()
+        public PhongHocController()
         {
-            _NamHocService = new NamHocService(_UnitOfWork);
+            _PhongHocService = new PhongHocService(_UnitOfWork);
         }
 
         //
-        // GET: /NamHoc/
+        // GET: /PhongHoc/
         public ActionResult Index()
         {
             return View();
         }
 
         /// <summary>
-        /// Get list of NamHoc
+        /// Get list of PhongHoc
         /// </summary>
-        /// <returns>List NamHoc in Json</returns>
+        /// <returns>List PhongHoc in Json</returns>
         [HttpPost]
         public JsonResult Read()
         {
             try
             {
-                IEnumerable<NamHoc> models = _NamHocService.GetAll();
+                IEnumerable<PhongHoc> models = _PhongHocService.GetAll();
 
                 if (models == null)
                 {
                     return Json(null, JsonRequestBehavior.AllowGet);
                 }
 
-                models = models.OrderByDescending(m => m.MaNamHoc);
+                models = models.OrderByDescending(m => m.MaPhong);
 
                 return Json(models);
             }
@@ -55,22 +55,22 @@ namespace WEB.Controllers
         }
 
         /// <summary>
-        /// Get list of inactive NamHoc
+        /// Get list of inactive PhongHoc
         /// </summary>
-        /// <returns>List inactive NamHoc in Json</returns>
+        /// <returns>List inactive PhongHoc in Json</returns>
         [HttpPost]
         public JsonResult ReadInactive()
         {
             try
             {
-                IEnumerable<NamHoc> models = _NamHocService.GetAllInactive();
+                IEnumerable<PhongHoc> models = _PhongHocService.GetAllInactive();
 
                 if (models == null)
                 {
                     return Json(null);
                 }
 
-                models = models.OrderByDescending(m => m.MaNamHoc);
+                models = models.OrderByDescending(m => m.MaPhong);
 
                 return Json(models);
             }
@@ -81,7 +81,7 @@ namespace WEB.Controllers
         }
 
         /// <summary>
-        /// Update NamHoc to database
+        /// Update PhongHoc to database
         /// </summary>
         /// <returns></returns>
         [HttpPost]
@@ -89,15 +89,15 @@ namespace WEB.Controllers
         {
             try
             {
-                var namhocs = JsonConvert.DeserializeObject<IEnumerable<NamHoc>>(models);
-                if (namhocs != null)
+                var PhongHocs = JsonConvert.DeserializeObject<IEnumerable<PhongHoc>>(models);
+                if (PhongHocs != null)
                 {
-                    foreach (NamHoc namhoc in namhocs)
+                    foreach (PhongHoc PhongHoc in PhongHocs)
                     {
-                        _NamHocService.Update(namhoc);
+                        _PhongHocService.Update(PhongHoc);
                     }
                 }
-                return Json(namhocs);
+                return Json(PhongHocs);
             }
             catch (Exception e)
             {
@@ -106,7 +106,7 @@ namespace WEB.Controllers
         }
 
         /// <summary>
-        /// Set NamHoc to inactive
+        /// Set PhongHoc to inactive
         /// </summary>
         /// <returns></returns>
         [HttpPost]
@@ -114,16 +114,16 @@ namespace WEB.Controllers
         {
             try
             {
-                var namhocs = JsonConvert.DeserializeObject<IEnumerable<NamHoc>>(models);
+                var phongHocs = JsonConvert.DeserializeObject<IEnumerable<PhongHoc>>(models);
 
-                if (namhocs != null)
+                if (phongHocs != null)
                 {
-                    foreach (NamHoc namhoc in namhocs)
+                    foreach (PhongHoc phongHoc in phongHocs)
                     {
-                        _NamHocService.FakeDelete(namhoc);
+                        _PhongHocService.FakeDelete(phongHoc);
                     }
                 }
-                return Json(namhocs);
+                return Json(phongHocs);
             }
             catch (Exception e)
             {
@@ -140,16 +140,16 @@ namespace WEB.Controllers
         {
             try
             {
-                var namhocs = JsonConvert.DeserializeObject<IEnumerable<NamHoc>>(models);
+                var phongHocs = JsonConvert.DeserializeObject<IEnumerable<PhongHoc>>(models);
 
-                if (namhocs != null)
+                if (phongHocs != null)
                 {
-                    foreach (NamHoc namhoc in namhocs)
+                    foreach (PhongHoc phongHoc in phongHocs)
                     {
-                        _NamHocService.Delete(namhoc);
+                        _PhongHocService.Delete(phongHoc);
                     }
                 }
-                return Json(namhocs);
+                return Json(phongHocs);
             }
             catch (Exception e)
             {
@@ -158,7 +158,7 @@ namespace WEB.Controllers
         }
 
         /// <summary>
-        /// Add new NamHoc in database
+        /// Add new PhongHoc in database
         /// </summary>
         /// <returns></returns>
         [HttpPost]
@@ -166,17 +166,17 @@ namespace WEB.Controllers
         {
             try
             {
-                var namhocs = JsonConvert.DeserializeObject<IEnumerable<NamHoc>>(models);
+                var PhongHocs = JsonConvert.DeserializeObject<IEnumerable<PhongHoc>>(models);
 
-                if (namhocs != null)
+                if (PhongHocs != null)
                 {
-                    foreach (NamHoc namhoc in namhocs)
+                    foreach (PhongHoc PhongHoc in PhongHocs)
                     {
-                        //namhoc.MaNamHoc = "NH" + namhoc.NamBatDau.ToString().Substring(2) + "-" + namhoc.NamKetThuc.ToString().Substring(2);
-                        _NamHocService.Insert(namhoc);
+                        //PhongHoc.MaPhongHoc = "NH" + PhongHoc.NamBatDau.ToString().Substring(2) + "-" + PhongHoc.NamKetThuc.ToString().Substring(2);
+                        _PhongHocService.Insert(PhongHoc);
                     }
                 }
-                return Json(namhocs);
+                return Json(PhongHocs);
             }
             catch (Exception e)
             {

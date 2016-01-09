@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "Quản lý năm học";
+    ViewBag.Title = "Quản lý khối lớp";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -10,17 +10,17 @@
 <link rel="stylesheet" href="~/Content/kendo/2015.3.1111/kendo.common.min.css" />
 <link rel="stylesheet" href="~/Content/kendo/2015.3.1111/kendo.default.min.css" />
 
-<h3>Quản lý năm học</h3>
+<h3>Quản lý khối lớp</h3>
 <div id="grid"></div>
 
 @section scripts{
     <script>
         $(document).ready(function () {
             dataSource = new kendo.data.DataSource({
-                type: "json",
-                transport: {
-                    read: {
-                        url: "@Html.Raw(Url.Action("Read"))",
+                    type: "json",
+                    transport: {   
+                        read: {
+                            url: "@Html.Raw(Url.Action("Read"))",
                             type: "POST",
                             dataType: "json",
                         },
@@ -45,19 +45,18 @@
                             }
                         }
                     },
-                batch: true,
-                pageSize: 20,
-                schema: {
-                    model: {
-                        id: "MaNamHoc",
-                        fields: {
-                            MaNamHoc: { type: "number", nullable: false },
-                            NamBatDau: { type: "number", validation: { required: true, min: 2000, max: 9999 } },
-                            NamKetThuc: { type: "number", validation: { required: true, min: 2000, max: 9999 } },
+                    batch: true,
+                    pageSize: 20,
+                    schema: {
+                        model: {
+                            id: "MaKhoi",
+                            fields: {
+                                MaKhoi: { type:"number", nullable: false },
+                                TenKhoi: {validation: { required: true } },
+                            }
                         }
                     }
-                }
-            });
+                });
 
             $("#grid").kendoGrid({
                 dataSource: dataSource,
@@ -71,11 +70,22 @@
                 height: 500,
                 toolbar: ["create"],
                 columns: [
-                    { field: "NamBatDau", format: "{0:0}", title: "Năm Bắt Đầu" },
-                    { field: "NamKetThuc", format: "{0:0}", title: "Năm Kết Thúc" },
+                    { field: "TenKhoi",title: "Tên Khối" },
                     { command: ["edit", "destroy"], title: "&nbsp;", width: "250px" }],
                 editable: "inline",
+                save: function (e) {
+                    var tenKhoi = e.model.TenKhoi;
+                    var maKhoi = e.model.MaKhoi;
+                    var data = this.dataSource.data();
+                    for (item in data) {
+                        if (data[item].TenKhoi == tenKhoi &&
+                           data[item].MaKhoi != maKhoi) {
+                            e.preventDefault();
+                            alert("Duplicates not allowed");
+                        }
+                    }
+                },
             });
-        });
+        });   
     </script>
 }

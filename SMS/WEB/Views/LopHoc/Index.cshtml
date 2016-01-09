@@ -1,0 +1,176 @@
+﻿@using Newtonsoft.Json
+
+
+@{
+    ViewBag.Title = "Quản Lý Lớp Học";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" href="~/Content/kendo/2015.3.1111/kendo.common.min.css" />
+<link rel="stylesheet" href="~/Content/kendo/2015.3.1111/kendo.default.min.css" />
+
+<h3>Quản Lý Lớp Học</h3>
+
+<div id="grid-khenthuong"></div>
+
+@section scripts{
+    <script type="text/x-kendo-template" id="template">
+        <div class="toolbar">
+            <label class="category-label" for="namhoc">Năm Học:</label>
+            <input type="search" id="listNamHoc" style="width: 150px, margin-left:20px"/>
+
+            <label class="category-label" for="namhoc">Khối Lớp:</label>
+            <input type="search" id="listKhoiLop" style="width: 150px"/>
+        </div>
+    </script>
+    
+    <script>
+        var listPhongHoc = @Html.Raw(ViewBag.listPhongHoc);
+        var listKhoiLop = @Html.Raw(ViewBag.listKhoiLop);
+        var listNamHoc = @Html.Raw(ViewBag.listNamHoc);
+
+        $(document).ready(function () {
+            var dataSource = new kendo.data.DataSource({
+                type: "json",
+                transport: {
+                    create: {
+                        url: "@Url.Action("Create")",
+                        type: "POST",
+                        dataType: "json"
+                    },
+                    read: {
+                        url: "@Url.Action("Read")",
+                        type: "POST",
+                        dataType: "json"
+                    },
+                    update: {
+                        url: "@Url.Action("Update")",
+                        type: "POST",
+                        dataType: "json"
+                    },
+                    destroy: {
+                        url: "@Url.Action("Destroy")",
+                        type: "POST",
+                        dataType: "json"
+                    },
+                    parameterMap: function(options, operation) {
+                        if (operation !== "read" && options.models) {
+                            return { models: kendo.stringify(options.models) };
+                        }
+                    }
+                },
+                batch: true,
+                pageSize: 20,
+                schema: {
+                    model: {
+                        id: "MaLopHoc",
+                        fields: {
+                            MaLopHoc: { type:"number", editable: false, nullable: false },
+                            MaPhong: { type:"number", validation: {required: true }},
+                            TenLop: { field: "TenLop", validation: {required: true } },
+                            SiSo: { type: "number", field: "SiSo", editable: false ,validation: { required: true, min: 0 } },
+                            MaNamHoc: { type: "number", field: "MaNamHoc", validation: {required: true } },
+                            MaKhoi: { type: "number", field: "MaKhoi", validation: {required: true } },
+                        }
+                    }
+                },
+                change: function (e) {
+                    if (e.action == "add") {
+                        var newItem = e.items[0];
+                        var nam = dropdownNam.value();
+                        var khoi = dropdownKhoi.value();
+                        newItem.set("MaNamHoc",nam);
+                        newItem.set("MaKhoi",khoi);
+                    }
+                }
+            });
+
+            //grid
+            var grid = $("#grid-khenthuong").kendoGrid({
+                dataSource: dataSource,
+                filterable: false,
+                sortable: true,
+                pageable: {
+                    refresh: true,
+                    pageSizes: true,
+                    buttonCount: 5
+                },
+                height: 500,
+                toolbar: ["create", {name: 'filter', template: kendo.template($("#template").html())}],
+                columns: [
+                    { field: "TenLop", title: "Tên Lớp"},
+                    { field: "MaPhong", values: listPhongHoc, title: "Phòng Học"},
+                    { field: "SiSo",  format: "{0:0}", title: "Sĩ Số"},
+                    { command: ["edit", "destroy"], title: "&nbsp;", width: "250px" }
+                ],
+                editable: "inline",
+            });
+
+            //Nam hoc
+            $("#listNamHoc").kendoDropDownList({
+                dataTextField: "text",
+                dataValueField: "value",
+                dataSource: listNamHoc,
+                //select 1st value
+                index: 0,
+                change: function () {
+                    var value = this.value();
+                    if (value) {
+                        grid.data("kendoGrid").dataSource.filter([{ field: "MaNamHoc", operator: "eq", value: parseInt(value) }, { field: "MaKhoi", operator: "eq", value: parseInt(dropdownKhoi.value()) }]);
+                    } else {
+                        grid.data("kendoGrid").dataSource.filter({});
+                    }
+                },
+            });
+            var dropdownNam = $("#listNamHoc").data("kendoDropDownList"),
+                setValue = function(e) {
+                    if (e.type != "keypress" || kendo.keys.ENTER == e.keyCode)
+                        dropdownlist.value($("#value").val());
+                },
+                setIndex = function(e) {
+                    if (e.type != "keypress" || kendo.keys.ENTER == e.keyCode) {
+                        var index = parseInt($("#index").val());
+                        dropdownlist.select(index);
+                    }
+                },
+                setSearch = function(e) {
+                    if (e.type != "keypress" || kendo.keys.ENTER == e.keyCode)
+                        dropdownlist.search($("#word").val());
+                };
+
+            //Khoi lop
+            $("#listKhoiLop").kendoDropDownList({
+                dataTextField: "text",
+                dataValueField: "value",
+                dataSource: listKhoiLop,
+                //select 1st value
+                index: 0,
+                change: function () {
+                    var value = this.value();
+                    if (value) {
+                        grid.data("kendoGrid").dataSource.filter([{ field: "MaKhoi", operator: "eq", value: parseInt(value) }, { field: "MaNamHoc", operator: "eq", value: parseInt(dropdownNam.value()) }]);
+                    } else {
+                        grid.data("kendoGrid").dataSource.filter({});
+                    }
+                }
+            });
+            var dropdownKhoi = $("#listKhoiLop").data("kendoDropDownList"),
+                setValue = function(e) {
+                    if (e.type != "keypress" || kendo.keys.ENTER == e.keyCode)
+                        dropdownlist.value($("#value").val());
+                },
+                setIndex = function(e) {
+                    if (e.type != "keypress" || kendo.keys.ENTER == e.keyCode) {
+                        var index = parseInt($("#index").val());
+                        dropdownlist.select(index);
+                    }
+                },
+                setSearch = function(e) {
+                    if (e.type != "keypress" || kendo.keys.ENTER == e.keyCode)
+                        dropdownlist.search($("#word").val());
+                };
+
+            dropdownKhoi.trigger("change");  //trigger event for filter when initialize
+        });
+    </script>
+}
