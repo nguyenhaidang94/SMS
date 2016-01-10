@@ -140,6 +140,15 @@ namespace WEB.Controllers
         }
 
         /// <summary>
+        /// view ctqd khenthuong
+        /// </summary>
+        /// <returns>view</returns>
+        public ActionResult CTQDKhenThuong(int? maquyetdinh)
+        {
+            return View();
+        }
+
+        /// <summary>
         /// create ds ctkhenthuong
         /// </summary>
         /// <param name="models">data json</param>

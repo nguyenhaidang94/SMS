@@ -77,7 +77,7 @@
                     { field: "MaNamHoc", values: dsNamHoc, title: "Năm Học" },
                     { field: "NoiDungQD", title: "Nội Dung", width: "300px"},
                     { field: "NgayQD", title: "Ngày", template: "#= kendo.toString(NgayQD, 'dd/MM/yyyy') #" },
-                    { field: "", title:"&nbsp;", template: "<a href='@Url.Action("CTKhenThuong")/#: MaQuyetDinh #'>Chi tiết</a>", width: "100px"},
+                    { field: "", title:"&nbsp;", template: "<a href='@Url.Action("CTQDKhenThuong")/?maquyetdinh=#: MaQuyetDinh #'>Chi tiết</a>", width: "100px"},
                     { command: ["edit", "destroy"], title: "&nbsp;"}
                 ],
                 editable: {

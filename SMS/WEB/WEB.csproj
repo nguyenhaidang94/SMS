@@ -183,6 +183,10 @@
     <Compile Include="Migrations\201601091221508_UPDATE-DATABASE-02.Designer.cs">
       <DependentUpon>201601091221508_UPDATE-DATABASE-02.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201601091801577_UPDATE-DATABASE-03.cs" />
+    <Compile Include="Migrations\201601091801577_UPDATE-DATABASE-03.Designer.cs">
+      <DependentUpon>201601091801577_UPDATE-DATABASE-03.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -1652,6 +1656,7 @@
     <Content Include="Views\PhongHoc\Index.cshtml" />
     <Content Include="Views\LopHoc\Index.cshtml" />
     <Content Include="Views\QDKhenThuong\QuanLyQDKhenThuong.cshtml" />
+    <Content Include="Views\QDKhenThuong\CTQDKhenThuong.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -1680,6 +1685,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201601091221508_UPDATE-DATABASE-02.resx">
       <DependentUpon>201601091221508_UPDATE-DATABASE-02.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201601091801577_UPDATE-DATABASE-03.resx">
+      <DependentUpon>201601091801577_UPDATE-DATABASE-03.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
