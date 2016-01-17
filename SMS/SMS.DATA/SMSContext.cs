@@ -37,6 +37,7 @@ namespace SMS.DATA
         public virtual DbSet<ThongTinKyLuat> DbTTKyLuat { get; set; }
         public virtual DbSet<TietHoc> DbTietHoc { get; set; }
         public virtual DbSet<TTDKPhongHocChinh> DbTTDKPhongHocChinh { get; set; }
+        public virtual DbSet<ThamSo> DbThamSo { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -92,6 +93,12 @@ namespace SMS.DATA
                .WithRequired(o => o.HocKyNamHoc)
                .HasForeignKey(o => new { o.MaNamHoc, o.MaHocKy })
                .WillCascadeOnDelete(false);
+
+            //map n-n relationship
+            modelBuilder.Entity<HocSinh>()
+                .HasMany(e => e.dsLopHoc)
+                .WithMany(e => e.dsHocSinh)
+                .Map(m => m.ToTable("LopHoc_HocSinh").MapLeftKey("MaHocSinh").MapRightKey("MaLopHoc"));
 
             //map bangdiemhknh to hocsinh
             modelBuilder.Entity<HocSinh>()

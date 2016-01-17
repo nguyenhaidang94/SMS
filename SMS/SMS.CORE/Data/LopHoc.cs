@@ -31,11 +31,13 @@ namespace SMS.CORE.Data
         public virtual KhoiLop KhoiLop { get; set; }
         public virtual ICollection<TTDKPhongHocChinh> dsTTDKPhongHocChinh { get; set; }
         public virtual ICollection<LichGiangDay> dsLichGiangDay { get; set; }
+        public virtual ICollection<HocSinh> dsHocSinh { get; set; }
 
         public LopHoc()
         {
             dsLichGiangDay = new HashSet<LichGiangDay>();
             dsTTDKPhongHocChinh = new HashSet<TTDKPhongHocChinh>();
+            dsHocSinh = new HashSet<HocSinh>();
         }
 
     }
