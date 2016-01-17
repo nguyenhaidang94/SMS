@@ -59,6 +59,7 @@
     <Compile Include="Data\Nguoi.cs" />
     <Compile Include="Data\PersonType.cs" />
     <Compile Include="Data\PhongHoc.cs" />
+    <Compile Include="Data\ThamSo.cs" />
     <Compile Include="Data\TTDKPhongHocChinh.cs" />
     <Compile Include="Data\QuyetDinhKhenThuong.cs" />
     <Compile Include="Data\QuyetDinhKyLuat.cs" />

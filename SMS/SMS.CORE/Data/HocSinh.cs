@@ -23,10 +23,11 @@ namespace SMS.CORE.Data
         public string NgheNghiepMe { get; set; }
 
         public virtual ICollection<BangDiemHKMH> dsBangDiemHKMH { get; set; }
-        public ICollection<ThongTinKhenThuong> dsThongTinKhenThuong { get; set; }
-        public ICollection<ThongTinKyLuat> dsThongTinKyLuat { get; set; }
-        public ICollection<CT_QuyetDinhKhenThuong> dsCTQDKhenThuong { get; set; }
-        public ICollection<CT_QuyetDinhKyLuat> dsCTQDKyLuat { get; set; }
+        public virtual ICollection<ThongTinKhenThuong> dsThongTinKhenThuong { get; set; }
+        public virtual ICollection<ThongTinKyLuat> dsThongTinKyLuat { get; set; }
+        public virtual ICollection<CT_QuyetDinhKhenThuong> dsCTQDKhenThuong { get; set; }
+        public virtual ICollection<CT_QuyetDinhKyLuat> dsCTQDKyLuat { get; set; }
+        public virtual ICollection<LopHoc> dsLopHoc { get; set; }
 
         public HocSinh()
         {
@@ -34,6 +35,7 @@ namespace SMS.CORE.Data
             dsThongTinKhenThuong = new HashSet<ThongTinKhenThuong>();
             dsThongTinKyLuat = new HashSet<ThongTinKyLuat>();
             dsCTQDKyLuat = new HashSet<CT_QuyetDinhKyLuat>();
+            dsLopHoc = new HashSet<LopHoc>();
         }
     }
 }
