@@ -212,13 +212,6 @@ namespace SMS.DATA
                .HasForeignKey(o => o.MaNamHoc)
                .WillCascadeOnDelete(false);
 
-            //map monhockhoi to namhoc
-            modelBuilder.Entity<NamHoc>()
-               .HasMany(e => e.dsMonHocKhoi)
-               .WithRequired(o => o.NamHoc)
-               .HasForeignKey(o => o.MaNamHoc)
-               .WillCascadeOnDelete(false);
-
             //map qdkhenthuong to namhoc
             modelBuilder.Entity<NamHoc>()
                .HasMany(e => e.dsQDKhenThuong)

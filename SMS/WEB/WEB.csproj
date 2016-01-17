@@ -191,6 +191,10 @@
     <Compile Include="Migrations\201601170530039_MAP_HOCSINH_TO_LOPHOC.Designer.cs">
       <DependentUpon>201601170530039_MAP_HOCSINH_TO_LOPHOC.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201601170544543_REMOVE-RELATIONSHIP-NH-MHKHOI.cs" />
+    <Compile Include="Migrations\201601170544543_REMOVE-RELATIONSHIP-NH-MHKHOI.Designer.cs">
+      <DependentUpon>201601170544543_REMOVE-RELATIONSHIP-NH-MHKHOI.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -1695,6 +1699,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201601170530039_MAP_HOCSINH_TO_LOPHOC.resx">
       <DependentUpon>201601170530039_MAP_HOCSINH_TO_LOPHOC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201601170544543_REMOVE-RELATIONSHIP-NH-MHKHOI.resx">
+      <DependentUpon>201601170544543_REMOVE-RELATIONSHIP-NH-MHKHOI.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
