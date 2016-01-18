@@ -1,26 +1,21 @@
-﻿@using Newtonsoft.Json
-
-
+﻿
 @{
     ViewBag.Title = "Quản Lý Lớp Học";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<link rel="stylesheet" href="~/Content/kendo/2015.3.1111/kendo.common.min.css" />
-<link rel="stylesheet" href="~/Content/kendo/2015.3.1111/kendo.default.min.css" />
-
 <h3>Quản Lý Lớp Học</h3>
 
-<div id="grid-khenthuong"></div>
+<div id="grid"></div>
 
 @section scripts{
     <script type="text/x-kendo-template" id="template">
         <div class="toolbar">
             <label class="category-label" for="namhoc">Năm Học:</label>
-            <input type="search" id="listNamHoc" style="width: 150px, margin-left:20px"/>
+            <input type="search" id="listNamHoc" style="width: 100px, margin-left:20px"/>
 
             <label class="category-label" for="namhoc">Khối Lớp:</label>
-            <input type="search" id="listKhoiLop" style="width: 150px"/>
+            <input type="search" id="listKhoiLop" style="width: 100px"/>
         </div>
     </script>
     
@@ -86,7 +81,7 @@
             });
 
             //grid
-            var grid = $("#grid-khenthuong").kendoGrid({
+            var grid = $("#grid").kendoGrid({
                 dataSource: dataSource,
                 filterable: false,
                 sortable: true,

@@ -30,6 +30,17 @@ namespace SMS.DATA
         }
 
         /// <summary>
+        /// get dbcontext
+        /// </summary>
+        public virtual SMSContext DbContext
+        {
+            get
+            {
+                return this._context;
+            }
+        }
+
+        /// <summary>
         /// get a table
         /// </summary>
         public virtual IQueryable<T> Table
@@ -59,8 +70,7 @@ namespace SMS.DATA
             T entity;
             try
             {
-                this._context.Configuration.AutoDetectChangesEnabled = false;
-                entity = this._Entities.Find(ids);
+                entity = this.Entities.Find(ids);
             }
             finally
             {
@@ -174,7 +184,7 @@ namespace SMS.DATA
         {
             if (entity == null)
                 throw new ArgumentNullException("entity is null");
-
+            this.Entities.Attach(entity);
             this.Entities.Remove(entity);
             this._context.SaveChanges();
         }

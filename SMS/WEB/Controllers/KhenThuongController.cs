@@ -33,7 +33,7 @@ namespace WEB.Controllers
         /// <returns>QuanLyKhenThuong.cshtml</returns>
         public ActionResult QuanLyKhenThuong()
         {
-            ViewBag.dsHocSinh = JsonConvert.SerializeObject(_HocSinhService.GetAllHocSinh()
+            ViewBag.dsHocSinh = JsonConvert.SerializeObject(_HocSinhService.GetAll()
                 .Select(e => new { value = e.PersonId, text = e.HoTen }));
             ViewBag.dsGiaoVien = JsonConvert.SerializeObject(_GiaoVienService.GetAllGiaoVien()
                 .Select(e => new { value = e.PersonId, text = e.HoTen }));

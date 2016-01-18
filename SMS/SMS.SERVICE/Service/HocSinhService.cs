@@ -13,70 +13,133 @@ namespace SMS.SERVICE.Service
     {
         private readonly UnitOfWork _UnitOfWork;
         private readonly GenericRepository<HocSinh> _HocSinhRepository;
-        private readonly GenericRepository<Nguoi> _NguoiRepository;
 
         public HocSinhService(UnitOfWork unitOfWork)
         {
             _UnitOfWork = unitOfWork;
             _HocSinhRepository = _UnitOfWork.Repository<HocSinh>();
-            _NguoiRepository = _UnitOfWork.Repository<Nguoi>();
         }
 
         /// <summary>
-        /// get all hocsinh
+        /// get HocSinh
         /// </summary>
-        /// <returns></returns>
-        public IEnumerable<HocSinh> GetAllHocSinh()
+        /// <returns>list HocSinh</returns>
+        public IEnumerable<HocSinh> GetAll()
         {
-            //hocsinh's persontypeid is 2
-            return _HocSinhRepository.Entities
-                .Where(e => e.Active);
+            //giaovien's persontypeid is 1
+            return _HocSinhRepository.Entities.Where(m => m.Active == true);
         }
+
         /// <summary>
-        /// add ds hoc sinh
+        /// get HocSinh
         /// </summary>
-        /// <param name="dsHocSinh">list Hoc Sinh</param>
-        public void AddDsHocSinh(IEnumerable<HocSinh> dsHocSinh)
+        /// <returns>list HocSinh</returns>
+        public IEnumerable<HocSinh> GetAllWithChild()
         {
-            foreach (HocSinh hs in dsHocSinh)
+            var listHocSinh = _HocSinhRepository.Entities.Where(m => m.Active == true);
+            foreach (HocSinh hs in listHocSinh)
             {
-                HocSinh hocsinh = new HocSinh();
-                hocsinh.NgheNghiepCha = hs.NgheNghiepCha;
-                hocsinh.NgheNghiepMe = hs.NgheNghiepMe;
-                hocsinh.HoTenCha = hs.HoTenCha;
-                hocsinh.HoTenMe = hs.HoTenMe;
-                hocsinh.NgaySinh = hs.NgaySinh;
-                hocsinh.NoiSinh = hs.NoiSinh;
-                hocsinh.HoTen = hs.HoTen;
-                hocsinh.GioiTinh = hs.GioiTinh;
-                hocsinh.DanToc = hs.DanToc;
-                hocsinh.TonGiao = hs.TonGiao;
-                hocsinh.DiaChi = hs.DiaChi;
-                hocsinh.SDT = hs.SDT;
-                hocsinh.CMND = "123456789";
-                hocsinh.PersonTypeId = 2;
-                _HocSinhRepository.Insert(hocsinh);
+                _HocSinhRepository.DbContext.Entry(hs).Collection(m => m.dsLopHoc).Load();
             }
+            return listHocSinh;
         }
 
-       
-         //<summary>
-         //update danh sach hoc sinh
-         //</summary>
-         //<param name="dsHocSinh">list Hoc Sinh</param>
-        public void UpdateDsHocSinh(IEnumerable<HocSinh> dsHocSinh)
+        public IEnumerable<HocSinh> GetAllInactive()
         {
-            _HocSinhRepository.Update(dsHocSinh);
+            //giaovien's persontypeid is 1
+            return _HocSinhRepository.Entities.Where(m => m.Active == false);
         }
 
-        // <summary>
-        // delete ds hoc sinh
-        // </summary>
-        // <param name="dsHocSinh">list Hoc Sinh</param>
-        public void DeleteDsHocSinh(IEnumerable<HocSinh> dsHocSinh)
+        /// <summary>
+        /// get HocSinh by id
+        /// </summary>
+        /// <returns>list HocSinh</returns>
+        public HocSinh GetByID(int id)
         {
-            _HocSinhRepository.FakeDelete(dsHocSinh);
+            return _HocSinhRepository.GetEntityById(id);
         }
 
+        /// <summary>
+        /// get HocSinh by id
+        /// </summary>
+        /// <returns>list HocSinh</returns>
+        public HocSinh GetByIDWithChild(int id)
+        {
+            var hocSinh = _HocSinhRepository.GetEntityById(id);
+            _HocSinhRepository.DbContext.Entry(hocSinh).Collection(m => m.dsLopHoc).Load();
+            return hocSinh;
+        }
+
+        /// <summary>
+        /// add HocSinh
+        /// </summary>
+        /// <param name="entity">HocSinh</param>
+        public void Insert(HocSinh entity)
+        {
+            _HocSinhRepository.Insert(entity);
+        }
+
+        /// <summary>
+        /// add list HocSinh
+        /// </summary>
+        /// <param name="entity">List HocSinh</param>
+        public void Insert(IEnumerable<HocSinh> entities)
+        {
+            _HocSinhRepository.Insert(entities);
+        }
+
+        /// <summary>
+        /// update HocSinh 
+        /// </summary>
+        /// <param name="entity">HocSinh</param>
+        public void Update(HocSinh entity)
+        {
+            _HocSinhRepository.Update(entity);
+        }
+
+        /// <summary>
+        /// update list HocSinh
+        /// </summary>
+        /// <param name="entity">HocSinh</param>
+        public void Update(IEnumerable<HocSinh> entities)
+        {
+            _HocSinhRepository.Update(entities);
+        }
+
+        /// <summary>
+        /// delete HocSinh
+        /// </summary>
+        /// <param name="entity">HocSinh</param>
+        public void Delete(HocSinh entity)
+        {
+            _HocSinhRepository.Delete(entity);
+        }
+
+        /// <summary>
+        /// delete list HocSinh
+        /// </summary>
+        /// <param name="entity">HocSinh</param>
+        public void Delete(IEnumerable<HocSinh> entities)
+        {
+            _HocSinhRepository.Delete(entities);
+        }
+
+        /// <summary>
+        /// set HocSinh to unactive
+        /// </summary>
+        /// <param name="entity">HocSinh</param>
+        public void FakeDelete(HocSinh entity)
+        {
+            _HocSinhRepository.FakeDelete(entity);
+        }
+
+        /// <summary>
+        ///  set list HocSinh to unactive
+        /// </summary>
+        /// <param name="entity">HocSinh</param>
+        public void FakeDelete(IEnumerable<HocSinh> entities)
+        {
+            _HocSinhRepository.FakeDelete(entities);
+        }
     }
 }

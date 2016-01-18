@@ -172,7 +172,6 @@ namespace WEB.Controllers
                 {
                     foreach (NamHoc namhoc in namhocs)
                     {
-                        //namhoc.MaNamHoc = "NH" + namhoc.NamBatDau.ToString().Substring(2) + "-" + namhoc.NamKetThuc.ToString().Substring(2);
                         _NamHocService.Insert(namhoc);
                     }
                 }

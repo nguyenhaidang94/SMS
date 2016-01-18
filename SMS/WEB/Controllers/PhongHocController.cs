@@ -172,7 +172,6 @@ namespace WEB.Controllers
                 {
                     foreach (PhongHoc PhongHoc in PhongHocs)
                     {
-                        //PhongHoc.MaPhongHoc = "NH" + PhongHoc.NamBatDau.ToString().Substring(2) + "-" + PhongHoc.NamKetThuc.ToString().Substring(2);
                         _PhongHocService.Insert(PhongHoc);
                     }
                 }

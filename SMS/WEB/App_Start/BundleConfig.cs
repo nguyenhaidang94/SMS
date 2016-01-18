@@ -32,7 +32,9 @@ namespace WEB
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/site.css",
+                      "~/Content/kendo/2015.3.1111/kendo.common.min.css",
+                      "~/Content/kendo/2015.3.1111/kendo.default.min.css"));
         }
     }
 }

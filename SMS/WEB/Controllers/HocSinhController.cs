@@ -27,7 +27,7 @@ namespace WEB.Controllers
         /// <returns>QuanLyHocSinh.cshtml</returns>
         public ActionResult QuanLyHocSinh()
         {
-            ViewBag.dsHocSinh = JsonConvert.SerializeObject(_HocSinhService.GetAllHocSinh());
+            ViewBag.dsHocSinh = JsonConvert.SerializeObject(_HocSinhService.GetAll());
 
             return View();
         }
@@ -41,7 +41,7 @@ namespace WEB.Controllers
         {
             try
             {
-                var dsHocSinh = _HocSinhService.GetAllHocSinh();
+                var dsHocSinh = _HocSinhService.GetAll();
                 if (dsHocSinh == null)
                 {
                     return Json(null);
@@ -68,7 +68,7 @@ namespace WEB.Controllers
 
                 if (dshocsinh != null)
                 {
-                    _HocSinhService.AddDsHocSinh(dshocsinh);
+                    _HocSinhService.Insert(dshocsinh);
                 }
                 return Json(dshocsinh);
             }
@@ -92,7 +92,7 @@ namespace WEB.Controllers
                 var dsHocSinh = JsonConvert.DeserializeObject<IEnumerable<HocSinh>>(models);
                 if (dsHocSinh != null)
                 {
-                    _HocSinhService.UpdateDsHocSinh(dsHocSinh);
+                    _HocSinhService.Update(dsHocSinh);
                 }
                 return Json(dsHocSinh);
             }
@@ -116,7 +116,7 @@ namespace WEB.Controllers
                 var dsHocSinh = JsonConvert.DeserializeObject<IEnumerable<HocSinh>>(models);
                 if (dsHocSinh != null)
                 {
-                    _HocSinhService.DeleteDsHocSinh(dsHocSinh);
+                    _HocSinhService.Delete(dsHocSinh);
                 }
                 return Json(dsHocSinh);
             }

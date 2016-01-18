@@ -92,13 +92,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GenericRepository.cs" />
+    <Compile Include="Models\XepLopViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SMSContext.cs" />
     <Compile Include="UnitOfWork.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\SMS.CORE\SMS.CORE.csproj">
       <Project>{d593a8b6-4364-41c2-be9f-b808042ea67e}</Project>
