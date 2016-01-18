@@ -14,10 +14,10 @@ namespace SMS.CORE.Data
         [Key, Column(Order=1)]
         public int MaHocSinh { get; set; }
 
-        [Required, StringLength(200)]
+        [StringLength(200)]
         public string LyDoKhenThuong { get; set; }
 
-        [Required, StringLength(200)]
+        [StringLength(200)]
         public string HinhThucKhenThuong { get; set; }
 
         public long? GiaTriKhenThuong { get; set; }

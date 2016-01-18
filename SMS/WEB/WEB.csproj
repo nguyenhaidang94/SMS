@@ -202,6 +202,14 @@
     <Compile Include="Migrations\201601180038011_ADD-ID-MONHOCKHOI.Designer.cs">
       <DependentUpon>201601180038011_ADD-ID-MONHOCKHOI.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201601181800272_REMOVE-PROPERTIES.cs" />
+    <Compile Include="Migrations\201601181800272_REMOVE-PROPERTIES.Designer.cs">
+      <DependentUpon>201601181800272_REMOVE-PROPERTIES.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201601181805340_UPDATE-DATABASE-04.cs" />
+    <Compile Include="Migrations\201601181805340_UPDATE-DATABASE-04.Designer.cs">
+      <DependentUpon>201601181805340_UPDATE-DATABASE-04.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\GridFilter.cs" />
@@ -1677,6 +1685,7 @@
     <Content Include="Views\HocSinh\QuanLyHocSinh.cshtml" />
     <Content Include="Views\MonHoc\Index.cshtml" />
     <Content Include="Views\LopHoc\XepLop.cshtml" />
+    <Content Include="Views\QDKhenThuong\SelectHocSinh.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -1717,6 +1726,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201601180038011_ADD-ID-MONHOCKHOI.resx">
       <DependentUpon>201601180038011_ADD-ID-MONHOCKHOI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201601181800272_REMOVE-PROPERTIES.resx">
+      <DependentUpon>201601181800272_REMOVE-PROPERTIES.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201601181805340_UPDATE-DATABASE-04.resx">
+      <DependentUpon>201601181805340_UPDATE-DATABASE-04.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

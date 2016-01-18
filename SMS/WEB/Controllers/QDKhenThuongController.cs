@@ -9,6 +9,10 @@ using SMS.CORE.Data;
 using Newtonsoft.Json;
 using System.Web;
 using System.IO;
+using WEB.Models;
+using System.Text;
+using SMS.CORE;
+using SMS.DATA.Models;
 
 namespace WEB.Controllers
 {
@@ -140,15 +144,6 @@ namespace WEB.Controllers
         }
 
         /// <summary>
-        /// view ctqd khenthuong
-        /// </summary>
-        /// <returns>view</returns>
-        public ActionResult CTQDKhenThuong(int? maquyetdinh)
-        {
-            return View();
-        }
-
-        /// <summary>
         /// create ds ctkhenthuong
         /// </summary>
         /// <param name="models">data json</param>
@@ -158,13 +153,7 @@ namespace WEB.Controllers
         {
             try
             {
-                var dsctkhenthuong = JsonConvert.DeserializeObject<IEnumerable<CT_QuyetDinhKhenThuong>>(models);
-
-                if (dsctkhenthuong != null)
-                {
-                    _CTKhenThuongService.AddDsCTQDKhenThuong(dsctkhenthuong);
-                }
-                return Json(dsctkhenthuong);
+                return Json(null);
             }
             catch (Exception ex)
             {
@@ -178,15 +167,31 @@ namespace WEB.Controllers
         /// </summary>
         /// <returns>data json</returns>
         [HttpPost]
-        public JsonResult ReadCTKhenThuong()
+        public JsonResult ReadCTKhenThuong(GridFilters filter = null)
         {
             try
             {
-                var dsCTKhenThuong = _CTKhenThuongService.GetAllCTQDKhenThuong();
+                IEnumerable<CTKhenThuongViewModel> dsCTKhenThuong = null;
+
+                //filter
+                if (filter != null && filter.Filters != null && filter.Filters.Count > 0)
+                {
+                    var field = filter.Filters[0].Field;
+                    var operate = filter.Filters[0].Operator;
+                    var value = filter.Filters[0].Value;
+                    int maqd;
+
+                    if (field == "MaQuyetDinh" && operate == "eq"
+                        && int.TryParse(value, out maqd))
+                    {
+                        dsCTKhenThuong = _CTKhenThuongService.GetCTKhenThuongInQDKhenThuong(maqd);
+                    }
+                }
                 if (dsCTKhenThuong == null)
                 {
-                    return Json(null);
+                    dsCTKhenThuong = _CTKhenThuongService.GetAllCTKhenThuongVM();
                 }
+
                 return Json(dsCTKhenThuong);
             }
             catch (Exception ex)
@@ -206,7 +211,7 @@ namespace WEB.Controllers
         {
             try
             {
-                var dsCTKhenThuong = JsonConvert.DeserializeObject<IEnumerable<CT_QuyetDinhKhenThuong>>(models);
+                var dsCTKhenThuong = JsonConvert.DeserializeObject<IEnumerable<CTKhenThuongViewModel>>(models);
 
                 if (dsCTKhenThuong != null)
                 {
@@ -231,7 +236,7 @@ namespace WEB.Controllers
         {
             try
             {
-                var dsCTKhenThuong = JsonConvert.DeserializeObject<IEnumerable<CT_QuyetDinhKhenThuong>>(models);
+                var dsCTKhenThuong = JsonConvert.DeserializeObject<IEnumerable<CTKhenThuongViewModel>>(models);
 
                 if (dsCTKhenThuong != null)
                 {
@@ -245,5 +250,84 @@ namespace WEB.Controllers
                 return Json(null);
             }
         }
+
+        /// <summary>
+        /// read list hocsinh to select and create qdkhenthuong
+        /// </summary>
+        /// <returns>list hocsinh as json</returns>
+        public JsonResult ReadHocSinh(GridFilters filter = null)
+        {
+            try
+            {
+                IEnumerable<SelectHocSinhViewModel> dsHocSinh = null;
+                
+                //filter
+                if (filter != null && filter.Filters != null && filter.Filters.Count > 0)
+                {
+                    var field = filter.Filters[0].Field;
+                    var operate = filter.Filters[0].Operator;
+                    var value = filter.Filters[0].Value;
+                    int maqd;
+
+                    if (field == "MaQuyetDinh" && operate == "neq"
+                        && int.TryParse(value, out maqd))
+                    { 
+                        dsHocSinh = _QDKhenThuongService.GetHocSinhNotInQDKhenThuong(maqd);
+                    }
+                }
+                if (dsHocSinh == null)
+                {
+                    dsHocSinh = _QDKhenThuongService.GetAllSelectHocSinhVM();
+                }
+                return Json(dsHocSinh);
+            }
+            catch (Exception ex)
+            { 
+                //show message here
+                return Json(null);
+            }
+        }
+
+        /// <summary>
+        /// select hocsinh for qdkhenthuong
+        /// </summary>
+        /// <param name="models">json data</param>
+        /// <returns>json data</returns>
+        public JsonResult SelectHocSinh(string models, int? maqd)
+        {
+            try
+            {
+                var dsHocSinh = JsonConvert.DeserializeObject<IEnumerable<SelectHocSinhViewModel>>(models);
+                if (dsHocSinh == null)
+                    return Json(null);
+                try
+                {
+                    if (maqd != null)
+                    {
+                        dsHocSinh = dsHocSinh.Where(e => e.Checked);
+                        _QDKhenThuongService.AddDsCTKhenThuong(maqd.Value, dsHocSinh);
+                    }
+                    else
+                    {
+                        foreach (var hs in dsHocSinh)
+                            hs.Checked = false;
+                    }
+                }
+                catch (Exception e)
+                {
+                    foreach (var hs in dsHocSinh)
+                        hs.Checked = false;
+                    return Json(dsHocSinh);
+                }
+
+                return Json(dsHocSinh);
+            }
+            catch (Exception ex)
+            { 
+                //show message here
+                return Json(null);
+            }
+        }
+
     }
 }

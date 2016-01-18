@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using SMS.CORE.Data;
+using SMS.DATA.Models;
 
 namespace SMS.SERVICE.IService
 {
@@ -15,6 +16,18 @@ namespace SMS.SERVICE.IService
         IEnumerable<CT_QuyetDinhKhenThuong> GetAllCTQDKhenThuong();
 
         /// <summary>
+        /// get all ctkhenthuong viewmodel
+        /// </summary>
+        /// <returns>list ctkhenthuong viewmodel</returns>
+        IEnumerable<CTKhenThuongViewModel> GetAllCTKhenThuongVM();
+
+        /// <summary>
+        /// get all ctkhenthuong in qdkhenthuong
+        /// </summary>
+        /// <returns>list ctkhenthuong viewmodel</returns>
+        IEnumerable<CTKhenThuongViewModel> GetCTKhenThuongInQDKhenThuong(int maqd);
+
+        /// <summary>
         /// add ds ctqd khenthuong
         /// </summary>
         /// <param name="dsCTQDKhenThuong"></param>
@@ -27,9 +40,21 @@ namespace SMS.SERVICE.IService
         void UpdateDsCTQDKhenThuong(IEnumerable<CT_QuyetDinhKhenThuong> dsCTQDKhenThuong);
 
         /// <summary>
+        /// update ds ctkhenthuong
+        /// </summary>
+        /// <param name="dsCTQDKhenThuong">list ctkhenthuong viewmodel</param>
+        void UpdateDsCTQDKhenThuong(IEnumerable<CTKhenThuongViewModel> dsCTKhenThuong);
+
+        /// <summary>
         /// delete ds ctqd khenthuong
         /// </summary>
         /// <param name="dsCTQDKhenThuong"></param>
         void DeleteDsCTQDKhenThuong(IEnumerable<CT_QuyetDinhKhenThuong> dsCTQDKhenThuong);
+
+        /// <summary>
+        /// delete ds ctkhenthuong
+        /// </summary>
+        /// <param name="dsCTQDKhenThuong">list ctkhenthuong viewmodel</param>
+        void DeleteDsCTQDKhenThuong(IEnumerable<CTKhenThuongViewModel> dsCTKhenThuong);
     }
 }
