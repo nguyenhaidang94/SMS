@@ -12,7 +12,7 @@ namespace SMS.SERVICE.IService
         /// get all hocsinh
         /// </summary>
         /// <returns>list nguoi as hocsinh</returns>
-        IEnumerable<Nguoi> GetAllHocSinh();
+        IEnumerable<HocSinh> GetAllHocSinh();
         void AddDsHocSinh(IEnumerable<HocSinh> dsHocSinh);
         void UpdateDsHocSinh(IEnumerable<HocSinh> dsHocSinh);
         void DeleteDsHocSinh(IEnumerable<HocSinh> dsHocSinh);

@@ -13,6 +13,35 @@
 
 
 <div id="grid-hosohocsinh"></div>
+<script type="text/x-kendo-template" id="template">
+                <div class="tabstrip">
+                     <ul>
+                        <li>
+                            Thông Tin Chi Tiết
+                        </li>
+                    </ul>
+                 
+
+                    <div>
+                        <div class='hocsinh-details'>
+                            <ul>
+                                <li><label>Họ Tên:</label>#= HoTen #</li>
+                                <li><label>Ngày Sinh:</label>#= NgaySinh #</li>
+                                <li><label>Địa Chỉ:</label>#= DiaChi #</li>
+                                <li><label>Giới Tính:</label>#= GioiTinh #</li>
+                                 <li><label>Nơi Sinh :</label>#= NoiSinh #</li>
+                               <li><label>Tôn Giáo :</label>#= TonGiao #</li>
+                                 <li><label>Số Điện Thoại: </label>#=SDT #</li>
+                                <li><label>Dân Tộc :</label>#= DanToc #</li>
+                                <li><label>Họ Tên Cha :</label>#= HoTenCha #</li>
+                                <li><label>Họ Tên Mẹ :</label>#= HoTenMe #</li>
+                                <li><label>Nghề Nghiệp Cha :</label>#= NgheNghiepCha #</li>
+                                <li><label>Nghề Nghiệp Mẹ :</label>#= NgheNghiepMe #</li>                              
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+ </script>
 
 @section scripts{
 
@@ -86,6 +115,11 @@
                 pageSizes: true,
                 buttonCount: 5
             },
+            detailTemplate: kendo.template($("#template").html()),
+            detailInit: detailInit,
+            dataBound: function() {
+                this.expandRow(this.tbody.find("tr.k-master-row").first());
+            },
             height: 500,
             toolbar: ["create"],
             columns: [
@@ -94,13 +128,13 @@
                 { field: "GioiTinh",values : dsGioiTinh, title: "Giới Tính",defaultValue: true,filterable : false},
                 { field: "NoiSinh", title: "Nơi Sinh"},
                 { field: "DiaChi", title: "Địa Chỉ", filterable : false},
-                { field: "TonGiao", title: "Tôn Giáo", filterable : false},
-                { field: "SDT", title: "Số Điện Thoại", filterable : false},
-                { field: "DanToc", title: "Dân tộc", filterable : false},
-                { field: "HoTenCha", title: "Họ Tên Cha", filterable : false},
-                { field: "HoTenMe", title: "Họ Tên Mẹ", filterable : false},
-                { field: "NgheNghiepCha", title: "Nghề Nghiệp Cha", filterable : false},
-                { field: "NgheNghiepMe", title: "Nghề Nghiệp Mẹ", filterable : false},
+                //{ field: "TonGiao", title: "Tôn Giáo", filterable : false},
+                //{ field: "SDT", title: "Số Điện Thoại", filterable : false},
+                //{ field: "DanToc", title: "Dân tộc", filterable : false},
+                //{ field: "HoTenCha", title: "Họ Tên Cha", filterable : false},
+                //{ field: "HoTenMe", title: "Họ Tên Mẹ", filterable : false},
+                //{ field: "NgheNghiepCha", title: "Nghề Nghiệp Cha", filterable : false},
+                //{ field: "NgheNghiepMe", title: "Nghề Nghiệp Mẹ", filterable : false},
                 { command: ["edit", "destroy"], title: "&nbsp;", width: "150px" }
             ],
             editable: "popup",
@@ -108,5 +142,44 @@
     });
     </script>
 
+ <script>
+        function detailInit(e) {
+         var detailRow = e.detailRow;
+
+         detailRow.find(".tabstrip").kendoTabStrip({
+             animation: {
+                 open: { effects: "fadeIn" }
+             }
+         });
+     }
+            </script>
+            <style>
+                .k-detail-cell .k-tabstrip .k-content {
+                    padding: 0.2em;
+                }
+                .hocsinh-details ul
+                {
+                    list-style:none;
+                    font-style:italic;
+                    margin: 15px;
+                    padding: 0;
+                }
+                .hocsinh-details ul li
+                {
+                    margin: 0;
+                    line-height: 1.7em;
+                }
+
+                .hocsinh-details label
+                {
+                    display:inline-block;
+                    width:140px;
+                    padding-right: 10px;
+                    text-align: right;
+                    font-style:normal;
+                    font-weight:bold;
+                }
+            </style>
+        </div>
     
 }

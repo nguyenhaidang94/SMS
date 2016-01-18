@@ -26,11 +26,11 @@ namespace SMS.SERVICE.Service
         /// get all hocsinh
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<Nguoi> GetAllHocSinh()
+        public IEnumerable<HocSinh> GetAllHocSinh()
         {
-            //giaovien's persontypeid is 2
-            return _NguoiRepository.Entities
-                .Where(e => e.PersonTypeId == 2 && e.Active);
+            //hocsinh's persontypeid is 2
+            return _HocSinhRepository.Entities
+                .Where(e => e.Active);
         }
         /// <summary>
         /// add ds hoc sinh

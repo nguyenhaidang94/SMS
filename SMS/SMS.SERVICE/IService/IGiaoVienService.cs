@@ -12,7 +12,7 @@ namespace SMS.SERVICE.IService
         /// get all giaovien
         /// </summary>
         /// <returns>list nguoi as giaovien</returns>
-        IEnumerable<Nguoi> GetAllGiaoVien();
+        IEnumerable<GiaoVien> GetAllGiaoVien();
         void AddDsGiaoVien(IEnumerable<GiaoVien> dsGiaoVien);
         void UpdateDsGiaoVien(IEnumerable<GiaoVien> dsGiaoVien);
         void DeleteDsGiaoVien(IEnumerable<GiaoVien> dsGiaoVien);

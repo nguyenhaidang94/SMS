@@ -26,11 +26,11 @@ namespace SMS.SERVICE.Service
         /// get all giaovien
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<Nguoi> GetAllGiaoVien()
+        public IEnumerable<GiaoVien> GetAllGiaoVien()
         {
             //giaovien's persontypeid is 1
-            return _NguoiRepository.Entities
-                .Where(e => e.PersonTypeId == 1 && e.Active);
+            return _GiaoVienRepository.Entities
+                .Where(e => e.Active);
         }
 
         /// <summary>
