@@ -7,11 +7,13 @@ namespace SMS.CORE.Data
     [Table("MonHocKhoi")]
     public partial class MonHocKhoi: BaseEntity
     {
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
 
-        [Key, Column(Order = 0)]
+        [Required]
         public int MaKhoi { get; set; }
 
-        [Key, Column(Order = 1)]
+        [Required]
         public int MaMonHoc { get; set; }
 
         public virtual KhoiLop KhoiLop { get; set; }
