@@ -12,11 +12,12 @@
 <h3>Quản Lý Hồ Sơ Giáo Viên</h3>
 
 <div id="grid-hosogiaovien"></div>
-
+ <div id="details"></div>
 @section scripts{
     <script>
         var dsGioiTinh = [{"value": true,"text" : "Nam"}, {"value": false,"text" : "Nữ"}];
         var dsGiaoVien= @Html.Raw(ViewBag.dsGiaoVien);
+        var wnd, detailsTemplate;
 
         $(document).ready(function () {
             var dataSource = new kendo.data.DataSource({
@@ -90,14 +91,70 @@
                 { field: "GioiTinh",values : dsGioiTinh, title: "Giới Tính",defaultValue: true},
                 { field: "NoiSinh", title: "Nơi Sinh"},
                 { field: "DiaChi", title: "Địa Chỉ"},
-                { field: "TonGiao", title: "Tôn Giáo"},
-                { field: "SDT", title: "Số Điện Thoại"},
-                { field: "CMND", title: "Số Chứng Minh Nhân Dân"},
-                { field: "DanToc", title: "Dân tộc"},
-                { command: ["edit", "destroy"], title: "&nbsp;", width: "150px" }
+                { field: "TonGiao", title: "Tôn Giáo",hidden : true},
+                { field: "SDT", title: "Số Điện Thoại",hidden : true},
+                { field: "CMND", title: "Số Chứng Minh Nhân Dân", hidden: true},
+                { field: "DanToc", title: "Dân tộc", hidden: true},
+                { command: ["edit", "destroy",{ text: "View Details", click: showDetails }], title: "&nbsp;", width: "150px" }
             ],
             editable: "popup"
+        });     
+        wnd = $("#details")
+            .kendoWindow({
+                title: "Thông tin chi tiết giáo viên",
+                modal: true,
+                visible: false,
+                resizable: false,
+                width: 500
+            }).data("kendoWindow");
+
+        detailsTemplate = kendo.template($("#template").html());
+
+        function showDetails(e) {
+            e.preventDefault();
+            var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+            wnd.content(detailsTemplate(dataItem));
+            wnd.center().open();
+        }
         });
-    });
     </script>
+  <script type="text/x-kendo-template" id="template">
+                <div class="details-container">
+                     <ul>
+                       <li><label>Họ Tên:</label>#= HoTen #</li>
+                       <li><label>Ngày Sinh:</label>#= kendo.toString(NgaySinh, 'dd/MM/yyyy') #</li>
+                       <li><label>Địa Chỉ:</label>#= DiaChi #</li>
+                       <li><label>Giới Tính:</label>#= GioiTinh #</li>
+                       <li><label>Nơi Sinh :</label>#= NoiSinh #</li>
+                       <li><label>Tôn Giáo :</label>#= TonGiao #</li>
+                      <li><label>Số Điện Thoại: </label>#=SDT #</li>
+                       <li><label>Dân Tộc :</label>#= DanToc #</li>
+                 <ul>
+               </div>
+            </script>
+
+            <style type="text/css">
+                .details-container ul
+                {
+                    list-style:none;
+                    font-style:italic;
+                    margin: 5px;
+                    padding: 0;
+                }
+                .details-container ul li
+                {
+                    margin: 0;
+                    line-height: 1.7em;
+                }
+
+                .details-container label
+                {
+                    display:inline-block;
+                    width:150px;
+                    padding-right: 10px;
+                    text-align: left;
+                    font-style:normal;
+                    font-weight:bold;
+                }
+            </style>
 }

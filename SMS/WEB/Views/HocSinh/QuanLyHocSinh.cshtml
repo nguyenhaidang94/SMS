@@ -13,20 +13,14 @@
 
 
 <div id="grid-hosohocsinh"></div>
-<script type="text/x-kendo-template" id="template">
-                <div class="tabstrip">
-                     <ul>
-                        <li>
-                            Thông Tin Chi Tiết
-                        </li>
-                    </ul>
-                 
+ <div id="details"></div>
 
+<script type="text/x-kendo-template" id="template">
                     <div>
                         <div class='hocsinh-details'>
                             <ul>
                                 <li><label>Họ Tên:</label>#= HoTen #</li>
-                                <li><label>Ngày Sinh:</label>#= NgaySinh #</li>
+                                <li><label>Ngày Sinh:</label>#= kendo.toString(NgaySinh, 'dd/MM/yyyy') #</li>
                                 <li><label>Địa Chỉ:</label>#= DiaChi #</li>
                                 <li><label>Giới Tính:</label>#= GioiTinh #</li>
                                  <li><label>Nơi Sinh :</label>#= NoiSinh #</li>
@@ -40,14 +34,13 @@
                             </ul>
                         </div>
                     </div>
-                </div>
  </script>
 
 @section scripts{
-
     <script>
         var dsGioiTinh = [{"value": true,"text" : "Nam"}, {"value": false,"text" : "Nữ"}];
         var dsHocSinh = @Html.Raw(ViewBag.dsHocSinh);
+        var wnd, detailsTemplate;
   
 
         $(document).ready(function () {
@@ -93,7 +86,7 @@
                         GioiTinh: { type: "bool", field: "GioiTinh", nullable : true , validation: { required: true }},
                         NoiSinh: {  field: "NoiSinh", nullable: false, validation: { required: true } },
                         DiaChi: {  field: "DiaChi", nullable: false, validation: { required: true } },
-                        SDT : {  type : "number",field: "SDT", nullable: false , validation: { required: true }},
+                        SDT : { field: "SDT", nullable: false , validation: { required: true }},
                         TonGiao: { field: "TonGiao", nullable: false, validation: { required: true } },
                         DanToc: { field: "DanToc", nullable: false, validation: { required: true } },
                         HoTenCha: {  field: "HoTenCha", nullable: false , validation: { required: true }},
@@ -115,11 +108,6 @@
                 pageSizes: true,
                 buttonCount: 5
             },
-            detailTemplate: kendo.template($("#template").html()),
-            detailInit: detailInit,
-            dataBound: function() {
-                this.expandRow(this.tbody.find("tr.k-master-row").first());
-            },
             height: 500,
             toolbar: ["create"],
             columns: [
@@ -128,40 +116,48 @@
                 { field: "GioiTinh",values : dsGioiTinh, title: "Giới Tính",defaultValue: true,filterable : false},
                 { field: "NoiSinh", title: "Nơi Sinh"},
                 { field: "DiaChi", title: "Địa Chỉ", filterable : false},
-                //{ field: "TonGiao", title: "Tôn Giáo", filterable : false},
-                //{ field: "SDT", title: "Số Điện Thoại", filterable : false},
-                //{ field: "DanToc", title: "Dân tộc", filterable : false},
-                //{ field: "HoTenCha", title: "Họ Tên Cha", filterable : false},
-                //{ field: "HoTenMe", title: "Họ Tên Mẹ", filterable : false},
-                //{ field: "NgheNghiepCha", title: "Nghề Nghiệp Cha", filterable : false},
-                //{ field: "NgheNghiepMe", title: "Nghề Nghiệp Mẹ", filterable : false},
-                { command: ["edit", "destroy"], title: "&nbsp;", width: "150px" }
+                { field: "TonGiao", title: "Tôn Giáo", filterable : false,hidden: true},
+                { field: "SDT", title: "Số Điện Thoại", filterable : false ,hidden : true},
+                { field: "DanToc", title: "Dân tộc", filterable : false ,hidden: true},
+                { field: "HoTenCha", title: "Họ Tên Cha", filterable : false,hidden : true},
+                { field: "HoTenMe", title: "Họ Tên Mẹ", filterable : false,hidden : true},
+                { field: "NgheNghiepCha", title: "Nghề Nghiệp Cha", filterable : false,hidden: true},
+                { field: "NgheNghiepMe", title: "Nghề Nghiệp Mẹ", filterable : false,hidden: true},
+                { command: ["edit", "destroy",{ text: "View Details", click: showDetails }], title: "&nbsp;", width: "150px" }
             ],
-            editable: "popup",
-        });
+            editable:{
+                        mode: "popup",
+            },
+           
+        });    
+
+        wnd = $("#details")
+                  .kendoWindow({
+                      title: "Thông tin chi tiết học sinh",
+                      modal: true,
+                      visible: false,
+                      resizable: false,
+                      width: 500
+                  }).data("kendoWindow");
+
+        detailsTemplate = kendo.template($("#template").html());
+
+        function showDetails(e) {
+            e.preventDefault();
+            var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+            wnd.content(detailsTemplate(dataItem));
+            wnd.center().open();
+        }
+          
     });
     </script>
 
- <script>
-        function detailInit(e) {
-         var detailRow = e.detailRow;
-
-         detailRow.find(".tabstrip").kendoTabStrip({
-             animation: {
-                 open: { effects: "fadeIn" }
-             }
-         });
-     }
-            </script>
-            <style>
-                .k-detail-cell .k-tabstrip .k-content {
-                    padding: 0.2em;
-                }
+            <style type="text/css">
                 .hocsinh-details ul
                 {
                     list-style:none;
                     font-style:italic;
-                    margin: 15px;
+                    margin: 5px;
                     padding: 0;
                 }
                 .hocsinh-details ul li
@@ -173,13 +169,14 @@
                 .hocsinh-details label
                 {
                     display:inline-block;
-                    width:140px;
+                    width:150px;
                     padding-right: 10px;
-                    text-align: right;
+                    text-align: left;
                     font-style:normal;
                     font-weight:bold;
                 }
             </style>
+
         </div>
     
 }
