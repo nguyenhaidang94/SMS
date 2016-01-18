@@ -1,0 +1,112 @@
+﻿@using Newtonsoft.Json
+
+
+@{
+    ViewBag.Title = "Quản Lý Hồ Sơ học Sinh";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" href="~/Content/kendo/2015.3.1111/kendo.common.min.css" />
+<link rel="stylesheet" href="~/Content/kendo/2015.3.1111/kendo.default.min.css" />
+
+<h3>Quản Lý Hồ Sơ học Sinh</h3>
+
+
+<div id="grid-hosohocsinh"></div>
+
+@section scripts{
+
+    <script>
+        var dsGioiTinh = [{"value": true,"text" : "Nam"}, {"value": false,"text" : "Nữ"}];
+        var dsHocSinh = @Html.Raw(ViewBag.dsHocSinh);
+  
+
+        $(document).ready(function () {
+            var dataSource = new kendo.data.DataSource({
+                type: "json",
+                transport: {
+                    create: {
+                        url: "@Url.Action("Create")",
+                        type: "POST",
+                        dataType: "json"
+                    },
+                    read: {
+                        url: "@Url.Action("Read")",
+                        type: "POST",
+                        dataType: "json"
+                    },
+                    update: {
+                        url: "@Url.Action("Update")",
+                        type: "POST",
+                        dataType: "json"
+                    },
+                    destroy: {
+                        url: "@Url.Action("Delete")",
+                        type: "POST",
+                        dataType: "json"
+                    },
+                parameterMap: function(options, operation) {
+                    if (operation !== "read" && options.models) {
+                        return { models: kendo.stringify(options.models) };
+                    }
+                }
+            },
+            batch: true,
+            pageSize: 20,
+            schema: {
+                model: {
+                    id: "PersonId",
+                    fields: {
+                        PersonId: { type:"number", editable: false, nullable: false, validation: { required: true } },
+                        MaHocSinh: { type: "number", field: "MaHocSinh", nullable: false , validation: { required: true } },
+                        HoTen: {  field: "HoTen", nullable: false , validation: { required: true }},
+                        NgaySinh: { type: "date", field: "NgaySinh", nullable: false , validation: { required: true }},
+                        GioiTinh: { type: "bool", field: "GioiTinh", nullable : true , validation: { required: true }},
+                        NoiSinh: {  field: "NoiSinh", nullable: false, validation: { required: true } },
+                        DiaChi: {  field: "DiaChi", nullable: false, validation: { required: true } },
+                        SDT : {  type : "number",field: "SDT", nullable: false , validation: { required: true }},
+                        TonGiao: { field: "TonGiao", nullable: false, validation: { required: true } },
+                        DanToc: { field: "DanToc", nullable: false, validation: { required: true } },
+                        HoTenCha: {  field: "HoTenCha", nullable: false , validation: { required: true }},
+                        HoTenMe: {  field: "HoTenMe", nullable: false , validation: { required: true }},
+                        NgheNghiepCha: {  field: "NgheNghiepCha", nullable: false , validation: { required: true }},
+                        NgheNghiepMe: {  field: "NgheNghiepMe", nullable: false , validation: { required: true }},
+                        Active: { type: "boolean", defaultValue: true }
+                    }
+                }
+            }
+        });
+
+        $("#grid-hosohocsinh").kendoGrid({
+            dataSource: dataSource,
+            filterable: true,
+            sortable: true,
+            pageable: {
+                refresh: true,
+                pageSizes: true,
+                buttonCount: 5
+            },
+            height: 500,
+            toolbar: ["create"],
+            columns: [
+                { field: "HoTen", title: "Họ Tên"},
+                { field: "NgaySinh", title: "Ngày Sinh", template: "#= kendo.toString(NgaySinh, 'dd/MM/yyyy') #" },
+                { field: "GioiTinh",values : dsGioiTinh, title: "Giới Tính",defaultValue: true,filterable : false},
+                { field: "NoiSinh", title: "Nơi Sinh"},
+                { field: "DiaChi", title: "Địa Chỉ", filterable : false},
+                { field: "TonGiao", title: "Tôn Giáo", filterable : false},
+                { field: "SDT", title: "Số Điện Thoại", filterable : false},
+                { field: "DanToc", title: "Dân tộc", filterable : false},
+                { field: "HoTenCha", title: "Họ Tên Cha", filterable : false},
+                { field: "HoTenMe", title: "Họ Tên Mẹ", filterable : false},
+                { field: "NgheNghiepCha", title: "Nghề Nghiệp Cha", filterable : false},
+                { field: "NgheNghiepMe", title: "Nghề Nghiệp Mẹ", filterable : false},
+                { command: ["edit", "destroy"], title: "&nbsp;", width: "150px" }
+            ],
+            editable: "popup",
+        });
+    });
+    </script>
+
+    
+}

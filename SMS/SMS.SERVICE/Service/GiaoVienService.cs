@@ -32,5 +32,49 @@ namespace SMS.SERVICE.Service
             return _NguoiRepository.Entities
                 .Where(e => e.PersonTypeId == 1 && e.Active);
         }
+
+        /// <summary>
+        /// add ds giao vien
+        /// </summary>
+        /// <param name="dsQDKhenThuong">list qdkhenthuong</param>
+        public void AddDsGiaoVien(IEnumerable<GiaoVien> dsGiaoVien)
+        {
+            foreach (GiaoVien gv in dsGiaoVien)
+            {
+                GiaoVien giaovien = new GiaoVien();
+                giaovien.NgaySinh = gv.NgaySinh;
+                giaovien.NoiSinh = gv.NoiSinh;
+                giaovien.HoTen = gv.HoTen;
+                giaovien.GioiTinh = gv.GioiTinh;
+                giaovien.DanToc = gv.DanToc;
+                giaovien.TonGiao = gv.TonGiao;
+                giaovien.DiaChi = gv.DiaChi;
+                giaovien.SDT = gv.SDT;
+                giaovien.CMND = gv.CMND;
+                giaovien.PersonTypeId = 1;
+
+                _GiaoVienRepository.Insert(giaovien);
+            }
+        }
+
+
+        //<summary>
+        //update danh sach giao vien
+        //</summary>
+        //<param name="dsGiaoVein">list Giao Vien</param>
+        public void UpdateDsGiaoVien(IEnumerable<GiaoVien> dsGiaoVien)
+        {
+            _GiaoVienRepository.Update(dsGiaoVien);
+        }
+
+        // <summary>
+        // delete ds giao vien
+        // </summary>
+        // <param name="dsGiaoVien">list Giao Vien</param>
+        public void DeleteDsGiaoVien(IEnumerable<GiaoVien> dsGiaoVien)
+        {
+            _GiaoVienRepository.FakeDelete(dsGiaoVien);
+        }
+
     }
 }

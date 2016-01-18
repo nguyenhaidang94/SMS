@@ -168,6 +168,8 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\NamHocController.cs" />
     <Compile Include="Controllers\QDKhenThuongController.cs" />
+    <Compile Include="Controllers\GiaoVienController.cs" />
+    <Compile Include="Controllers\HocSinhController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -1670,6 +1672,8 @@
     <Content Include="Views\LopHoc\Index.cshtml" />
     <Content Include="Views\QDKhenThuong\QuanLyQDKhenThuong.cshtml" />
     <Content Include="Views\QDKhenThuong\CTQDKhenThuong.cshtml" />
+    <Content Include="Views\GiaoVien\QuanLyGiaoVien.cshtml" />
+    <Content Include="Views\HocSinh\QuanLyHocSinh.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
