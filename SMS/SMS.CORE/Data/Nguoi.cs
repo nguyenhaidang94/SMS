@@ -29,9 +29,6 @@ namespace SMS.CORE.Data
         [Required, StringLength(200)]
         public string DiaChi { get; set; }
 
-        [Required, StringLength(50), Column(TypeName="varchar")]
-        public string CMND { get; set; }
-
         [Required, StringLength(50), Column(TypeName = "varchar")]
         public string SDT { get; set; }
 

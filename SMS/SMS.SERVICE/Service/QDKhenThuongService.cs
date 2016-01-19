@@ -79,7 +79,7 @@ namespace SMS.SERVICE.Service
         /// <returns>list SelectHocSinhViewModel</returns>
         public IEnumerable<SelectHocSinhViewModel> GetAllSelectHocSinhVM()
         {
-            return _HocSinhRepository.Entities
+            return _HocSinhRepository.Entities.Where(e => e.Active)
                 .Select(e => new SelectHocSinhViewModel() 
                 { 
                     MaHocSinh = e.PersonId,
@@ -100,7 +100,8 @@ namespace SMS.SERVICE.Service
             var qd = _QDKhenThuongRepository.GetEntityById(maqd);
             if (qd != null)
             {
-                var dsHocSinh = _QDKhenThuongRepository.Entities.SelectMany(e => e.dsCTQDKhenThuong.Select(o => o.HocSinh)).ToArray();
+                var dsHocSinh = _QDKhenThuongRepository.Entities
+                    .SelectMany(e => e.dsCTQDKhenThuong.Select(o => o.HocSinh)).ToArray();
                 var dsAllHocSinh = _HocSinhRepository.Entities.Where(e => e.Active).ToArray();
 
                 return dsAllHocSinh.Except(dsHocSinh, new HocSinhEqualityComparer())
@@ -122,7 +123,7 @@ namespace SMS.SERVICE.Service
         /// </summary>
         /// <param name="maqd">maquyetdinh</param>
         /// <param name="models">list hocsinh</param>
-        public void AddDsCTKhenThuong(int maqd, IEnumerable<SelectHocSinhViewModel> models)
+        public void AddDsCTKhenThuong(int maqd, List<SelectHocSinhViewModel> models)
         {
             var qdkhenthuong = _QDKhenThuongRepository.GetEntityById(maqd);
             if (qdkhenthuong != null)
@@ -132,6 +133,7 @@ namespace SMS.SERVICE.Service
                 {
                     CT_QuyetDinhKhenThuong ctkhenthuong = new CT_QuyetDinhKhenThuong() 
                     { 
+                        Id = 0,
                         MaQuyetDinh = maqd,
                         MaHocSinh = model.MaHocSinh,
                         LyDoKhenThuong = "",
@@ -141,6 +143,7 @@ namespace SMS.SERVICE.Service
                         Active = true
                     };
                     qdkhenthuong.dsCTQDKhenThuong.Add(ctkhenthuong);
+                    model.Checked = false;
                 }
                 _QDKhenThuongRepository.Update(qdkhenthuong);
             }

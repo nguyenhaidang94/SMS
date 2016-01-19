@@ -19,6 +19,7 @@ namespace SMS.DATA
         public virtual DbSet<CT_LichGiangDay> DbCT_LichGD { get; set; }
         public virtual DbSet<CT_QuyetDinhKhenThuong> DbCT_QDKhenThuong { get; set; }
         public virtual DbSet<CT_QuyetDinhKyLuat> DbCT_QDKyLuat { get; set; }
+        public virtual DbSet<GiaoVienMonHoc> DbGiaoVienMonHoc { get; set; }
         public virtual DbSet<HocKy> DbHocKy { get; set; }
         public virtual DbSet<HocKyNamHoc> DbHocKyNamHoc { get; set; }
         public virtual DbSet<KhoiLop> DbKhoiLop { get; set; }
@@ -72,6 +73,13 @@ namespace SMS.DATA
                .WithRequired(o => o.GiaoVien)
                .HasForeignKey(o => o.MaGiaoVien)
                .WillCascadeOnDelete(false);
+
+            //map giaovienmonhoc to giaovien
+            modelBuilder.Entity<GiaoVien>()
+                .HasMany(e => e.dsGiaoVienMonHoc)
+                .WithRequired(o => o.GiaoVien)
+                .HasForeignKey(o => o.MaGiaoVien)
+                .WillCascadeOnDelete(false);
 
             //map hockynamhoc to hocky
             modelBuilder.Entity<HocKy>()
@@ -194,6 +202,13 @@ namespace SMS.DATA
             //map monhockhoi to monhoc
             modelBuilder.Entity<MonHoc>()
                 .HasMany(e => e.dsMonHocKhoi)
+                .WithRequired(o => o.MonHoc)
+                .HasForeignKey(o => o.MaMonHoc)
+                .WillCascadeOnDelete(false);
+
+            //map giaovienmonhoc to monhoc
+            modelBuilder.Entity<MonHoc>()
+                .HasMany(e => e.dsGiaoVienMonHoc)
                 .WithRequired(o => o.MonHoc)
                 .HasForeignKey(o => o.MaMonHoc)
                 .WillCascadeOnDelete(false);

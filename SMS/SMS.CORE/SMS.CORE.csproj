@@ -47,6 +47,7 @@
     <Compile Include="Data\CT_QuyetDinhKhenThuong.cs" />
     <Compile Include="Data\CT_QuyetDinhKyLuat.cs" />
     <Compile Include="Data\GiaoVien.cs" />
+    <Compile Include="Data\GiaoVienMonHoc.cs" />
     <Compile Include="Data\HocKy.cs" />
     <Compile Include="Data\HocKyNamHoc.cs" />
     <Compile Include="Data\HocSinh.cs" />

@@ -43,12 +43,13 @@ namespace SMS.SERVICE.Service
         /// <returns>list ctkhenthuong viewmodel</returns>
         public IEnumerable<CTKhenThuongViewModel> GetAllCTKhenThuongVM()
         {
-            return _CTKhenThuongRepository.Entities
+            return _CTKhenThuongRepository.Entities.Where(e => e.Active)
                 .Join(_HocSinhRepository.Entities,
                 a => a.MaHocSinh,
                 b => b.PersonId,
                 (a, b) => new CTKhenThuongViewModel()
                 {
+                    Id = a.Id,
                     MaQuyetDinh = a.MaQuyetDinh,
                     MaHocSinh = a.MaHocSinh,
                     HoTen = b.HoTen,
@@ -67,12 +68,13 @@ namespace SMS.SERVICE.Service
         public IEnumerable<CTKhenThuongViewModel> GetCTKhenThuongInQDKhenThuong(int maqd)
         {
             return _CTKhenThuongRepository.Entities
-                .Where(e => e.MaQuyetDinh == maqd)
+                .Where(e => e.MaQuyetDinh == maqd && e.Active)
                 .Join(_HocSinhRepository.Entities,
                 a => a.MaHocSinh,
                 b => b.PersonId,
                 (a, b) => new CTKhenThuongViewModel()
                 {
+                    Id = a.Id,
                     MaQuyetDinh = a.MaQuyetDinh,
                     MaHocSinh = a.MaHocSinh,
                     HoTen = b.HoTen,
@@ -111,6 +113,7 @@ namespace SMS.SERVICE.Service
             var dsCTQDKhenThuong = dsCTKhenThuong
                 .Select(e => new CT_QuyetDinhKhenThuong() 
                 { 
+                    Id = e.Id,
                     MaQuyetDinh = e.MaQuyetDinh,
                     MaHocSinh = e.MaHocSinh,
                     LyDoKhenThuong = e.LyDoKhenThuong,
@@ -141,6 +144,7 @@ namespace SMS.SERVICE.Service
              var dsCTQDKhenThuong = dsCTKhenThuong
                 .Select(e => new CT_QuyetDinhKhenThuong() 
                 { 
+                    Id = e.Id,
                     MaQuyetDinh = e.MaQuyetDinh,
                     MaHocSinh = e.MaHocSinh,
                     LyDoKhenThuong = e.LyDoKhenThuong,

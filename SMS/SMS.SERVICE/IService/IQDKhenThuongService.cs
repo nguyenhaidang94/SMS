@@ -51,6 +51,6 @@ namespace SMS.SERVICE.IService
         /// </summary>
         /// <param name="maqd">maquyetdinh</param>
         /// <param name="models">list hocsinh</param>
-        void AddDsCTKhenThuong(int maqd, IEnumerable<SelectHocSinhViewModel> models);
+        void AddDsCTKhenThuong(int maqd, List<SelectHocSinhViewModel> models);
     }
 }

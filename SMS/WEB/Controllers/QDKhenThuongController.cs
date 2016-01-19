@@ -255,30 +255,12 @@ namespace WEB.Controllers
         /// read list hocsinh to select and create qdkhenthuong
         /// </summary>
         /// <returns>list hocsinh as json</returns>
-        public JsonResult ReadHocSinh(GridFilters filter = null)
+        public JsonResult ReadHocSinh()
         {
             try
             {
-                IEnumerable<SelectHocSinhViewModel> dsHocSinh = null;
-                
-                //filter
-                if (filter != null && filter.Filters != null && filter.Filters.Count > 0)
-                {
-                    var field = filter.Filters[0].Field;
-                    var operate = filter.Filters[0].Operator;
-                    var value = filter.Filters[0].Value;
-                    int maqd;
+                var dsHocSinh = _QDKhenThuongService.GetAllSelectHocSinhVM();
 
-                    if (field == "MaQuyetDinh" && operate == "neq"
-                        && int.TryParse(value, out maqd))
-                    { 
-                        dsHocSinh = _QDKhenThuongService.GetHocSinhNotInQDKhenThuong(maqd);
-                    }
-                }
-                if (dsHocSinh == null)
-                {
-                    dsHocSinh = _QDKhenThuongService.GetAllSelectHocSinhVM();
-                }
                 return Json(dsHocSinh);
             }
             catch (Exception ex)
@@ -297,14 +279,14 @@ namespace WEB.Controllers
         {
             try
             {
-                var dsHocSinh = JsonConvert.DeserializeObject<IEnumerable<SelectHocSinhViewModel>>(models);
+                var dsHocSinh = JsonConvert.DeserializeObject<List<SelectHocSinhViewModel>>(models);
                 if (dsHocSinh == null)
                     return Json(null);
                 try
                 {
                     if (maqd != null)
                     {
-                        dsHocSinh = dsHocSinh.Where(e => e.Checked);
+                        dsHocSinh = dsHocSinh.Where(e => e.Checked).ToList();
                         _QDKhenThuongService.AddDsCTKhenThuong(maqd.Value, dsHocSinh);
                     }
                     else

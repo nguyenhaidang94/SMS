@@ -22,12 +22,14 @@ namespace SMS.CORE.Data
         public virtual ICollection<LichGiangDay> dsLichGiangDay { get; set; }
         public virtual ICollection<BangDiemHKMH> dsBangDiemHKMH { get; set; }
         public virtual ICollection<MonHocKhoi> dsMonHocKhoi { get; set; }
+        public virtual ICollection<GiaoVienMonHoc> dsGiaoVienMonHoc { get; set; }
 
         public MonHoc()
         {
             dsLichGiangDay = new HashSet<LichGiangDay>();
             dsBangDiemHKMH = new HashSet<BangDiemHKMH>();
             dsMonHocKhoi = new HashSet<MonHocKhoi>();
+            dsGiaoVienMonHoc = new HashSet<GiaoVienMonHoc>();
         }
     }
 }

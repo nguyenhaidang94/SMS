@@ -5,9 +5,6 @@
 
 <h3>Quản lý Quyết định khen thưởng</h3>
 
-<link rel="stylesheet" href="~/Content/kendo/2015.3.1111/kendo.common.min.css" />
-<link rel="stylesheet" href="~/Content/kendo/2015.3.1111/kendo.default.min.css" />
-
 <div id="grid-qdkhenthuong"></div>
 <div id="div-hocsinh">
     <h3>Danh Sách Học Sinh</h3>
@@ -16,7 +13,7 @@
 
 @section scripts{
 <script type="text/x-kendo-template" id="template">
-    <button id="btnSelectHocSinh" style="float:right;" class="k-button">Thêm Học Sinh</button>
+    <button id="btnSelectHocSinh" style="float:right;" class="k-button">Thêm học sinh vào quyết định khen thưởng</button>
 </script>
 <script>
     var dsNamHoc = @Html.Raw(ViewBag.dsNamHoc);
@@ -74,22 +71,21 @@
             dataSource: dataSource,
             filterable: false,
             sortable: true,
+            editable: true,
+            selectable: "row",
+            change: gridOnChange,
             pageable: {
                 refresh: true,
                 pageSizes: true,
                 buttonCount: 5
             },
             detailInit: detailInit,
-            dataBound: function() {
-                this.expandRow(this.tbody.find("tr.k-master-row").first());
-            },
             toolbar: ["create"],
             columns: [
                 { field: "SoQuyetDinh", title: "Số Quyết Định" },
                 { field: "MaNamHoc", values: dsNamHoc, title: "Năm Học" },
                 { field: "NoiDungQD", title: "Nội Dung", width: "300px"},
                 { field: "NgayQD", title: "Ngày", template: "#= kendo.toString(NgayQD, 'dd/MM/yyyy') #" },
-                { command: { text: "Thêm học sinh", click: themHSClick}, title: "&nbsp;" },
                 { command: ["edit", "destroy"], title: "&nbsp;"}
             ],
             editable: {
@@ -98,7 +94,7 @@
         });
 
         //create grid-hocsinh
-        $("#grid-hocsinh").kendoGrid({
+        var gridHS = $("#grid-hocsinh").kendoGrid({
             filterable: false,
             sortable: true,
             editable: true,
@@ -112,12 +108,12 @@
                 { field: "HoTen", title: "Họ Tên" },
                 { field: "NgaySinh", title: "Ngày Sinh", template: "#= kendo.toString(NgaySinh, 'dd/MM/yyyy') #" },
                 { field: "GioiTinh", values: dsGioiTinh, title: "Giới Tính" },
-                { field: "Checked", title: "Chọn", template: '<input type="checkbox" #= Checked ? \'checked\' : "" # class="chkbx" />' }
+                { field: "Checked", title: "Chọn", template: '#= Checked ? \'<input type="checkbox" checked class="chkbx" />\' : \'<input type="checkbox" class="chkbx" />\' #' }
             ]
         });
 
         //event change Checked property
-        $("#grid-hocsinh .k-grid-content").on("change", "input.chkbx", function (e) {
+        gridHS.on("change", "input.chkbx", function (e) {
             var grid = $("#grid-hocsinh").data("kendoGrid");
             dataItem = grid.dataItem($(e.target).closest("tr"));
             dataItem.set("Checked", this.checked);
@@ -173,8 +169,9 @@
                 pageSize: 5,
                 schema: {
                     model: {
-                        id: "MaHocSinh",
+                        id: "Id",
                         fields: {
+                            Id: {type: "number", editable: false, nullable: false, defaultValue: 0},
                             MaQuyetDinh: { type:"number", editable: false, nullable: false, defaultValue: e.data.MaQuyetDinh},
                             MaHocSinh: { type: "number", editable: false, nullable: false },
                             HoTen: { editable: false, nullable: false },
@@ -204,17 +201,19 @@
                 { command: ["edit", "destroy"], title: "&nbsp;"}
             ],
             editable: {
-                mode: "inline",
+                mode: "inline"
             }
         });
     }
 
-    //event click ThemHocSinh
-    function themHSClick(e){
-        var grid = $("#grid-qdkhenthuong").data("kendoGrid");
-        var id = dataItem = grid.dataItem($(e.target).closest("tr")).id;
-        if (id != null)
-        {
+    //event grid-qdkhenthuong row selection change
+    function gridOnChange(e){
+        var row = this.select()[0];
+        this.expandRow(row);
+        var dataitem = this.dataItem(row);
+        var id = dataitem.id;
+        var gridHS = $("#grid-hocsinh").data("kendoGrid");
+        if (id != null){
             var hsDataSource = new kendo.data.DataSource({
                 type: "json",
                 transport: {
@@ -242,23 +241,23 @@
                 },
                 batch: true,
                 pageSize: 5,
-                serverFiltering: true,
+                //serverFiltering: true,
                 filter: { field: "MaQuyetDinh", operator: "neq", value: id },
                 schema: {
                     model: {
                         id: "MaHocSinh",
                         fields: {
-                            MaHocSinh: { type: "number" },
-                            HoTen: { type: "string" },
-                            NgaySinh: { type: "date" },
-                            GioiTinh: { type: "boolean" },
+                            MaHocSinh: { type: "number", editable: false, },
+                            HoTen: { type: "string", editable: false, },
+                            NgaySinh: { type: "date", editable: false, },
+                            GioiTinh: { type: "boolean", editable: false, },
                             Checked: { type: "boolean" },
-                            Active: { type: "boolean" }
+                            Active: { type: "boolean", editable: false, }
                         }
                     }
                 }
             });
-            $("#grid-hocsinh").data("kendoGrid").setDataSource(hsDataSource);
+            gridHS.setDataSource(hsDataSource);
         }
     }
 </script>   

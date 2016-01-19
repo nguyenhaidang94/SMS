@@ -8,10 +8,13 @@ namespace SMS.CORE.Data
     [Table("CT_QuyetDinhKhenThuong")]
     public partial class CT_QuyetDinhKhenThuong: BaseEntity
     {
-        [Key, Column(Order=0)]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+
+        [Required]
         public int MaQuyetDinh { get; set; }
 
-        [Key, Column(Order=1)]
+        [Required]
         public int MaHocSinh { get; set; }
 
         [StringLength(200)]

@@ -210,6 +210,18 @@
     <Compile Include="Migrations\201601181805340_UPDATE-DATABASE-04.Designer.cs">
       <DependentUpon>201601181805340_UPDATE-DATABASE-04.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201601190942099_UPDATE-DATABASE-05.cs" />
+    <Compile Include="Migrations\201601190942099_UPDATE-DATABASE-05.Designer.cs">
+      <DependentUpon>201601190942099_UPDATE-DATABASE-05.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201601191738570_ADD-TABLE-GIAOVIENMONHOC.cs" />
+    <Compile Include="Migrations\201601191738570_ADD-TABLE-GIAOVIENMONHOC.Designer.cs">
+      <DependentUpon>201601191738570_ADD-TABLE-GIAOVIENMONHOC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201601191745165_UPDATE-DATABASE-06.cs" />
+    <Compile Include="Migrations\201601191745165_UPDATE-DATABASE-06.Designer.cs">
+      <DependentUpon>201601191745165_UPDATE-DATABASE-06.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\GridFilter.cs" />
@@ -1732,6 +1744,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201601181805340_UPDATE-DATABASE-04.resx">
       <DependentUpon>201601181805340_UPDATE-DATABASE-04.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201601190942099_UPDATE-DATABASE-05.resx">
+      <DependentUpon>201601190942099_UPDATE-DATABASE-05.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201601191738570_ADD-TABLE-GIAOVIENMONHOC.resx">
+      <DependentUpon>201601191738570_ADD-TABLE-GIAOVIENMONHOC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201601191745165_UPDATE-DATABASE-06.resx">
+      <DependentUpon>201601191745165_UPDATE-DATABASE-06.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

@@ -6,6 +6,9 @@ namespace SMS.DATA.Models
     public class CTKhenThuongViewModel: BaseEntity
     {
         [Required]
+        public int Id { get; set; }
+
+        [Required]
         public int MaQuyetDinh { get; set; }
 
         [Required]
