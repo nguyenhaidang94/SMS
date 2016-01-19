@@ -10,6 +10,10 @@
     <label class="category-label" for="listNamHoc">Năm học:</label>
     <input type="search" id="listNamHoc" style="width: 150px"/>
 </div>
+<div>
+    <label>Xếp lớp cho học sinh mới:</label>
+    <input type="checkbox" id="cbNewStudent"/>
+</div>
 
 <div class="row">
     <div class="col-md-5">
@@ -61,19 +65,21 @@
                 dataSource: listNamHoc,
                 //select 1st value
                 index: 0,
-                change: function () {
+                change: function () {                   
                     var value = this.value();
                     if (value) {
-                        dropdownKhoiLeft.select(0);
-                        dropdownLopLeft.dataSource.filter([{ field: "MaNamHoc", operator: "eq", value: parseInt(value) }, { field: "MaKhoi", operator: "eq", value: parseInt(dropdownKhoiLeft.value()) }]);
-                        dropdownLopLeft.select(0);
-                        dropdownKhoiLeft.trigger("change");  //trigger event for filter     
+                        if(!$('#cbNewStudent').is(":checked")){
+                            dropdownKhoiLeft.select(0);
+                            dropdownKhoiLeft.trigger("change");  //trigger event for filter     
+                        }   
+                        else{
+                            gridLeft.data("kendoGrid").dataSource.filter([{ field: "MaLopHoc", operator: "eq", value: parseInt("-1") }, { field: "MaNamHoc", operator: "eq", value: parseInt(dropdownNam.value()) }]);
+                        }
 
                         dropdownKhoiRight.select(0);
-                        dropdownLopRight.dataSource.filter([{ field: "MaNamHoc", operator: "eq", value: parseInt(value) }, { field: "MaKhoi", operator: "eq", value: parseInt(dropdownKhoiRight.value()) }]);
-                        dropdownLopRight.select(0);       
                         dropdownKhoiRight.trigger("change");  //trigger event for filter
-                    } else {
+                    } 
+                    else {
                         gridLeft.data("kendoGrid").dataSource.filter({});
                     }
                 },
@@ -197,10 +203,6 @@
                 dataTextField: "text",
                 dataValueField: "value",
                 dataSource: listLopHoc,
-                optionLabel: {
-                    text:  "Chưa có lớp",	
-                    value: -1
-                },
                 //select 1st value
                 index: 0,
                 change: function () {
@@ -261,6 +263,7 @@
                     if (e.type != "keypress" || kendo.keys.ENTER == e.keyCode)
                         dropdownlist.search($("#word").val());
                 };
+            dropdownKhoiLeft.trigger("change");  //trigger event for filter   
             dropdownLopLeft.trigger("change");  //trigger event for filter when initialize
 
             //right dropdownlist
@@ -269,10 +272,6 @@
                 dataTextField: "text",
                 dataValueField: "value",
                 dataSource: listLopHoc,
-                optionLabel: {
-                    text:  "Chưa có lớp",	
-                    value: -1
-                },
                 //select 1st value
                 index: 0,
                 change: function () {
@@ -310,7 +309,7 @@
                 change: function () {
                     var value = this.value();
                     if (value) {
-                        dropdownLopLeft.dataSource.filter([{ field: "MaKhoi", operator: "eq", value: parseInt(value) }, { field: "MaNamHoc", operator: "eq", value: parseInt(dropdownNam.value()) }]);
+                        dropdownLopRight.dataSource.filter([{ field: "MaKhoi", operator: "eq", value: parseInt(value) }, { field: "MaNamHoc", operator: "eq", value: parseInt(dropdownNam.value()) }]);
                         dropdownLopRight.select(0); 
                     } else {
                         gridRight.data("kendoGrid").dataSource.filter({field: "MaNamHoc", operator: "eq", value: parseInt(dropdownNam.value())});
@@ -333,11 +332,12 @@
                     if (e.type != "keypress" || kendo.keys.ENTER == e.keyCode)
                         dropdownlist.search($("#word").val());
                 };
+            dropdownKhoiRight.trigger("change");  //trigger event for filter   
             dropdownLopRight.trigger("change");  //trigger event for filter when initialize
 
             //region button
             $('#btnAdd').click(function(){
-                if(dropdownLopRight.value() == dropdownLopLeft.value()){
+                if(dropdownLopRight.value() == dropdownLopLeft.value() && !$('#cbNewStudent').is(":checked")){
                     alert("Không thể chuyển cùng lớp");
                 }
                 else
@@ -363,7 +363,7 @@
             });
 
             $('#btnRemove').click(function(){
-                if(dropdownLopRight.value() == dropdownLopLeft.value()){
+                if(dropdownLopRight.value() == dropdownLopLeft.value() && !$('#cbNewStudent').is(":checked")){
                     alert("Không thể chuyển cùng khối");
                 }
                 else
@@ -398,6 +398,20 @@
                 var grid = $("#gridLeft").data("kendoGrid");
                 grid.cancelChanges();
                 alert("Đã hủy thay đổi");
+            });
+
+            $('#cbNewStudent').change(function(){
+                if($(this).is(":checked")){
+                    gridLeft.data("kendoGrid").dataSource.filter([{ field: "MaLopHoc", operator: "eq", value: parseInt("-1") }, { field: "MaNamHoc", operator: "eq", value: parseInt(dropdownNam.value()) }]);
+                    dropdownKhoiLeft.enable(false);
+                    dropdownLopLeft.enable(false);
+                }
+                else{
+                    dropdownKhoiLeft.enable();
+                    dropdownLopLeft.enable(); 
+                    dropdownKhoiLeft.trigger("change");  //trigger event for filter when initialize
+                    dropdownLopLeft.trigger("change");  //trigger event for filter when initialize
+                }
             });
         });
     </script>
