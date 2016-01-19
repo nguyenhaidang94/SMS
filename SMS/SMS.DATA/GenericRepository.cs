@@ -17,17 +17,6 @@ namespace SMS.DATA
         private IDbSet<T> _Entities;
 
         /// <summary>
-        /// database context
-        /// </summary>
-        public SMSContext DbContext 
-        {
-            get 
-            {
-                return _context;
-            }
-        }
-
-        /// <summary>
         /// get all entities
         /// </summary>
         public virtual IDbSet<T> Entities
