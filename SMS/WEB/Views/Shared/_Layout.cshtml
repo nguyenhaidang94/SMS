@@ -24,20 +24,24 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                Quản lý trường học<span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li>@Html.ActionLink("Quản lý năm học", "Index", "NamHoc")</li>
-                                <li>@Html.ActionLink("Quản lý phòng học", "Index", "PhongHoc")</li>
-                                <li>@Html.ActionLink("Quản lý lớp học", "Index", "LopHoc")</li>
-                                <li>@Html.ActionLink("Xếp Lớp", "XepLop", "LopHoc")</li>
-                                <li>@Html.ActionLink("Quản lý khối lớp", "Index", "KhoiLop")</li>
-                                <li>@Html.ActionLink("Quản lý môn học", "Index", "MonHoc")</li>
-                                <li>@Html.ActionLink("Quản lý Giáo Viên", "QuanLyGiaoVien", "GiaoVien")</li>
-                                <li>@Html.ActionLink("Quản lý Học Sinh", "QuanLyHocSinh", "HocSinh")</li>
-                            </ul>
-                        </li>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            Quản lý trường học<span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("Quản lý năm học", "Index", "NamHoc")</li>
+                            <li>@Html.ActionLink("Quản lý phòng học", "Index", "PhongHoc")</li>
+                            <li>@Html.ActionLink("Quản lý lớp học", "Index", "LopHoc")</li>
+                            <li>@Html.ActionLink("Xếp Lớp", "XepLop", "LopHoc")</li>
+                            <li>@Html.ActionLink("Quản lý khối lớp", "Index", "KhoiLop")</li>
+                            <li>@Html.ActionLink("Quản lý môn học", "Index", "MonHoc")</li>
+                            <li>@Html.ActionLink("Quản lý Giáo Viên", "QuanLyGiaoVien", "GiaoVien")</li>
+                            <li>@Html.ActionLink("Quản lý Học Sinh", "QuanLyHocSinh", "HocSinh")</li>
+                        </ul>
+                    </li>
+                    @if(User.IsInRole("Admin"))
+                    {
+                    <li>@Html.ActionLink("Phân quyền", "Index", "Authentication")</li>
+                    }
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                 </ul>

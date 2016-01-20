@@ -1,0 +1,104 @@
+﻿
+@{
+    ViewBag.Title = "Quản lý phân quyền";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>Quản lý phân quyền</h3>
+<div>@Html.ActionLink("Thêm người dùng", "CreateUser", null, new { @class="btn btn-default"})</div>
+<div id="grid"></div>
+
+@section scripts{
+    <script>
+        var listRoles = @Html.Raw(ViewBag.listRoles);
+
+        $(document).ready(function () {
+            dataSource = new kendo.data.DataSource({
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@Html.Raw(Url.Action("Read"))",
+                            type: "POST",
+                            dataType: "json",
+                        },
+                        update: {
+                            url: "@Html.Raw(Url.Action("Update"))",
+                            type: "POST",
+                            dataType: "json",
+                        },
+                        destroy: {
+                            url: "@Html.Raw(Url.Action("Destroy"))",
+                            type: "POST",
+                            dataType: "json",
+                        },
+                        create: {
+                            url: "@Html.Raw(Url.Action("Create"))",
+                            type: "POST",
+                            dataType: "json",
+                        },
+                        parameterMap: function (options, operation) {
+                            if (operation !== "read" && options.models) {
+                                return { models: kendo.stringify(options.models) };
+                            }
+                        }
+                    },
+                batch: true,
+                pageSize: 20,
+                schema: {
+                    model: {
+                        id: "Id",
+                        fields: {
+                            Id: { editable:false, nullable: false },
+                            Email: { validation: { required: true } },
+                            UserName: { validation: { required: true } },
+                            RolesList: { validation: { required: true } },
+                        }
+                    }
+                }
+            });
+
+            $("#grid").kendoGrid({
+                dataSource: dataSource,
+                filterable: true,
+                sortable: true,
+                pageable: {
+                    refresh: true,
+                    pageSizes: true,
+                    buttonCount: 5
+                },
+                height: 500,
+                toolbar: ["save", "cancel"],
+                columns: [
+                    { field: "Email", title: "Email" },
+                    { field: "UserName", title: "Email" },
+                    {
+                        field: "RolesList",
+                        template: "#= RolesList.join(', ') #",
+                        editor: roleEditor
+                    },
+                    { command: ["edit", "destroy"], title: "&nbsp;", width: "250px" }],
+                editable: true,
+                save: function (e) {
+                    var id = e.model.Id;
+                    var email = e.model.Email;
+                    var data = this.dataSource.data();
+                    for (item in data) {
+                        if (data[item].Email == email &&
+                           data[item].Id != id) {
+                            e.preventDefault();
+                            alert("Tài khoản đã tồn tại");
+                        }
+                    }
+                },
+            });
+
+            function roleEditor(container, options) {
+                $("<select multiple='multiple' data-bind='value :RolesList'/>")
+                .appendTo(container)
+                .kendoMultiSelect({
+                    dataSource: listRoles
+                });
+            }
+        });
+    </script>
+}

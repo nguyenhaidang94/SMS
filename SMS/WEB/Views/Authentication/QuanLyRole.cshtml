@@ -1,0 +1,87 @@
+﻿
+@{
+    ViewBag.Title = "Quản lý vai trò";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>Quản lý vai trò</h3>
+<div id="grid"></div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            dataSource = new kendo.data.DataSource({
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@Html.Raw(Url.Action("ReadRole"))",
+                            type: "POST",
+                            dataType: "json",
+                        },
+                        update: {
+                            url: "@Html.Raw(Url.Action("UpdateRole"))",
+                            type: "POST",
+                            dataType: "json",
+                        },
+                        destroy: {
+                            url: "@Html.Raw(Url.Action("DestroyRole"))",
+                            type: "POST",
+                            dataType: "json",
+                        },
+                        create: {
+                            url: "@Html.Raw(Url.Action("CreateRole"))",
+                            type: "POST",
+                            dataType: "json",
+                        },
+                        parameterMap: function (options, operation) {
+                            if (operation !== "read" && options.models) {
+                                return { models: kendo.stringify(options.models) };
+                            }
+                        }
+                    },
+                batch: true,
+                pageSize: 20,
+                schema: {
+                    model: {
+                        id: "OriginalRoleName",
+                        fields: {
+                            OriginalRoleName: { editable: false, nullable: false },
+                            RoleName: { validation: { required: true } },
+                            Description: { validation: { required: true } },
+                        }
+                    }
+                }
+            });
+
+            $("#grid").kendoGrid({
+                dataSource: dataSource,
+                filterable: true,
+                sortable: true,
+                pageable: {
+                    refresh: true,
+                    pageSizes: true,
+                    buttonCount: 5
+                },
+                height: 500,
+                toolbar: ["create"],
+                columns: [
+                    { field: "RoleName", title: "Tên vai trò" },
+                    { field: "Description", title: "Mô tả" },
+                    { command: ["edit", "destroy"], title: "&nbsp;", width: "250px" }],
+                editable: "inline",
+                save: function (e) {
+                    var originalRoleName = e.model.OriginalRoleName;
+                    var roleName = e.model.RoleName;
+                    var data = this.dataSource.data();
+                    for (item in data) {
+                        if (data[item].RoleName == roleName &&
+                           data[item].OriginalRoleName != originalRoleName) {
+                            e.preventDefault();
+                            alert("Vai trò đã tồn tại");
+                        }
+                    }
+                },
+            });
+        });
+    </script>
+}
