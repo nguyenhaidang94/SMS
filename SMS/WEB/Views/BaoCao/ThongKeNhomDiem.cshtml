@@ -1,0 +1,163 @@
+﻿@{
+    ViewBag.Title = "Thống Kê Nhóm Điểm Theo Khối";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>Thống kê số lượng nhóm điểm theo khối</h3>
+
+<div id="example">
+    <div class="k-content wide">
+        <div>
+            <div>
+                <label>Chọn năm học</label>
+                <div id="listNamHoc"></div>
+                <label>Chọn Khối</label>
+                <div id="listKhoiLop"></div>
+            </div>
+        </div>
+        <div id="chart"></div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        var dsNamHoc = @Html.Raw(ViewBag.dsNamHoc);
+        var dsKhoiLop = @Html.Raw(ViewBag.dsKhoiLop);
+
+        $(document).ready(function () {
+            //initialize chart
+            var chart = $("#chart").kendoChart({
+                dataSource: {
+                    transport: {
+                        read: {
+                            url: "@Url.Action("ReadNhomDiem", "BaoCao")",
+                            dataType: "json"
+                        }
+                    },
+                    sort: {
+                        field: "MaLop",
+                        dir: "asc"
+                    }
+                },
+                title: {
+                    text: "Nhóm điểm"
+                },
+                legend: {
+                    position: "top"
+                },
+                seriesDefaults: {
+                    type: "column",
+                    stack: {
+                        type: "100%"
+                    }
+                },
+                series:
+                [{
+                    field: "undermedium",
+                    name: "Điểm dưới 5",
+                    color: "#ff0000"
+                },
+                {
+                    field: "medium",
+                    name: "Điểm từ 5 đến 6.5"
+                },
+                {
+                    field: "prettygood",
+                    name: "Điểm từ 6.5 đến 8"
+                },
+                {
+                    field: "good",
+                    name: "Điểm trên 8"
+                }],
+                categoryAxis: {
+                    field: "TenLop",
+                    majorGridLines: {
+                        visible: false
+                    }
+                },
+                valueAxis: {
+                    line: {
+                        visible: true
+                    }
+                },
+                tooltip: {
+                    visible: true,
+                    template: "số lượng: #= value #"
+                }
+            });
+
+            //dropdown list namhoc
+            $("#listNamHoc").kendoDropDownList({
+                dataTextField: "text",
+                dataValueField: "value",
+                dataSource: dsNamHoc,
+                //select 1st value
+                index: 0,
+                change: function () {
+                    var value = this.value();
+                    if (value) {
+                        chart.data("kendoChart").dataSource.filter([{ field: "MaNamHoc", operator: "eq", value: parseInt(value) }, { field: "MaKhoi", operator: "eq", value: parseInt(dropdownKhoi.value()) }]);
+                    } else {
+                        chart.data("kendoChart").dataSource.filter({});
+                    }
+                },
+            });
+
+            //
+            var dropdownNam = $("#listNamHoc").data("kendoDropDownList"),
+                setValue = function(e) {
+                    if (e.type != "keypress" || kendo.keys.ENTER == e.keyCode)
+                        dropdownlist.value($("#value").val());
+                },
+                setIndex = function(e) {
+                    if (e.type != "keypress" || kendo.keys.ENTER == e.keyCode) {
+                        var index = parseInt($("#index").val());
+                        dropdownlist.select(index);
+                    }
+                },
+                setSearch = function(e) {
+                    if (e.type != "keypress" || kendo.keys.ENTER == e.keyCode)
+                        dropdownlist.search($("#word").val());
+                };
+
+            //dropdownlist khoilop
+            $("#listKhoiLop").kendoDropDownList({
+                dataTextField: "text",
+                dataValueField: "value",
+                dataSource: dsKhoiLop,
+                //select 1st value
+                index: 0,
+                change: function () {
+                    var value = this.value();
+                    if (value) {
+                        chart.data("kendoChart").dataSource.filter([{ field: "MaKhoi", operator: "eq", value: parseInt(value) },
+                            { field: "MaNamHoc", operator: "eq", value: parseInt(dropdownNam.value()) }]);
+                    } else {
+                        chart.data("kendoChart").dataSource.filter({});
+                    }
+                }
+            });
+
+            //
+            var dropdownKhoi = $("#listKhoiLop").data("kendoDropDownList"),
+                setValue = function(e) {
+                    if (e.type != "keypress" || kendo.keys.ENTER == e.keyCode)
+                        dropdownlist.value($("#value").val());
+                },
+                setIndex = function(e) {
+                    if (e.type != "keypress" || kendo.keys.ENTER == e.keyCode) {
+                        var index = parseInt($("#index").val());
+                        dropdownlist.select(index);
+                    }
+                },
+                setSearch = function(e) {
+                    if (e.type != "keypress" || kendo.keys.ENTER == e.keyCode)
+                        dropdownlist.search($("#word").val());
+                };
+
+            //dropdownKhoi.trigger("change");
+        });
+    </script>
+
+}
+

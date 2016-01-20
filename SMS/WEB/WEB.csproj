@@ -174,6 +174,7 @@
     <Compile Include="Controllers\QDKhenThuongController.cs" />
     <Compile Include="Controllers\GiaoVienController.cs" />
     <Compile Include="Controllers\HocSinhController.cs" />
+    <Compile Include="Controllers\BaoCaoController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -232,6 +233,10 @@
     <Compile Include="Migrations\201601200419354_MAP-MONHOC-TO-KHOI.cs" />
     <Compile Include="Migrations\201601200419354_MAP-MONHOC-TO-KHOI.Designer.cs">
       <DependentUpon>201601200419354_MAP-MONHOC-TO-KHOI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201601200732365_ADD-COLUMN-DIEMTB.cs" />
+    <Compile Include="Migrations\201601200732365_ADD-COLUMN-DIEMTB.Designer.cs">
+      <DependentUpon>201601200732365_ADD-COLUMN-DIEMTB.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -1717,6 +1722,7 @@
     <Content Include="Views\Authentication\QuanLyRole.cshtml" />
     <Content Include="Views\Authentication\CreateUser.cshtml" />
     <Content Include="Views\HocTap\DanhSachBangDiem.cshtml" />
+    <Content Include="Views\BaoCao\ThongKeNhomDiem.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -1778,6 +1784,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201601200419354_MAP-MONHOC-TO-KHOI.resx">
       <DependentUpon>201601200419354_MAP-MONHOC-TO-KHOI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201601200732365_ADD-COLUMN-DIEMTB.resx">
+      <DependentUpon>201601200732365_ADD-COLUMN-DIEMTB.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

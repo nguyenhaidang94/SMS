@@ -10,7 +10,7 @@ using System.Collections.Generic;
 
 namespace WEB.Controllers
 {
-    [Authorize(Roles = "Admin, Giáo Viên")]
+    [Authorize(Roles = "Admin, Hiệu Trưởng,Giáo Viên")]
     public class KyLuatController : Controller
     {
         private readonly UnitOfWork _UnitOfWork = new UnitOfWork();
@@ -62,7 +62,7 @@ namespace WEB.Controllers
             catch (Exception ex)
             {
                 //Show Message here
-                return Json(null);
+                return Json(new { error = ex.Message });
             }
         }
 
@@ -85,7 +85,7 @@ namespace WEB.Controllers
             catch (Exception ex)
             {
                 //ShowMessage here
-                return Json(null);
+                return Json(new { error = ex.Message });
             }
         }
 
@@ -109,7 +109,7 @@ namespace WEB.Controllers
             catch (Exception ex)
             {
                 //ShowMessage here
-                return Json(null);
+                return Json(new { error = ex.Message });
             }
         }
 
@@ -133,7 +133,7 @@ namespace WEB.Controllers
             catch (Exception ex)
             {
                 //ShowMessage here
-                return Json(null);
+                return Json(new { error = ex.Message });
             }
         }
 

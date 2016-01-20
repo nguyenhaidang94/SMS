@@ -24,6 +24,9 @@ namespace SMS.CORE.Data
         [Required]
         public int MaMonHoc { get; set; }
 
+        [Required]
+        public float DiemTB { get; set; }
+
         public virtual HocKyNamHoc HocKyNamHoc { get; set; }
         public virtual HocSinh HocSinh { get; set; }
         public virtual MonHoc MonHoc { get; set; }

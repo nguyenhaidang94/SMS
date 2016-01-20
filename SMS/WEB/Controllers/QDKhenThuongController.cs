@@ -70,7 +70,7 @@ namespace WEB.Controllers
             catch (Exception ex)
             {
                 //Show Message here
-                return Json(null);
+                return Json(new { error = ex.Message });
             }
         }
 
@@ -93,7 +93,7 @@ namespace WEB.Controllers
             catch (Exception ex)
             {
                 //Show Message here
-                return Json(null);
+                return Json(new { error = ex.Message });
             }
         }
 
@@ -118,7 +118,7 @@ namespace WEB.Controllers
             catch (Exception ex)
             {
                 //Show Message here
-                return Json(null);
+                return Json(new { error = ex.Message });
             }
         }
 
@@ -143,26 +143,7 @@ namespace WEB.Controllers
             catch (Exception ex)
             {
                 //Show Message here
-                return Json(null);
-            }
-        }
-
-        /// <summary>
-        /// create ds ctkhenthuong
-        /// </summary>
-        /// <param name="models">data json</param>
-        /// <returns>data json</returns>
-        [HttpPost]
-        public JsonResult CreateCTKhenThuong(string models)
-        {
-            try
-            {
-                return Json(null);
-            }
-            catch (Exception ex)
-            {
-                //Show Message here
-                return Json(null);
+                return Json(new { error = ex.Message });
             }
         }
 
@@ -201,7 +182,7 @@ namespace WEB.Controllers
             catch (Exception ex)
             {
                 //Show Message here
-                return Json(null);
+                return Json(new { error = ex.Message });
             }
         }
 
@@ -226,7 +207,7 @@ namespace WEB.Controllers
             catch (Exception ex)
             {
                 //Show Message here
-                return Json(null);
+                return Json(new { error = ex.Message });
             }
         }
 
@@ -251,7 +232,7 @@ namespace WEB.Controllers
             catch (Exception ex)
             {
                 //Show Message here
-                return Json(null);
+                return Json(new { error = ex.Message });
             }
         }
 
@@ -270,7 +251,7 @@ namespace WEB.Controllers
             catch (Exception ex)
             { 
                 //show message here
-                return Json(null);
+                return Json(new { error = ex.Message });
             }
         }
 
@@ -311,9 +292,18 @@ namespace WEB.Controllers
             catch (Exception ex)
             { 
                 //show message here
-                return Json(null);
+                return Json(new { error = ex.Message });
             }
         }
 
+        /// <summary>
+        /// override function Dispose
+        /// Dispose _UnitOfWork
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            _UnitOfWork.Dispose();
+            base.Dispose(disposing);
+        }
     }
 }

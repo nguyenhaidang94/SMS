@@ -94,6 +94,8 @@
     <Compile Include="GenericRepository.cs" />
     <Compile Include="Models\BangDiemViewModel.cs" />
     <Compile Include="Models\MonHocViewModel.cs" />
+    <Compile Include="Models\BaoCaoNhomDiemViewModel.cs" />
+    <Compile Include="Models\DTBLopViewModel.cs" />
     <Compile Include="Models\XepLopViewModel.cs" />
     <Compile Include="Models\CTKhenThuongViewModel.cs" />
     <Compile Include="Models\SelectHocSinhViewModel.cs" />
