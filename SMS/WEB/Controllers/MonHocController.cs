@@ -198,7 +198,6 @@ namespace WEB.Controllers
                     foreach (MonHocViewModel model in viewModels)
                     {
                         MonHoc monHoc = new MonHoc();
-                        monHoc.MaMonHoc = 0;
                         monHoc.HeSo = model.HeSo;
                         monHoc.SoTiet = model.SoTiet;
                         monHoc.TenMonHoc = model.TenMonHoc;
@@ -207,7 +206,7 @@ namespace WEB.Controllers
                             monHoc.dsKhoi.Add(_KhoiLopService.GetByID(id));
                         }
 
-                        _MonHocService.Update(monHoc);
+                        _MonHocService.Insert(monHoc);
                     }
                 }
                 return Json(viewModels);

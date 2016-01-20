@@ -10,11 +10,13 @@ namespace SMS.SERVICE.Service
     {
         private readonly UnitOfWork _UnitOfWork;
         private readonly GenericRepository<BangDiemHKMH> _BangDiemRepository;
+        private readonly GenericRepository<CotDiem> _CotDiemRepository;
 
         public HocTapService(UnitOfWork unitOfWork)
         {
             _UnitOfWork = unitOfWork;
             _BangDiemRepository = _UnitOfWork.Repository<BangDiemHKMH>();
+            _CotDiemRepository = _UnitOfWork.Repository<CotDiem>();
         }
 
         /// <summary>
@@ -95,5 +97,81 @@ namespace SMS.SERVICE.Service
         {
             _BangDiemRepository.Delete(entities);
         }
+
+        #region Cot diem
+        /// <summary>
+        /// get all CotDiem
+        /// </summary>
+        /// <returns>list CotDiem</returns>
+        public IEnumerable<CotDiem> GetAllCotDiem()
+        {
+            IEnumerable<CotDiem> listCotDiem = _CotDiemRepository.Entities.Where(m => m.Active == true);
+            return listCotDiem;
+        }
+
+        /// <summary>
+        /// get CotDiem by id
+        /// </summary>
+        /// <returns>list CotDiem</returns>
+        public CotDiem GetCotDiemByID(int id)
+        {
+            CotDiem cotDiem = _CotDiemRepository.Entities.Find(id);
+            return cotDiem;
+        }
+
+        /// <summary>
+        /// add CotDiem
+        /// </summary>
+        /// <param name="entity">CotDiem</param>
+        public void InsertCotDiem(CotDiem entity)
+        {
+            _CotDiemRepository.Insert(entity);
+        }
+
+        /// <summary>
+        /// add list CotDiem
+        /// </summary>
+        /// <param name="entity">List CotDiem</param>
+        public void InsertCotDiem(IEnumerable<CotDiem> entities)
+        {
+            _CotDiemRepository.Insert(entities);
+        }
+
+        /// <summary>
+        /// update BangDiem 
+        /// </summary>
+        /// <param name="entity">BangDiem</param>
+        public void UpdateCotDiem(CotDiem entity)
+        {
+            _CotDiemRepository.Update(entity);
+        }
+
+        /// <summary>
+        /// update list CotDiem
+        /// </summary>
+        /// <param name="entity">CotDiem</param>
+        public void UpdateCotDiem(IEnumerable<CotDiem> entities)
+        {
+            _CotDiemRepository.Update(entities);
+        }
+
+        /// <summary>
+        /// delete CotDiem
+        /// </summary>
+        /// <param name="entity">CotDiem</param>
+        public void DeleteCotDiem(CotDiem entity)
+        {
+            _CotDiemRepository.Delete(entity);
+        }
+
+        /// <summary>
+        /// delete list CotDiem
+        /// </summary>
+        /// <param name="entity">CotDiem</param>
+        public void DeleteCotDiem(IEnumerable<CotDiem> entities)
+        {
+            _CotDiemRepository.Delete(entities);
+        }
+        #endregion
     }
 }

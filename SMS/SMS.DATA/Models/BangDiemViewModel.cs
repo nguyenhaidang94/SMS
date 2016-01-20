@@ -49,6 +49,8 @@ namespace SMS.DATA.Models
 
         public float? DiemTrungBinh { get; set; }
 
+        public BangDiemViewModel() { }
+
         public BangDiemViewModel(int maBangDiem, int maHocSinh, string tenHocSinh, int maMonHoc, int maLop) 
         {
             MaBangDiem = -maBangDiem;   //am de danh dau bang diem moi, maBangDiem se do controller giu va bat dau tu 0
@@ -151,8 +153,7 @@ namespace SMS.DATA.Models
                 }
             }
 
-            DiemTrungBinh = (Diem15_1 + Diem15_2 + DiemMieng_1 + DiemMieng_2 + Diem1T_1*2 + Diem1T_2*2  + DiemHK * 3) / 
-                (1 + 1 + 1 + 1 + 2 + 2 + 3);
+            DiemTrungBinh = bangDiem.DiemTB;
         }
     }
 }

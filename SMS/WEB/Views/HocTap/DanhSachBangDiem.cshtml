@@ -53,9 +53,14 @@
                         type:"POST",
                         dataType: "json",
                     },
+                    update: {
+                        url: "@Html.Raw(Url.Action("UpdateBangDiem"))",
+                        type:"POST",
+                        dataType: "json",
+                },
                     parameterMap: function (options, operation) {
                         if (operation !== "read" && options.models) {
-                            return { models: kendo.stringify(options.models) };
+                            return { models: kendo.stringify(options.models), idNam: $('#dropdownNam').val(), idHocKy: $('#dropdownHocKy').val() };
                         }
                         else{
                             if(operation == "read"){
@@ -81,13 +86,13 @@
                             MaDiem1T_1: { type: "number", nullable: false },
                             MaDiem1T_2: { type: "number", nullable: false },
                             MaDiemHK: { type: "number", nullable: false },
-                            DiemMieng_1: { type: "number", validation: { min: 0, max: 3 } },
-                            DiemMieng_2: { type: "number", validation: { min: 0, max: 3 } },
-                            Diem15_1: { type: "number", validation: { min: 0, max: 3 } },
-                            Diem15_2: { type: "number", validation: { min: 0, max: 3 } },
-                            Diem1T_1: { type: "number", validation: { min: 0, max: 3 } },
-                            Diem1T_2: { type: "number", validation: { min: 0, max: 3 } },
-                            DiemHK: { type: "number", validation: { min: 0, max: 3 } },
+                            DiemMieng_1: { type: "number", validation: { min: 0, max: 10 } },
+                            DiemMieng_2: { type: "number", validation: { min: 0, max: 10 } },
+                            Diem15_1: { type: "number", validation: { min: 0, max: 10 } },
+                            Diem15_2: { type: "number", validation: { min: 0, max: 10 } },
+                            Diem1T_1: { type: "number", validation: { min: 0, max: 10 } },
+                            Diem1T_2: { type: "number", validation: { min: 0, max: 10 } },
+                            DiemHK: { type: "number", validation: { min: 0, max: 10 } },
                             DiemTrungBinh: { type: "number", editable: false }
                         }
                     }
@@ -114,14 +119,14 @@
                                 {
                                     title: "Điểm Miệng",
                                     columns: [
-                                    { field: "DiemMieng_1", title: "1", width: 50 },
-                                    { field: "DiemMieng_2", title: "2", width: 50 }]
+                                    { field: "DiemMieng_1", format: "{0:n1}", title: "1", width: 50 },
+                                    { field: "DiemMieng_2", format: "{0:n1}", title: "2", width: 50 }]
                                 },
                                 {
                                     title: "Điểm 15'",
                                     columns: [
-                                        { field: "Diem15_1", title: "1", width: 50 },
-                                        { field: "Diem15_2", title: "2", width: 50 }]
+                                        { field: "Diem15_1", format: "{0:n1}", title: "1", width: 50 },
+                                        { field: "Diem15_2", format: "{0:n1}", title: "2", width: 50 }]
                                 },
                             ]
                     },
@@ -132,14 +137,14 @@
                             {
                                 title: "Điểm KT 1 tiết",
                                 columns: [
-                                { field: "Diem1T_1", title: "1", width: 50 },
-                                { field: "Diem1T_2", title: "2", width: 50 }]
+                                { field: "Diem1T_1", format: "{0:n1}", title: "1", width: 50 },
+                                { field: "Diem1T_2", format: "{0:n1}", title: "2", width: 50 }]
                             },
                         ]
                     },
                     {
                         title: "Điểm hệ số 3",
-                        columns: [{ field: "DiemHK", format: "{0:0}", title: "Điểm Học Kỳ", width: 100 }]
+                        columns: [{ field: "DiemHK", format: "{0:n1}", title: "Điểm Học Kỳ", width: 100 }]
                     },
                     { field: "DiemTrungBinh", title: "Điểm Trung Bình", width: 100 }]
             });

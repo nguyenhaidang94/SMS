@@ -83,8 +83,9 @@
                                 var khoi_str = '';
                                 for(var i in khois){
                                     if(khois.hasOwnProperty(i))
-                                        khoi_str+=khois[i].text+' ';
+                                        khoi_str+=khois[i].text+", ";
                                 }
+                                khoi_str = khoi_str.slice(0,-2);    //remove char ", " at the end
                                 return khoi_str;
                             }
                             return '';
