@@ -14,12 +14,12 @@ namespace SMS.CORE.Data
         public string TenKhoi { get; set; }
 
         public virtual ICollection<LopHoc> dsLopHoc { get; set; }
-        public virtual ICollection<MonHocKhoi> dsMonHocKhoi { get; set; }
+        public virtual ICollection<MonHoc> dsMonHoc { get; set; }
 
         public KhoiLop()
         {
             dsLopHoc = new HashSet<LopHoc>();
-            dsMonHocKhoi = new HashSet<MonHocKhoi>();
+            dsMonHoc = new HashSet<MonHoc>();
         }
     }
 }

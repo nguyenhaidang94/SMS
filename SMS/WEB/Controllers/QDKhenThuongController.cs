@@ -19,6 +19,7 @@ namespace WEB.Controllers
     /// <summary>
     /// controller quyetdinh khenthuong
     /// </summary>
+    [Authorize(Roles = "Admin, Hiệu Trưởng")]
     public class QDKhenThuongController : Controller
     {
         private readonly UnitOfWork _UnitOfWork = new UnitOfWork();

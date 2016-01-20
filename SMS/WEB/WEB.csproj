@@ -228,6 +228,10 @@
     <Compile Include="Migrations\201601200149565_ADD-NGAYVAOTRUONG-TO-HOCSINH.Designer.cs">
       <DependentUpon>201601200149565_ADD-NGAYVAOTRUONG-TO-HOCSINH.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201601200419354_MAP-MONHOC-TO-KHOI.cs" />
+    <Compile Include="Migrations\201601200419354_MAP-MONHOC-TO-KHOI.Designer.cs">
+      <DependentUpon>201601200419354_MAP-MONHOC-TO-KHOI.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationRole.cs" />
@@ -1704,12 +1708,10 @@
     <Content Include="Views\PhongHoc\Index.cshtml" />
     <Content Include="Views\LopHoc\Index.cshtml" />
     <Content Include="Views\QDKhenThuong\QuanLyQDKhenThuong.cshtml" />
-    <Content Include="Views\QDKhenThuong\CTQDKhenThuong.cshtml" />
     <Content Include="Views\GiaoVien\QuanLyGiaoVien.cshtml" />
     <Content Include="Views\HocSinh\QuanLyHocSinh.cshtml" />
     <Content Include="Views\MonHoc\Index.cshtml" />
     <Content Include="Views\LopHoc\XepLop.cshtml" />
-    <Content Include="Views\QDKhenThuong\SelectHocSinh.cshtml" />
     <Content Include="Views\Authentication\Index.cshtml" />
     <Content Include="Views\Authentication\QuanLyRole.cshtml" />
     <Content Include="Views\Authentication\CreateUser.cshtml" />
@@ -1771,6 +1773,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201601200149565_ADD-NGAYVAOTRUONG-TO-HOCSINH.resx">
       <DependentUpon>201601200149565_ADD-NGAYVAOTRUONG-TO-HOCSINH.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201601200419354_MAP-MONHOC-TO-KHOI.resx">
+      <DependentUpon>201601200419354_MAP-MONHOC-TO-KHOI.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

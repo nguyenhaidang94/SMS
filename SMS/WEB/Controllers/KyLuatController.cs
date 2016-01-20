@@ -10,7 +10,7 @@ using System.Collections.Generic;
 
 namespace WEB.Controllers
 {
-
+    [Authorize(Roles = "Admin, Giáo Viên")]
     public class KyLuatController : Controller
     {
         private readonly UnitOfWork _UnitOfWork = new UnitOfWork();

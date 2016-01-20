@@ -27,7 +27,6 @@ namespace SMS.DATA
         public virtual DbSet<LoaiDiem> DbLoaiDiem { get; set; }
         public virtual DbSet<LopHoc> DbLopHoc { get; set; }
         public virtual DbSet<MonHoc> DbMonHoc { get; set; }
-        public virtual DbSet<MonHocKhoi> DbMonHocKhoi { get; set; }
         public virtual DbSet<NamHoc> DbNamHoc { get; set; }
         public virtual DbSet<Nguoi> DbNguoi { get; set; }
         public virtual DbSet<PersonType> DbPersonType { get; set; }
@@ -150,12 +149,12 @@ namespace SMS.DATA
                 .HasForeignKey(e => e.MaKhoi)
                 .WillCascadeOnDelete(false);
 
-            //map monhockhoi to khoilop
+            //map n-n relationship
             modelBuilder.Entity<KhoiLop>()
-                .HasMany(e => e.dsMonHocKhoi)
-                .WithRequired(e => e.KhoiLop)
-                .HasForeignKey(e => e.MaKhoi)
-                .WillCascadeOnDelete(false);
+                .HasMany(e => e.dsMonHoc)
+                .WithMany(e => e.dsKhoi)
+                .Map(m => m.ToTable("MonHoc_Khoi").MapLeftKey("MaKhoi").MapRightKey("MaMonHoc"));
+            
 
             //map ctlichgiangday to lichgiangday
             modelBuilder.Entity<LichGiangDay>()
@@ -199,12 +198,7 @@ namespace SMS.DATA
                 .HasForeignKey(o => o.MaMonHoc)
                 .WillCascadeOnDelete(false);
 
-            //map monhockhoi to monhoc
-            modelBuilder.Entity<MonHoc>()
-                .HasMany(e => e.dsMonHocKhoi)
-                .WithRequired(o => o.MonHoc)
-                .HasForeignKey(o => o.MaMonHoc)
-                .WillCascadeOnDelete(false);
+            
 
             //map giaovienmonhoc to monhoc
             modelBuilder.Entity<MonHoc>()
