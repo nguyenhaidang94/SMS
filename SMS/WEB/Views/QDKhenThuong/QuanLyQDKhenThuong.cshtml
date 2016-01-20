@@ -15,9 +15,16 @@
 <script type="text/x-kendo-template" id="template">
     <button id="btnSelectHocSinh" style="float:right;" class="k-button">Thêm học sinh vào quyết định khen thưởng</button>
 </script>
+<script type="text/x-kendo-template" id="toolbar-template">
+    <div class="toolbar">
+        <label class="category-label" for="namhoc">Lớp:</label>
+        <input type="search" id="dropdownLopHoc" style="width: 100px" />
+    </div>
+</script>
 <script>
     var dsNamHoc = @Html.Raw(ViewBag.dsNamHoc);
     var dsGioiTinh = [{ "value": true, "text": "Nam" }, { "value": false, "text": "Nữ" }];
+    var dsLopHoc =  @Html.Raw(ViewBag.dsLopHoc);
     //create main grid
     $(document).ready(function () {
         var dataSource = new kendo.data.DataSource({
@@ -80,6 +87,7 @@
                 buttonCount: 5
             },
             detailInit: detailInit,
+            detailExpand: detailExpand,
             toolbar: ["create"],
             columns: [
                 { field: "SoQuyetDinh", title: "Số Quyết Định" },
@@ -105,6 +113,8 @@
             },
             toolbar: kendo.template($("#template").html()),
             columns: [
+                { field: "MaNamHoc", values: dsNamHoc, title: "Năm Học", },
+                { field: "MaLop", values: dsLopHoc, title: "Lớp"},
                 { field: "HoTen", title: "Họ Tên" },
                 { field: "NgaySinh", title: "Ngày Sinh", template: "#= kendo.toString(NgaySinh, 'dd/MM/yyyy') #" },
                 { field: "GioiTinh", values: dsGioiTinh, title: "Giới Tính" },
@@ -127,9 +137,15 @@
             else {
                 var grid = $("#grid-hocsinh").data("kendoGrid");
                 grid.saveChanges();
+
             }
         });
     });
+
+    //collapse others row
+    function detailExpand(e){
+        this.collapseRow(this.tbody.find(' > tr.k-master-row').not(e.masterRow));
+    }
 
     //show detail grid
     function detailInit(e) {
@@ -212,6 +228,7 @@
         this.expandRow(row);
         var dataitem = this.dataItem(row);
         var id = dataitem.id;
+        var manamhoc = dataitem.MaNamHoc;
         var gridHS = $("#grid-hocsinh").data("kendoGrid");
         if (id != null){
             var hsDataSource = new kendo.data.DataSource({
@@ -229,7 +246,7 @@
                     },
                     parameterMap: function(options, operation) {
                         if (operation == "read") {
-                            return options;  
+                            return options;
                         }
                         else if (operation == "update"){
                             return { models: kendo.stringify(options.models), maqd: id };
@@ -241,13 +258,14 @@
                 },
                 batch: true,
                 pageSize: 5,
-                //serverFiltering: true,
-                filter: { field: "MaQuyetDinh", operator: "neq", value: id },
+                filter: { field: "MaNamHoc", operator: "eq", value: manamhoc },
                 schema: {
                     model: {
                         id: "MaHocSinh",
                         fields: {
                             MaHocSinh: { type: "number", editable: false, },
+                            MaNamHoc: { type: "number", editable: false, },
+                            MaLop: { type: "number", editable: false, },
                             HoTen: { type: "string", editable: false, },
                             NgaySinh: { type: "date", editable: false, },
                             GioiTinh: { type: "boolean", editable: false, },

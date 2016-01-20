@@ -22,6 +22,9 @@ namespace SMS.CORE.Data
         [Required, StringLength(100)]
         public string NgheNghiepMe { get; set; }
 
+        [Required]
+        public DateTime NgayVaoTruong { get; set; }
+
         public virtual ICollection<BangDiemHKMH> dsBangDiemHKMH { get; set; }
         public virtual ICollection<ThongTinKhenThuong> dsThongTinKhenThuong { get; set; }
         public virtual ICollection<ThongTinKyLuat> dsThongTinKyLuat { get; set; }

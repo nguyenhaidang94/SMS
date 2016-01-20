@@ -25,13 +25,14 @@ namespace WEB.Controllers
         private readonly IQDKhenThuongService _QDKhenThuongService;
         private readonly INamHocService _NamHocService;
         private readonly ICTQDKhenThuongService _CTKhenThuongService;
+        private readonly ILopHocService _LopHocService;
 
         public QDKhenThuongController()
         {
             _QDKhenThuongService = new QDKhenThuongService(_UnitOfWork);
             _NamHocService = new NamHocService(_UnitOfWork);
             _CTKhenThuongService = new CTQDKhenThuongService(_UnitOfWork);
-
+            _LopHocService = new LopHocService(_UnitOfWork);
         }
 
         /// <summary>
@@ -42,6 +43,8 @@ namespace WEB.Controllers
         {
             ViewBag.dsNamHoc = JsonConvert.SerializeObject(_NamHocService.GetAll()
                 .Select(e => new { value = e.MaNamHoc, text = e.NamBatDau + "-" + e.NamKetThuc }));
+            ViewBag.dsLopHoc = JsonConvert.SerializeObject(_LopHocService.GetAll()
+                .Select(e => new { value = e.MaLopHoc, text = e.TenLop }));
             return View();
         }
 

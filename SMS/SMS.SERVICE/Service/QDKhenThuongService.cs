@@ -28,12 +28,16 @@ namespace SMS.SERVICE.Service
         private readonly UnitOfWork _UnitOfWork;
         private readonly GenericRepository<QuyetDinhKhenThuong> _QDKhenThuongRepository;
         private readonly GenericRepository<HocSinh> _HocSinhRepository;
+        private readonly GenericRepository<NamHoc> _NamHocRepository;
+        private readonly GenericRepository<LopHoc> _LopHocRepository;
 
         public QDKhenThuongService(UnitOfWork unitOfWork)
         {
             _UnitOfWork = unitOfWork;
             _QDKhenThuongRepository = unitOfWork.Repository<QuyetDinhKhenThuong>();
             _HocSinhRepository = unitOfWork.Repository<HocSinh>();
+            _NamHocRepository = unitOfWork.Repository<NamHoc>();
+            _LopHocRepository = unitOfWork.Repository<LopHoc>();
         }
 
         /// <summary>
@@ -79,15 +83,31 @@ namespace SMS.SERVICE.Service
         /// <returns>list SelectHocSinhViewModel</returns>
         public IEnumerable<SelectHocSinhViewModel> GetAllSelectHocSinhVM()
         {
-            return _HocSinhRepository.Entities.Where(e => e.Active)
-                .Select(e => new SelectHocSinhViewModel() 
+            List<SelectHocSinhViewModel> dsHocSinh = new List<SelectHocSinhViewModel>();
+            
+            var dsNamHoc = _NamHocRepository.Entities.Where(e => e.Active);
+            foreach (var namhoc in dsNamHoc)
+            {
+                var dsLopHoc = _LopHocRepository.Entities.Where(e => e.Active && e.MaNamHoc == namhoc.MaNamHoc);
+                foreach (var lophoc in dsLopHoc)
                 { 
-                    MaHocSinh = e.PersonId,
-                    HoTen = e.HoTen,
-                    NgaySinh = e.NgaySinh,
-                    GioiTinh = e.GioiTinh,
-                    Checked = false
-                });
+                    var dshs = _LopHocRepository.Entities
+                        .SelectMany(e => e.dsHocSinh.Where(o => o.Active))
+                        .Select(e => new SelectHocSinhViewModel() 
+                        { 
+                            MaHocSinh = e.PersonId,
+                            MaNamHoc = namhoc.MaNamHoc,
+                            MaLop = lophoc.MaLopHoc,
+                            HoTen = e.HoTen,
+                            NgaySinh = e.NgaySinh,
+                            GioiTinh = e.GioiTinh,
+                            Checked = false
+                        });
+                    dsHocSinh.AddRange(dshs);
+                }
+            }
+
+            return dsHocSinh;
         }
 
         /// <summary>

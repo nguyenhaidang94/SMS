@@ -8,6 +8,12 @@ namespace SMS.DATA.Models
         [Required]
         public int MaHocSinh { get; set; }
 
+        [Required]
+        public int MaNamHoc { get; set; }
+
+        [Required]
+        public int MaLop { get; set; }
+
         [Required, StringLength(100)]
         public string HoTen { get; set; }
 
