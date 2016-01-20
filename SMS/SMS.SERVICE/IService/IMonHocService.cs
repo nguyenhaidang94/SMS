@@ -30,6 +30,12 @@ namespace SMS.SERVICE.IService
         MonHoc GetByID(int id);
 
         /// <summary>
+        /// get MonHoc by id
+        /// </summary>
+        /// <returns>list MonHoc</returns>
+        MonHoc GetByIDWithChild(int id);
+
+        /// <summary>
         /// add MonHoc
         /// </summary>
         /// <param name="entity">MonHoc</param>

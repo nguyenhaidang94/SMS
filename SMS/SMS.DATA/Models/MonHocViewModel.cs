@@ -44,6 +44,7 @@ namespace SMS.DATA.Models
 
         public MonHocViewModel(MonHoc monHoc)
         {
+            KhoiLops = new List<PairKhoiLop>();
             MaMonHoc = monHoc.MaMonHoc;
             TenMonHoc = monHoc.TenMonHoc;
             HeSo = monHoc.HeSo;

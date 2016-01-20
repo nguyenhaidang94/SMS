@@ -60,6 +60,17 @@ namespace SMS.SERVICE.Service
         }
 
         /// <summary>
+        /// get MonHoc by id
+        /// </summary>
+        /// <returns>list MonHoc</returns>
+        public MonHoc GetByIDWithChild(int id)
+        {
+            var monHoc = _MonHocRepository.GetEntityById(id);
+            _MonHocRepository.DbContext.Entry(monHoc).Collection(m => m.dsKhoi).Load();
+            return monHoc;
+        }
+
+        /// <summary>
         /// add MonHoc
         /// </summary>
         /// <param name="entity">MonHoc</param>

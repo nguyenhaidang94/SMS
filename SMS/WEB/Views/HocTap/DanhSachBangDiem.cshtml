@@ -10,19 +10,22 @@
 <link rel="stylesheet" href="~/Content/kendo/2015.3.1111/kendo.default.min.css" />
 
 <h2>BẢNG ĐIỂM LỚP HỌC</h2>
-<form class="form-inline" style="margin-bottom:5px">
+<div class="form-inline" style="margin-bottom:5px">
     <div class="form-group">
         <label>Năm học:</label>
         @Html.DropDownList("dropdownNam", new SelectList(ViewBag.listNamHoc, "value", "text"), new {@class = "form-control"})
     </div>
+
     <div class="form-group" style="margin-left:10px">
-        <label>Năm học:</label>
+        <label>Học kỳ:</label>
         @Html.DropDownList("dropdownHocKy", new SelectList(ViewBag.listHocKy, "value", "text"), new {@class = "form-control"})
     </div>
-    <div div class="form-group" style="margin-left:10px">
+
+    <div class="form-group" style="margin-left:10px">
         <button class="btn btn-default" id="btnSearch">Xem bảng điểm</button>
-    </div>
-</form>
+    <div/>
+</div>
+</div>
 <div id="grid"></div>
 
 
@@ -47,46 +50,45 @@
                 transport: {
                     read: {
                         url: "@Html.Raw(Url.Action("ReadBangDiem"))",
-                        type: "POST",
+                        type:"POST",
                         dataType: "json",
-                        data: function () {
-                            return {
-                                idNam: $('#dropdownNam').val(),
-                                idHocKy: $('#dropdownHocKy').val()
-                            }
-                        },
-                        parameterMap: function (options, operation) {
-                            if (operation !== "read" && options.models) {
-                                return { models: kendo.stringify(options.models) };
+                    },
+                    parameterMap: function (options, operation) {
+                        if (operation !== "read" && options.models) {
+                            return { models: kendo.stringify(options.models) };
+                        }
+                        else{
+                            if(operation == "read"){
+                                return { idNam: $('#dropdownNam').val(), idHocKy: $('#dropdownHocKy').val() }
                             }
                         }
-                    },
-                    batch: true,
-                    pageSize: 20,
-                    schema: {
-                        model: {
-                            id: "MaBangDiem",
-                            fields: {
-                                MaBangDiem: { type: "number", nullable: false, editable: false },
-                                MaHocSinh: { type: "number", nullable: false, editable: false },
-                                TenHocSinh: {nullable: false, editable: false },
-                                MaMonHoc: { type: "number", nullable: false, editable: false },
-                                MaDiemMieng_1: { type: "number", nullable: false },
-                                MaDiemMieng_2: { type: "number", nullable: false },
-                                MaDiem15_1: { type: "number", nullable: false },
-                                MaDiem15_2: { type: "number", nullable: false },
-                                MaDiem1T_1: { type: "number", nullable: false },
-                                MaDiem1T_2: { type: "number", nullable: false },
-                                MaDiemHK: { type: "number", nullable: false },
-                                DiemMieng_1: { type: "number", validation: { min: 0, max: 3 } },
-                                DiemMieng_2: { type: "number", validation: { min: 0, max: 3 } },
-                                Diem15_1: { type: "number", validation: { min: 0, max: 3 } },
-                                Diem15_2: { type: "number", validation: { min: 0, max: 3 } },
-                                Diem1T_1: { type: "number", validation: { min: 0, max: 3 } },
-                                Diem1T_2: { type: "number", validation: { min: 0, max: 3 } },
-                                DiemHK: { type: "number", validation: { min: 0, max: 3 } },
-                                DiemTrungBinh: { type: "number", editable: false }
-                            }
+                    }
+                },
+                batch: true,
+                pageSize: 20,
+                schema: {
+                    model: {
+                        id: "MaBangDiem",
+                        fields: {
+                            MaBangDiem: { type: "number", nullable: false, editable: false },
+                            MaHocSinh: { type: "number", nullable: false, editable: false },
+                            TenHocSinh: {nullable: false, editable: false },
+                            MaMonHoc: { type: "number", nullable: false, editable: false },
+                            MaDiemMieng_1: { type: "number", nullable: false },
+                            MaDiemMieng_2: { type: "number", nullable: false },
+                            MaDiem15_1: { type: "number", nullable: false },
+                            MaDiem15_2: { type: "number", nullable: false },
+                            MaDiem1T_1: { type: "number", nullable: false },
+                            MaDiem1T_2: { type: "number", nullable: false },
+                            MaDiemHK: { type: "number", nullable: false },
+                            DiemMieng_1: { type: "number", validation: { min: 0, max: 3 } },
+                            DiemMieng_2: { type: "number", validation: { min: 0, max: 3 } },
+                            Diem15_1: { type: "number", validation: { min: 0, max: 3 } },
+                            Diem15_2: { type: "number", validation: { min: 0, max: 3 } },
+                            Diem1T_1: { type: "number", validation: { min: 0, max: 3 } },
+                            Diem1T_2: { type: "number", validation: { min: 0, max: 3 } },
+                            DiemHK: { type: "number", validation: { min: 0, max: 3 } },
+                            DiemTrungBinh: { type: "number", editable: false }
                         }
                     }
                 }

@@ -18,30 +18,30 @@
                 transport: {
                     read: {
                         url: "@Html.Raw(Url.Action("Read"))",
-                            type: "POST",
-                            dataType: "json",
-                        },
-                        update: {
-                            url: "@Html.Raw(Url.Action("Update"))",
-                            type: "POST",
-                            dataType: "json",
-                        },
-                        destroy: {
-                            url: "@Html.Raw(Url.Action("Destroy"))",
-                            type: "POST",
-                            dataType: "json",
-                        },
-                        create: {
-                            url: "@Html.Raw(Url.Action("Create"))",
-                            type: "POST",
-                            dataType: "json",
-                        },
-                        parameterMap: function (options, operation) {
-                            if (operation !== "read" && options.models) {
-                                return { models: kendo.stringify(options.models) };
-                            }
-                        }
+                        type: "POST",
+                        dataType: "json",
                     },
+                    update: {
+                        url: "@Html.Raw(Url.Action("Update"))",
+                            type: "POST",
+                            dataType: "json",
+                        },
+                    destroy: {
+                        url: "@Html.Raw(Url.Action("Destroy"))",
+                            type: "POST",
+                            dataType: "json",
+                        },
+                    create: {
+                        url: "@Html.Raw(Url.Action("Create"))",
+                            type: "POST",
+                            dataType: "json",
+                        },
+                    parameterMap: function (options, operation) {
+                        if (operation !== "read" && options.models) {
+                            return { models: kendo.stringify(options.models) };
+                        }
+                    }
+                },
                 batch: true,
                 pageSize: 20,
                 schema: {

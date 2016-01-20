@@ -98,15 +98,32 @@ namespace WEB.Controllers
         {
             try
             {
-                var monHocs = JsonConvert.DeserializeObject<IEnumerable<MonHoc>>(models);
-                if (monHocs != null)
+                var viewModels = JsonConvert.DeserializeObject<IEnumerable<MonHocViewModel>>(models);
+                if (viewModels != null)
                 {
-                    foreach (MonHoc monHoc in monHocs)
+                    foreach (MonHocViewModel model in viewModels)
                     {
+                        MonHoc monHoc = _MonHocService.GetByIDWithChild(model.MaMonHoc);
+                        monHoc.HeSo = model.HeSo;
+                        monHoc.SoTiet = model.SoTiet;
+                        monHoc.TenMonHoc = model.TenMonHoc;
+                        List<int> idAdd = model.KhoiLops.Select(m => m.value).ToList().Except(monHoc.dsKhoi.Select(m => m.MaKhoi).ToList()).ToList();
+                        List<int> idDelete = monHoc.dsKhoi.Select(m => m.MaKhoi).ToList().Except(model.KhoiLops.Select(m => m.value).ToList()).ToList();
+                        foreach (int id in idAdd)
+                        {
+                            monHoc.dsKhoi.Add(_KhoiLopService.GetByID(id));
+                        }
+
+                        foreach (int id in idDelete)
+                        {
+                            monHoc.dsKhoi.Remove(_KhoiLopService.GetByID(id));
+                        }
+
                         _MonHocService.Update(monHoc);
                     }
                 }
-                return Json(monHocs);
+
+                return Json(viewModels);
             }
             catch (Exception e)
             {
@@ -123,16 +140,16 @@ namespace WEB.Controllers
         {
             try
             {
-                var monHocs = JsonConvert.DeserializeObject<IEnumerable<MonHoc>>(models);
+                var viewModels = JsonConvert.DeserializeObject<IEnumerable<MonHocViewModel>>(models);
 
-                if (monHocs != null)
+                if (viewModels != null)
                 {
-                    foreach (MonHoc monHoc in monHocs)
+                    foreach (MonHocViewModel monHoc in viewModels)
                     {
-                        _MonHocService.FakeDelete(monHoc);
+                        _MonHocService.FakeDelete(_MonHocService.GetByID(monHoc.MaMonHoc));
                     }
                 }
-                return Json(monHocs);
+                return Json(viewModels);
             }
             catch (Exception e)
             {
@@ -149,16 +166,16 @@ namespace WEB.Controllers
         {
             try
             {
-                var monHocs = JsonConvert.DeserializeObject<IEnumerable<MonHoc>>(models);
+                var viewModels = JsonConvert.DeserializeObject<IEnumerable<MonHocViewModel>>(models);
 
-                if (monHocs != null)
+                if (viewModels != null)
                 {
-                    foreach (MonHoc monHoc in monHocs)
+                    foreach (MonHocViewModel monHoc in viewModels)
                     {
-                        _MonHocService.Delete(monHoc);
+                        _MonHocService.Delete(_MonHocService.GetByID(monHoc.MaMonHoc));
                     }
                 }
-                return Json(monHocs);
+                return Json(viewModels);
             }
             catch (Exception e)
             {
@@ -175,115 +192,29 @@ namespace WEB.Controllers
         {
             try
             {
-                var monHocs = JsonConvert.DeserializeObject<IEnumerable<MonHoc>>(models);
-
-                if (monHocs != null)
+                var viewModels = JsonConvert.DeserializeObject<IEnumerable<MonHocViewModel>>(models);
+                if (viewModels != null)
                 {
-                    foreach (MonHoc monHoc in monHocs)
+                    foreach (MonHocViewModel model in viewModels)
                     {
-                        _MonHocService.Insert(monHoc);
+                        MonHoc monHoc = new MonHoc();
+                        monHoc.MaMonHoc = 0;
+                        monHoc.HeSo = model.HeSo;
+                        monHoc.SoTiet = model.SoTiet;
+                        monHoc.TenMonHoc = model.TenMonHoc;
+                        foreach (int id in model.KhoiLops.Select(m => m.value))
+                        {
+                            monHoc.dsKhoi.Add(_KhoiLopService.GetByID(id));
+                        }
+
+                        _MonHocService.Update(monHoc);
                     }
                 }
-                return Json(monHocs);
+                return Json(viewModels);
             }
             catch (Exception e)
             {
                 return Json(new { error = e.Message});
-            }
-        }
-        #endregion
-
-        #region MonHocKhoi
-        /// <summary>
-        /// Get list of relationship of MonHoc and Khoi
-        /// </summary>
-        /// <returns>List MonHocKhoi in Json</returns>
-        [HttpPost]
-        public JsonResult ReadMonHocKhoi()
-        {
-            try
-            {
-                IEnumerable<MonHocKhoi> models = _MonHocKhoiService.GetAll();
-
-                if (models == null)
-                {
-                    return Json(null, JsonRequestBehavior.AllowGet);
-                }
-
-                return Json(models);
-            }
-            catch (Exception e)
-            {
-                return Json(new { error = e.Message });
-            }
-        }
-
-        /// <summary>
-        /// Update MonHocKhoi to database
-        /// </summary>
-        /// <returns></returns>
-        [HttpPost]
-        public JsonResult UpdateMonHocKhoi(string models)
-        {
-            try
-            {
-                var monHocKhois = JsonConvert.DeserializeObject<IEnumerable<MonHocKhoi>>(models);
-                if (monHocKhois != null)
-                {
-                    foreach (MonHocKhoi monHocKhoi in monHocKhois)
-                    {
-                        _MonHocKhoiService.Update(monHocKhoi);
-                    }
-                }
-                return Json(monHocKhois);
-            }
-            catch (Exception e)
-            {
-                return Json(new { error = e.Message });
-            }
-        }
-
-        /// <summary>
-        /// Set MonHocKhoi to inactive
-        /// </summary>
-        /// <returns></returns>
-        [HttpPost]
-        public ActionResult DestroyMonHocKhoi(string models)
-        {
-            var monHocKhois = JsonConvert.DeserializeObject<IEnumerable<MonHocKhoi>>(models);
-            if (monHocKhois != null)
-            {
-                foreach (MonHocKhoi monHocKhoi in monHocKhois)
-                {
-                    _MonHocKhoiService.Delete(monHocKhoi);
-                }
-            }
-            return Json(monHocKhois);
-        }
-
-        /// <summary>
-        /// Add new MonHocKhoi in database
-        /// </summary>
-        /// <returns></returns>
-        [HttpPost]
-        public ActionResult CreateMonHocKhoi(string models)
-        {
-            try
-            {
-                var monHocKhois = JsonConvert.DeserializeObject<IEnumerable<MonHocKhoi>>(models);
-
-                if (monHocKhois != null)
-                {
-                    foreach (MonHocKhoi monHocKhoi in monHocKhois)
-                    {
-                        _MonHocKhoiService.Insert(monHocKhoi);
-                    }
-                }
-                return Json(monHocKhois);
-            }
-            catch (Exception e)
-            {
-                return Json(new { error = e.Message });
             }
         }
         #endregion
