@@ -78,67 +78,6 @@ namespace SMS.SERVICE.Service
         }
 
         /// <summary>
-        /// get all SelectHocSinhViewModel
-        /// </summary>
-        /// <returns>list SelectHocSinhViewModel</returns>
-        public IEnumerable<SelectHocSinhViewModel> GetAllSelectHocSinhVM()
-        {
-            List<SelectHocSinhViewModel> dsHocSinh = new List<SelectHocSinhViewModel>();
-            
-            var dsNamHoc = _NamHocRepository.Entities.Where(e => e.Active);
-            foreach (var namhoc in dsNamHoc)
-            {
-                var dsLopHoc = _LopHocRepository.Entities.Where(e => e.Active && e.MaNamHoc == namhoc.MaNamHoc);
-                foreach (var lophoc in dsLopHoc)
-                { 
-                    var dshs = _LopHocRepository.Entities
-                        .SelectMany(e => e.dsHocSinh.Where(o => o.Active))
-                        .Select(e => new SelectHocSinhViewModel() 
-                        { 
-                            MaHocSinh = e.PersonId,
-                            MaNamHoc = namhoc.MaNamHoc,
-                            MaLop = lophoc.MaLopHoc,
-                            HoTen = e.HoTen,
-                            NgaySinh = e.NgaySinh,
-                            GioiTinh = e.GioiTinh,
-                            Checked = false
-                        });
-                    dsHocSinh.AddRange(dshs);
-                }
-            }
-
-            return dsHocSinh;
-        }
-
-        /// <summary>
-        /// get hocsinh not in qdkhenthuong has id= maqd
-        /// </summary>
-        /// <param name="maqd">qdkhenthuong's id</param>
-        /// <returns>list SelectHocSinhViewModel</returns>
-        public IEnumerable<SelectHocSinhViewModel> GetHocSinhNotInQDKhenThuong(int maqd)
-        {
-            var qd = _QDKhenThuongRepository.GetEntityById(maqd);
-            if (qd != null)
-            {
-                var dsHocSinh = _QDKhenThuongRepository.Entities
-                    .SelectMany(e => e.dsCTQDKhenThuong.Select(o => o.HocSinh)).ToArray();
-                var dsAllHocSinh = _HocSinhRepository.Entities.Where(e => e.Active).ToArray();
-
-                return dsAllHocSinh.Except(dsHocSinh, new HocSinhEqualityComparer())
-                    .Select(e => new SelectHocSinhViewModel()
-                    {
-                        MaHocSinh = e.PersonId,
-                        HoTen = e.HoTen,
-                        NgaySinh = e.NgaySinh,
-                        GioiTinh = e.GioiTinh,
-                        Checked = false
-                    });
-            }
-            else
-                return GetAllSelectHocSinhVM();
-        }
-
-        /// <summary>
         /// add ds ctkhenthuong to qdkhenthuong has id= maqd
         /// </summary>
         /// <param name="maqd">maquyetdinh</param>

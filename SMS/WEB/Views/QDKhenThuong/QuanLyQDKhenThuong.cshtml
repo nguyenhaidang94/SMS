@@ -14,13 +14,10 @@
 @section scripts{
 <script type="text/x-kendo-template" id="template">
     <button id="btnSelectHocSinh" style="float:right;" class="k-button">Thêm học sinh vào quyết định khen thưởng</button>
+    <label class="category-label" for="namhoc">Chọn Lớp Học:</label>
+    <input type="search" id="dropdownLopHoc" style="width: 100px" />
 </script>
-<script type="text/x-kendo-template" id="toolbar-template">
-    <div class="toolbar">
-        <label class="category-label" for="namhoc">Lớp:</label>
-        <input type="search" id="dropdownLopHoc" style="width: 100px" />
-    </div>
-</script>
+
 <script>
     var dsNamHoc = @Html.Raw(ViewBag.dsNamHoc);
     var dsGioiTinh = [{ "value": true, "text": "Nam" }, { "value": false, "text": "Nữ" }];
@@ -101,6 +98,8 @@
             }
         });
 
+        //
+
         //create grid-hocsinh
         var gridHS = $("#grid-hocsinh").kendoGrid({
             filterable: false,
@@ -127,6 +126,22 @@
             var grid = $("#grid-hocsinh").data("kendoGrid");
             dataItem = grid.dataItem($(e.target).closest("tr"));
             dataItem.set("Checked", this.checked);
+        });
+
+        //toolbar for grid-hocsinh
+        $("#dropdownLopHoc").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: dsLopHoc,
+            index: 0,
+            change: function() {
+                var value = this.value();
+                if (value) {
+                    gridHS.data("kendoGrid").dataSource.filter({ field: "MaLop", operator: "eq", value: parseInt(value) });
+                } else {
+                    gridHS.data("kendoGrid").dataSource.filter({});
+                }
+            }
         });
 
         //event click btnSelectHocSinh
@@ -194,7 +209,7 @@
                             LyDoKhenThuong: { validation: {required: true} },
                             HinhThucKhenThuong: { validation: {required: true} },
                             GiaTriKhenThuong: { type: "number" },
-                            GhiVaoHocBa: { type: "boolean", validation: { required: true } },
+                            GhiVaoHocBa: { type: "boolean" },
                             Active: { type: "boolean", defaultValue: true }
                         }
                     }
@@ -276,6 +291,9 @@
                 }
             });
             gridHS.setDataSource(hsDataSource);
+            
+            //filter dropdownlist
+            $("#dropdownLopHoc").data("kendoDropDownList").dataSource.filter([{ field: "MaNamHoc", operator: "eq", value: parseInt(manamhoc) }]);
         }
     }
 </script>   

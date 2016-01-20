@@ -54,7 +54,8 @@
                                 <li>@Html.ActionLink("Kỷ luật cấp lớp", "QuanLyKyLuat", "KyLuat")</li>
                                 @if (User.IsInRole("Admin") || User.IsInRole("Hiệu Trưởng"))
                                 {
-                                    <li>@Html.ActionLink("Khen thưởng cấp trường", "QuanLyQDKhenThuong", "QDKhenThuong")</li>
+                                    <li>@Html.ActionLink("Quản lý quyết định khen thưởng", "QuanLyQDKhenThuong", "QDKhenThuong")</li>
+                                    <li>@Html.ActionLink("Quản lý quyết định kỷ luật", "QuanLyQDKyLuat", "QDKyLuat")</li>
                                 }
                             </ul>
                         </li>

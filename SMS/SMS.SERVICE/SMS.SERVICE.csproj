@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IService\ICTQDKyLuatService.cs" />
     <Compile Include="IService\IHocKyService.cs" />
     <Compile Include="IService\IHocTapService.cs" />
     <Compile Include="IService\IBaoCaoService.cs" />
@@ -58,8 +59,10 @@
     <Compile Include="IService\ILopHocService.cs" />
     <Compile Include="IService\INamHocService.cs" />
     <Compile Include="IService\IQDKhenThuongService.cs" />
+    <Compile Include="IService\IQDKyLuatService.cs" />
     <Compile Include="IService\ITietHocService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\CTQDKyLuatService.cs" />
     <Compile Include="Service\HocKyService.cs" />
     <Compile Include="Service\HocTapService.cs" />
     <Compile Include="Service\BaoCaoService.cs" />
@@ -75,6 +78,7 @@
     <Compile Include="Service\KyLuatService.cs" />
     <Compile Include="Service\NamHocService.cs" />
     <Compile Include="Service\QDKhenThuongService.cs" />
+    <Compile Include="Service\QDKyLuatService.cs" />
     <Compile Include="Service\TietHocService.cs" />
   </ItemGroup>
   <ItemGroup>

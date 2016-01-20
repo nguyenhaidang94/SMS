@@ -34,19 +34,6 @@ namespace SMS.SERVICE.IService
         void DeleteDsQdKhenThuong(IEnumerable<QuyetDinhKhenThuong> dsQDKhenThuong);
 
         /// <summary>
-        /// get all SelectHocSinhViewModel
-        /// </summary>
-        /// <returns>list SelectHocSinhViewModel</returns>
-        IEnumerable<SelectHocSinhViewModel> GetAllSelectHocSinhVM();
-
-        /// <summary>
-        /// get hocsinh not in qdkhenthuong has id= maqd
-        /// </summary>
-        /// <param name="maqd">qdkhenthuong's id</param>
-        /// <returns>list SelectHocSinhViewModel</returns>
-        IEnumerable<SelectHocSinhViewModel> GetHocSinhNotInQDKhenThuong(int maqd);
-
-        /// <summary>
         /// add ds ctkhenthuong to qdkhenthuong has id= maqd
         /// </summary>
         /// <param name="maqd">maquyetdinh</param>

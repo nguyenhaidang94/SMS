@@ -1,0 +1,300 @@
+﻿@{
+    ViewBag.Title = "QL QD Kỷ Luật";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>Quản lý Quyết định kỷ luật</h3>
+
+<div id="grid-qdkyluat"></div>
+<div id="div-hocsinh">
+    <h3>Danh Sách Học Sinh</h3>
+    <div id="grid-hocsinh"></div>
+</div>
+
+@section scripts{
+    <script type="text/x-kendo-template" id="template">
+        <button id="btnSelectHocSinh" style="float:right;" class="k-button">Thêm học sinh vào quyết định kỷ luật</button>
+        <label class="category-label" for="namhoc">Chọn Lớp Học:</label>
+        <input type="search" id="dropdownLopHoc" style="width: 100px" />
+    </script>
+
+    <script>
+    var dsNamHoc = @Html.Raw(ViewBag.dsNamHoc);
+    var dsGioiTinh = [{ "value": true, "text": "Nam" }, { "value": false, "text": "Nữ" }];
+    var dsLopHoc =  @Html.Raw(ViewBag.dsLopHoc);
+    //create main grid
+    $(document).ready(function () {
+        var dataSource = new kendo.data.DataSource({
+            type: "json",
+            transport: {
+                create: {
+                    url: "@Url.Action("Create")",
+                    type: "POST",
+                    dataType: "json"
+                },
+                read: {
+                    url: "@Url.Action("Read")",
+                    type: "POST",
+                    dataType: "json"
+                },
+                update: {
+                    url: "@Url.Action("Update")",
+                    type: "POST",
+                    dataType: "json"
+                },
+                destroy: {
+                    url: "@Url.Action("Delete")",
+                    type: "POST",
+                    dataType: "json"
+                },
+                parameterMap: function(options, operation) {
+                    if (operation != "read" && options.models) {
+                        return { models: kendo.stringify(options.models) };
+                    }
+                }
+            },
+            batch: true,
+            pageSize: 5,
+            schema: {
+                model: {
+                    id: "MaQuyetDinh",
+                    fields: {
+                        MaQuyetDinh: { type:"number", editable: false, nullable: false},
+                        SoQuyetDinh: { validation: {required: true} },
+                        MaNamHoc: { type: "number", field: "MaNamHoc", nullable: false },
+                        NoiDungQD: { validation: { required: true } },
+                        NgayQD: { type: "date", validation: { required: true } },
+                        NgayHieuLuc: { type: "date", validation: { required: true } },
+                        Active: { type: "boolean", defaultValue: true }
+                    }
+                }
+            }
+        });
+
+        //create grid-kyluat
+        $("#grid-qdkyluat").kendoGrid({
+            dataSource: dataSource,
+            filterable: false,
+            sortable: true,
+            editable: true,
+            selectable: "row",
+            change: gridOnChange,
+            pageable: {
+                refresh: true,
+                pageSizes: true,
+                buttonCount: 5
+            },
+            detailInit: detailInit,
+            detailExpand: detailExpand,
+            toolbar: ["create"],
+            columns: [
+                { field: "SoQuyetDinh", title: "Số Quyết Định" },
+                { field: "MaNamHoc", values: dsNamHoc, title: "Năm Học" },
+                { field: "NoiDungQD", title: "Nội Dung", width: "300px"},
+                { field: "NgayQD", title: "Ngày QĐ", template: "#= kendo.toString(NgayQD, 'dd/MM/yyyy') #" },
+                { field: "NgayHieuLuc", title: "Ngày Hiệu Lực", template: "#= kendo.toString(NgayHieuLuc, 'dd/MM/yyyy') #" },
+                { command: ["edit", "destroy"], title: "&nbsp;"}
+            ],
+            editable: {
+                mode: "inline"
+            }
+        });
+
+        //
+
+        //create grid-hocsinh
+        var gridHS = $("#grid-hocsinh").kendoGrid({
+            filterable: false,
+            sortable: true,
+            editable: true,
+            pageable: {
+                refresh: true,
+                pageSizes: true,
+                buttonCount: 5
+            },
+            toolbar: kendo.template($("#template").html()),
+            columns: [
+                { field: "MaNamHoc", values: dsNamHoc, title: "Năm Học", },
+                { field: "MaLop", values: dsLopHoc, title: "Lớp"},
+                { field: "HoTen", title: "Họ Tên" },
+                { field: "NgaySinh", title: "Ngày Sinh", template: "#= kendo.toString(NgaySinh, 'dd/MM/yyyy') #" },
+                { field: "GioiTinh", values: dsGioiTinh, title: "Giới Tính" },
+                { field: "Checked", title: "Chọn", template: '#= Checked ? \'<input type="checkbox" checked class="chkbx" />\' : \'<input type="checkbox" class="chkbx" />\' #' }
+            ]
+        });
+
+        //event change Checked property
+        gridHS.on("change", "input.chkbx", function (e) {
+            var grid = $("#grid-hocsinh").data("kendoGrid");
+            dataItem = grid.dataItem($(e.target).closest("tr"));
+            dataItem.set("Checked", this.checked);
+        });
+
+        //toolbar for grid-hocsinh
+        $("#dropdownLopHoc").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: dsLopHoc,
+            index: 0,
+            change: function() {
+                var value = this.value();
+                if (value) {
+                    gridHS.data("kendoGrid").dataSource.filter({ field: "MaLop", operator: "eq", value: parseInt(value) });
+                } else {
+                    gridHS.data("kendoGrid").dataSource.filter({});
+                }
+            }
+        });
+
+        //event click btnSelectHocSinh
+        $("#btnSelectHocSinh").click(function () {
+            var selectedItems = $('#grid-hocsinh input:checked');
+            if (selectedItems.length == 0)
+                alert("Vui lòng chọn học sinh");
+            else {
+                var grid = $("#grid-hocsinh").data("kendoGrid");
+                grid.saveChanges();
+
+            }
+        });
+    });
+
+    //collapse others row
+    function detailExpand(e){
+        this.collapseRow(this.tbody.find(' > tr.k-master-row').not(e.masterRow));
+    }
+
+    //show detail grid
+    function detailInit(e) {
+        $("<div/>").appendTo(e.detailCell).kendoGrid({
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@Url.Action("ReadCTKyLuat")",
+                        type: "POST",
+                        dataType: "json"
+                    },
+                    update: {
+                        url: "@Url.Action("UpdateCTKyLuat")",
+                        type: "POST",
+                        dataType: "json"
+                    },
+                    destroy: {
+                        url: "@Url.Action("DeleteCTKyLuat")",
+                        type: "POST",
+                        dataType: "json"
+                    },
+                    parameterMap: function(options, operation) {
+                        if (operation == "read") {
+                            return options;
+                        }
+                        else {
+                            if (options.models){
+                                return { models: kendo.stringify(options.models) };
+                            }
+                        }
+                    }
+                },
+                serverFiltering: true,
+                filter: { field: "MaQuyetDinh", operator: "eq", value: e.data.MaQuyetDinh },
+                batch: true,
+                pageSize: 5,
+                schema: {
+                    model: {
+                        id: "Id",
+                        fields: {
+                            Id: {type: "number", editable: false, nullable: false, defaultValue: 0},
+                            MaQuyetDinh: { type:"number", editable: false, nullable: false, defaultValue: e.data.MaQuyetDinh},
+                            MaHocSinh: { type: "number", editable: false, nullable: false },
+                            HoTen: { editable: false, nullable: false },
+                            LyDoKyLuat: { validation: {required: true} },
+                            HinhThucKyLuat: { validation: {required: true} },
+                            GhiVaoHocBa: { type: "boolean" },
+                            Active: { type: "boolean", defaultValue: true }
+                        }
+                    }
+                }
+            },
+            filterable: false,
+            sortable: true,
+            editable: true,
+            pageable: {
+                refresh: true,
+                pageSizes: true,
+                buttonCount: 5
+            },
+            columns: [
+                { field: "HoTen", title: "Họ Tên"},
+                { field: "LyDoKyLuat", title: "Lý do kỷ luật"},
+                { field: "HinhThucKyLuat", title:"Hình thức kỷ luật"},
+                { field: "GhiVaoHocBa", title: "Ghi học bạ"},
+                { command: ["edit", "destroy"], title: "&nbsp;"}
+            ],
+            editable: {
+                mode: "inline"
+            }
+        });
+    }
+
+    //event grid-qdkyluat row selection change
+    function gridOnChange(e){
+        var row = this.select()[0];
+        this.expandRow(row);
+        var dataitem = this.dataItem(row);
+        var id = dataitem.id;
+        var manamhoc = dataitem.MaNamHoc;
+        var gridHS = $("#grid-hocsinh").data("kendoGrid");
+        if (id != null){
+            var hsDataSource = new kendo.data.DataSource({
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@Url.Action("ReadHocSinh")",
+                        type: "POST",
+                        dataType: "json"
+                    },
+                    update: {
+                        url: "@Url.Action("SelectHocSinh")",
+                        type: "POST",
+                        dataType: "json"
+                    },
+                    parameterMap: function(options, operation) {
+                        if (operation == "read") {
+                            return options;
+                        }
+                        else if (operation == "update"){
+                            return { models: kendo.stringify(options.models), maqd: id };
+                        }
+                        else {
+                            return { models: kendo.stringify(options.models) };
+                        }
+                    }
+                },
+                batch: true,
+                pageSize: 5,
+                filter: { field: "MaNamHoc", operator: "eq", value: manamhoc },
+                schema: {
+                    model: {
+                        id: "MaHocSinh",
+                        fields: {
+                            MaHocSinh: { type: "number", editable: false, },
+                            MaNamHoc: { type: "number", editable: false, },
+                            MaLop: { type: "number", editable: false, },
+                            HoTen: { type: "string", editable: false, },
+                            NgaySinh: { type: "date", editable: false, },
+                            GioiTinh: { type: "boolean", editable: false, },
+                            Checked: { type: "boolean" },
+                            Active: { type: "boolean", editable: false, }
+                        }
+                    }
+                }
+            });
+            gridHS.setDataSource(hsDataSource);
+
+            //filter dropdownlist
+            $("#dropdownLopHoc").data("kendoDropDownList").dataSource.filter([{ field: "MaNamHoc", operator: "eq", value: parseInt(manamhoc) }]);
+        }
+    }
+    </script>
+}

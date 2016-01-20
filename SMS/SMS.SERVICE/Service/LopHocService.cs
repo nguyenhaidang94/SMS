@@ -3,6 +3,7 @@ using System.Linq;
 using SMS.CORE.Data;
 using SMS.DATA;
 using SMS.SERVICE.IService;
+using SMS.DATA.Models;
 
 namespace SMS.SERVICE.Service
 {
@@ -13,11 +14,13 @@ namespace SMS.SERVICE.Service
     {
         private readonly UnitOfWork _UnitOfWork;
         private readonly GenericRepository<LopHoc> _LopHocRepository;
+        private readonly GenericRepository<NamHoc> _NamHocRepository;
         
         public LopHocService(UnitOfWork unitOfWork)
         {
             _UnitOfWork = unitOfWork;
             _LopHocRepository = _UnitOfWork.Repository<LopHoc>();
+            _NamHocRepository = _UnitOfWork.Repository<NamHoc>();
         }
 
         /// <summary>
@@ -48,6 +51,21 @@ namespace SMS.SERVICE.Service
         {
             //giaovien's persontypeid is 1
             return _LopHocRepository.Entities.Where(m => m.Active == false);
+        }
+
+        /// <summary>
+        /// get all lophocviewmodel
+        /// </summary>
+        /// <returns>list lophocviewmodel</returns>
+        public IEnumerable<LopHocViewModel> GetAllLopHocViewModel()
+        {
+            return _LopHocRepository.Entities.Where(e => e.Active)
+                .Select(e => new LopHocViewModel() 
+                { 
+                    MaNamHoc = e.MaNamHoc,
+                    MaLopHoc = e.MaLopHoc,
+                    TenLopHoc = e.TenLop
+                });
         }
 
         /// <summary>

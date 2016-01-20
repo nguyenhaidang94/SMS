@@ -1,4 +1,5 @@
 ﻿using SMS.CORE.Data;
+using SMS.DATA.Models;
 using System.Collections.Generic;
 
 namespace SMS.SERVICE.IService
@@ -25,6 +26,12 @@ namespace SMS.SERVICE.IService
         /// </summary>
         /// <returns>list HocSinh inactive</returns>
         IEnumerable<HocSinh> GetAllInactive();
+
+        /// <summary>
+        /// get all SelectHocSinhViewModel
+        /// </summary>
+        /// <returns>list SelectHocSinhViewModel</returns>
+        IEnumerable<SelectHocSinhViewModel> GetAllSelectHocSinhVM();
 
         /// <summary>
         /// get HocSinh by id

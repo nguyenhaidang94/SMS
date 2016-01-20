@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using SMS.CORE.Data;
+using SMS.DATA.Models;
 
 namespace SMS.SERVICE.IService
 {
@@ -22,6 +23,12 @@ namespace SMS.SERVICE.IService
         /// </summary>
         /// <returns>list LopHoc inactive</returns>
         IEnumerable<LopHoc> GetAllInactive();
+
+        /// <summary>
+        /// get all lophocviewmodel
+        /// </summary>
+        /// <returns>list lophocviewmodel</returns>
+        IEnumerable<LopHocViewModel> GetAllLopHocViewModel();
 
         /// <summary>
         /// get LopHoc by id

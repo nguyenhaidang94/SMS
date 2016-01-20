@@ -27,6 +27,7 @@ namespace WEB.Controllers
         private readonly INamHocService _NamHocService;
         private readonly ICTQDKhenThuongService _CTKhenThuongService;
         private readonly ILopHocService _LopHocService;
+        private readonly IHocSinhService _HocSinhService;
 
         public QDKhenThuongController()
         {
@@ -34,6 +35,7 @@ namespace WEB.Controllers
             _NamHocService = new NamHocService(_UnitOfWork);
             _CTKhenThuongService = new CTQDKhenThuongService(_UnitOfWork);
             _LopHocService = new LopHocService(_UnitOfWork);
+            _HocSinhService = new HocSinhService(_UnitOfWork);
         }
 
         /// <summary>
@@ -44,8 +46,8 @@ namespace WEB.Controllers
         {
             ViewBag.dsNamHoc = JsonConvert.SerializeObject(_NamHocService.GetAll()
                 .Select(e => new { value = e.MaNamHoc, text = e.NamBatDau + "-" + e.NamKetThuc }));
-            ViewBag.dsLopHoc = JsonConvert.SerializeObject(_LopHocService.GetAll()
-                .Select(e => new { value = e.MaLopHoc, text = e.TenLop }));
+            ViewBag.dsLopHoc = JsonConvert.SerializeObject(_LopHocService.GetAllLopHocViewModel()
+                .Select(e => new { value = e.MaLopHoc, text = e.TenLopHoc, MaNamHoc = e.MaNamHoc }));
             return View();
         }
 
@@ -75,9 +77,9 @@ namespace WEB.Controllers
         }
 
         /// <summary>
-        /// 
+        /// read qdkhenthuong
         /// </summary>
-        /// <returns></returns>
+        /// <returns>json data</returns>
         [HttpPost]
         public JsonResult Read()
         {
@@ -244,7 +246,7 @@ namespace WEB.Controllers
         {
             try
             {
-                var dsHocSinh = _QDKhenThuongService.GetAllSelectHocSinhVM();
+                var dsHocSinh = _HocSinhService.GetAllSelectHocSinhVM();
 
                 return Json(dsHocSinh);
             }

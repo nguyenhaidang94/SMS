@@ -3,6 +3,7 @@ using System.Linq;
 using SMS.CORE.Data;
 using SMS.DATA;
 using SMS.SERVICE.IService;
+using SMS.DATA.Models;
 
 namespace SMS.SERVICE.Service
 {
@@ -13,11 +14,15 @@ namespace SMS.SERVICE.Service
     {
         private readonly UnitOfWork _UnitOfWork;
         private readonly GenericRepository<HocSinh> _HocSinhRepository;
+        private readonly GenericRepository<NamHoc> _NamHocRepository;
+        private readonly GenericRepository<LopHoc> _LopHocRepository;
 
         public HocSinhService(UnitOfWork unitOfWork)
         {
             _UnitOfWork = unitOfWork;
             _HocSinhRepository = _UnitOfWork.Repository<HocSinh>();
+            _NamHocRepository = _UnitOfWork.Repository<NamHoc>();
+            _LopHocRepository = _UnitOfWork.Repository<LopHoc>();
         }
 
         /// <summary>
@@ -48,6 +53,39 @@ namespace SMS.SERVICE.Service
         {
             //giaovien's persontypeid is 1
             return _HocSinhRepository.Entities.Where(m => m.Active == false);
+        }
+
+        /// <summary>
+        /// get all SelectHocSinhViewModel
+        /// </summary>
+        /// <returns>list SelectHocSinhViewModel</returns>
+        public IEnumerable<SelectHocSinhViewModel> GetAllSelectHocSinhVM()
+        {
+            List<SelectHocSinhViewModel> dsHocSinh = new List<SelectHocSinhViewModel>();
+
+            var dsNamHoc = _NamHocRepository.Entities.Where(e => e.Active);
+            foreach (var namhoc in dsNamHoc)
+            {
+                var dsLopHoc = _LopHocRepository.Entities.Where(e => e.Active && e.MaNamHoc == namhoc.MaNamHoc);
+                foreach (var lophoc in dsLopHoc)
+                {
+                    _LopHocRepository.DbContext.Entry(lophoc).Collection(e => e.dsHocSinh).Load();
+                    var dshs = lophoc.dsHocSinh
+                        .Select(e => new SelectHocSinhViewModel()
+                        {
+                            MaHocSinh = e.PersonId,
+                            MaNamHoc = namhoc.MaNamHoc,
+                            MaLop = lophoc.MaLopHoc,
+                            HoTen = e.HoTen,
+                            NgaySinh = e.NgaySinh,
+                            GioiTinh = e.GioiTinh,
+                            Checked = false
+                        });
+                    dsHocSinh.AddRange(dshs);
+                }
+            }
+
+            return dsHocSinh;
         }
 
         /// <summary>

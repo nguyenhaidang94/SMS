@@ -6,12 +6,12 @@ using System;
 namespace SMS.CORE.Data
 {
      [Table("QuyetDinhKyLuat")]
-    public partial class QuyetDinhKyLuat
+    public partial class QuyetDinhKyLuat: BaseEntity
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int MaQuyetDinh { get; set; }
 
-        [Required, Column(TypeName = "nvarchar")]
+        [Required, Column(TypeName = "nvarchar"), StringLength(100)]
         public string SoQuyetDinh { get; set; }
 
         [Required]
