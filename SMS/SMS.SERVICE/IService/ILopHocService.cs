@@ -12,6 +12,12 @@ namespace SMS.SERVICE.IService
         IEnumerable<LopHoc> GetAll();
 
         /// <summary>
+        /// get LopHoc
+        /// </summary>
+        /// <returns>list LopHoc</returns>
+        IEnumerable<LopHoc> GetAllWithChild();
+
+        /// <summary>
         /// get all LopHoc that is inactive
         /// </summary>
         /// <returns>list LopHoc inactive</returns>
@@ -22,6 +28,12 @@ namespace SMS.SERVICE.IService
         /// </summary>
         /// <returns>list LopHoc</returns>
         LopHoc GetByID(int id);
+
+        /// <summary>
+        /// get LopHoc by id
+        /// </summary>
+        /// <returns>list LopHoc with list dsHocSinh</returns>
+        LopHoc GetByIDWithChild(int id);
 
         /// <summary>
         /// Insert LopHoc

@@ -12,6 +12,12 @@ namespace SMS.SERVICE.IService
         IEnumerable<MonHoc> GetAll();
 
         /// <summary>
+        /// get MonHoc
+        /// </summary>
+        /// <returns>list MonHoc</returns>
+        IEnumerable<MonHoc> GetAllWithChild();
+
+        /// <summary>
         /// get all MonHoc that is inactive
         /// </summary>
         /// <returns>list MonHoc inactive</returns>

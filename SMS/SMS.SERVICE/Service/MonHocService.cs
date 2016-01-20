@@ -30,6 +30,20 @@ namespace SMS.SERVICE.Service
             return _MonHocRepository.Entities.Where(m => m.Active == true);
         }
 
+        /// <summary>
+        /// get MonHoc
+        /// </summary>
+        /// <returns>list MonHoc</returns>
+        public IEnumerable<MonHoc> GetAllWithChild()
+        {
+            var listMonHoc = _MonHocRepository.Entities.Where(m => m.Active == true);
+            foreach (MonHoc monHoc in listMonHoc)
+            {
+                _MonHocRepository.DbContext.Entry(monHoc).Collection(m => m.dsKhoi).Load();
+            }
+            return listMonHoc;
+        }
+
         public IEnumerable<MonHoc> GetAllInactive()
         {
             //giaovien's persontypeid is 1

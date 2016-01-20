@@ -1,0 +1,218 @@
+﻿@{
+    ViewBag.Title = "BẢNG ĐIỂM LỚP HỌC";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using Newtonsoft.Json
+
+
+<link rel="stylesheet" href="~/Content/kendo/2015.3.1111/kendo.common.min.css" />
+<link rel="stylesheet" href="~/Content/kendo/2015.3.1111/kendo.default.min.css" />
+
+<h2>BẢNG ĐIỂM LỚP HỌC</h2>
+<form class="form-inline" style="margin-bottom:5px">
+    <div class="form-group">
+        <label>Năm học:</label>
+        @Html.DropDownList("dropdownNam", new SelectList(ViewBag.listNamHoc, "value", "text"), new {@class = "form-control"})
+    </div>
+    <div class="form-group" style="margin-left:10px">
+        <label>Năm học:</label>
+        @Html.DropDownList("dropdownHocKy", new SelectList(ViewBag.listHocKy, "value", "text"), new {@class = "form-control"})
+    </div>
+    <div div class="form-group" style="margin-left:10px">
+        <button class="btn btn-default" id="btnSearch">Xem bảng điểm</button>
+    </div>
+</form>
+<div id="grid"></div>
+
+
+@section scripts{
+    <script type="text/x-kendo-template" id="template">
+        <div class="toolbar">
+            <label class="category-label" for="listMonHoc">Môn Học:</label>
+            <input type="search" id="listMonHoc" style="width: 150px; margin-left:20px"/>
+
+            <label class="category-label" for="listLopHoc">Lớp Học:</label>
+            <input type="search" id="listLopHoc" style="width: 150px"/>
+        </div>
+    </script>
+
+    <script>
+        var listMonHoc = @Html.Raw(ViewBag.listMonHoc);
+        var listLopHoc = @Html.Raw(ViewBag.listLopHoc);
+
+        $(document).ready(function () {
+            dataSource = new kendo.data.DataSource({
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@Html.Raw(Url.Action("ReadBangDiem"))",
+                        type: "POST",
+                        dataType: "json",
+                        data: function () {
+                            return {
+                                idNam: $('#dropdownNam').val(),
+                                idHocKy: $('#dropdownHocKy').val()
+                            }
+                        },
+                        parameterMap: function (options, operation) {
+                            if (operation !== "read" && options.models) {
+                                return { models: kendo.stringify(options.models) };
+                            }
+                        }
+                    },
+                    batch: true,
+                    pageSize: 20,
+                    schema: {
+                        model: {
+                            id: "MaBangDiem",
+                            fields: {
+                                MaBangDiem: { type: "number", nullable: false, editable: false },
+                                MaHocSinh: { type: "number", nullable: false, editable: false },
+                                TenHocSinh: {nullable: false, editable: false },
+                                MaMonHoc: { type: "number", nullable: false, editable: false },
+                                MaDiemMieng_1: { type: "number", nullable: false },
+                                MaDiemMieng_2: { type: "number", nullable: false },
+                                MaDiem15_1: { type: "number", nullable: false },
+                                MaDiem15_2: { type: "number", nullable: false },
+                                MaDiem1T_1: { type: "number", nullable: false },
+                                MaDiem1T_2: { type: "number", nullable: false },
+                                MaDiemHK: { type: "number", nullable: false },
+                                DiemMieng_1: { type: "number", validation: { min: 0, max: 3 } },
+                                DiemMieng_2: { type: "number", validation: { min: 0, max: 3 } },
+                                Diem15_1: { type: "number", validation: { min: 0, max: 3 } },
+                                Diem15_2: { type: "number", validation: { min: 0, max: 3 } },
+                                Diem1T_1: { type: "number", validation: { min: 0, max: 3 } },
+                                Diem1T_2: { type: "number", validation: { min: 0, max: 3 } },
+                                DiemHK: { type: "number", validation: { min: 0, max: 3 } },
+                                DiemTrungBinh: { type: "number", editable: false }
+                            }
+                        }
+                    }
+                }
+            });
+
+            var grid = $("#grid").kendoGrid({
+                dataSource: dataSource,
+                sortable: true,
+                editable: true,
+                pageable: {
+                    refresh: true,
+                    pageSizes: true,
+                    buttonCount: 5
+                },
+                height: 500,
+                toolbar: ["save", "cancel", {name: 'filter', template: kendo.template($("#template").html())}],
+                columns: [
+                    { field: "TenHocSinh",title: "Họ và Tên", width: 200 },
+                    {
+                        title: "Điểm hệ số 1",
+                        columns:
+                            [
+                                {
+                                    title: "Điểm Miệng",
+                                    columns: [
+                                    { field: "DiemMieng_1", title: "1", width: 50 },
+                                    { field: "DiemMieng_2", title: "2", width: 50 }]
+                                },
+                                {
+                                    title: "Điểm 15'",
+                                    columns: [
+                                        { field: "Diem15_1", title: "1", width: 50 },
+                                        { field: "Diem15_2", title: "2", width: 50 }]
+                                },
+                            ]
+                    },
+                    {
+                        title: "Điểm hệ số 2",
+                        columns:
+                        [
+                            {
+                                title: "Điểm KT 1 tiết",
+                                columns: [
+                                { field: "Diem1T_1", title: "1", width: 50 },
+                                { field: "Diem1T_2", title: "2", width: 50 }]
+                            },
+                        ]
+                    },
+                    {
+                        title: "Điểm hệ số 3",
+                        columns: [{ field: "DiemHK", format: "{0:0}", title: "Điểm Học Kỳ", width: 100 }]
+                    },
+                    { field: "DiemTrungBinh", title: "Điểm Trung Bình", width: 100 }]
+            });
+
+            //Mon hoc
+            $("#listMonHoc").kendoDropDownList({
+                dataTextField: "text",
+                dataValueField: "value",
+                dataSource: listMonHoc,
+                //select 1st value
+                index: 0,
+                change: function () {
+                    var value = this.value();
+                    if (value) {
+                        grid.data("kendoGrid").dataSource.filter([{ field: "MaMonHoc", operator: "eq", value: parseInt(value) }, { field: "MaLop", operator: "eq", value: parseInt(dropdownLop.value()) }]);
+                    } else {
+                        grid.data("kendoGrid").dataSource.filter({});
+                    }
+                },
+            });
+            var dropdownMon = $("#listMonHoc").data("kendoDropDownList"),
+                setValue = function(e) {
+                    if (e.type != "keypress" || kendo.keys.ENTER == e.keyCode)
+                        dropdownlist.value($("#value").val());
+                },
+                setIndex = function(e) {
+                    if (e.type != "keypress" || kendo.keys.ENTER == e.keyCode) {
+                        var index = parseInt($("#index").val());
+                        dropdownlist.select(index);
+                    }
+                },
+                setSearch = function(e) {
+                    if (e.type != "keypress" || kendo.keys.ENTER == e.keyCode)
+                        dropdownlist.search($("#word").val());
+                };
+
+            //Khoi lop
+            $("#listLopHoc").kendoDropDownList({
+                dataTextField: "text",
+                dataValueField: "value",
+                dataSource: listLopHoc,
+                //select 1st value
+                index: 0,
+                change: function () {
+                    var value = this.value();
+                    if (value) {
+                        grid.data("kendoGrid").dataSource.filter([{ field: "MaLop", operator: "eq", value: parseInt(value) }, { field: "MaMonHoc", operator: "eq", value: parseInt(dropdownMon.value()) }]);
+                    } else {
+                        grid.data("kendoGrid").dataSource.filter({});
+                    }
+                }
+            });
+            var dropdownLop = $("#listLopHoc").data("kendoDropDownList"),
+                setValue = function(e) {
+                    if (e.type != "keypress" || kendo.keys.ENTER == e.keyCode)
+                        dropdownlist.value($("#value").val());
+                },
+                setIndex = function(e) {
+                    if (e.type != "keypress" || kendo.keys.ENTER == e.keyCode) {
+                        var index = parseInt($("#index").val());
+                        dropdownlist.select(index);
+                    }
+                },
+                setSearch = function(e) {
+                    if (e.type != "keypress" || kendo.keys.ENTER == e.keyCode)
+                        dropdownlist.search($("#word").val());
+                };
+
+            dropdownLop.trigger("change");  //trigger event for filter when initialize
+
+            $('#btnSearch').click(function(){
+                $('#grid').data('kendoGrid').dataSource.read();
+            });
+        });
+    </script>
+}
+
+

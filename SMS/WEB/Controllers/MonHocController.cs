@@ -8,6 +8,7 @@ using SMS.DATA;
 using SMS.SERVICE.IService;
 using SMS.SERVICE.Service;
 using Newtonsoft.Json;
+using SMS.DATA.Models;
 
 namespace WEB.Controllers
 {
@@ -43,11 +44,17 @@ namespace WEB.Controllers
         {
             try
             {
-                IEnumerable<MonHoc> models = _MonHocService.GetAll();
+                List<MonHocViewModel> models = new List<MonHocViewModel>();
+                IEnumerable<MonHoc> monHocs = _MonHocService.GetAllWithChild();
 
-                if (models == null)
+                if (monHocs == null)
                 {
                     return Json(null, JsonRequestBehavior.AllowGet);
+                }
+
+                foreach (MonHoc monHoc in monHocs)
+                {
+                    models.Add(new MonHocViewModel(monHoc));
                 }
 
                 return Json(models);

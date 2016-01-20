@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 
 namespace WEB.Controllers
 {
+    [Authorize(Roles = "Admin, Hiệu Trưởng")]
     public class LopHocController : Controller
     {
         private UnitOfWork _UnitOfWork = new UnitOfWork();
@@ -283,6 +284,15 @@ namespace WEB.Controllers
                             }
                             _HocSinhService.Update(temp);
                         }
+                    }
+
+                    //cap nhat si so
+                    List<int> idLopChanged = xepLops.Select(m => m.MaLopHoc).Distinct().ToList();
+                    foreach(int idLop in idLopChanged)
+                    {
+                        LopHoc lop = _LopHocService.GetByIDWithChild(idLop);
+                        lop.SiSo = lop.dsHocSinh.Count;
+                        _LopHocService.Update(lop);
                     }
                 }
                 return Json(xepLops);

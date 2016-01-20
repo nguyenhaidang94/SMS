@@ -49,7 +49,7 @@
                         id: "Id",
                         fields: {
                             Id: { editable:false, nullable: false },
-                            Email: { validation: { required: true } },
+                            Email: { editable:false, validation: { required: true } },
                             UserName: { validation: { required: true } },
                             RolesList: { validation: { required: true } },
                         }
@@ -76,7 +76,7 @@
                         template: "#= RolesList.join(', ') #",
                         editor: roleEditor
                     },
-                    { command: ["edit", "destroy"], title: "&nbsp;", width: "250px" }],
+                    { command: ["destroy"], title: "&nbsp;", width: "250px" }],
                 editable: true,
                 save: function (e) {
                     var id = e.model.Id;

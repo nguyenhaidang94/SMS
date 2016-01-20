@@ -51,6 +51,7 @@
                             TenMonHoc: {validation: { required: true } },
                             HeSo: { type: "number", validation: { required: true, min: 0, max: 3 } },
                             SoTiet: { type: "number", validation: { required: true, min: 0, max: 50 } },
+                            KhoiLops: {validation: { required:true }}
                         }
                     }
                 }
@@ -60,7 +61,6 @@
                 dataSource: dataSource,
                 filterable: true,
                 sortable: true,
-                detailInit: detailInit,
                 pageable: {
                     refresh: true,
                     pageSizes: true,
@@ -72,74 +72,36 @@
                     { field: "TenMonHoc", title: "Tên Môn Học" },
                     { field: "HeSo", format: "{0:0}", title: "Hệ Số" },
                     { field: "SoTiet", format: "{0:0}", title: "Số Tiết" },
+                    {
+                        field: "KhoiLops",
+                        width: 300,
+                        title: "Khối được giảng dạy",
+                        template:function(record){
+                            if(record.KhoiLops != null)
+                            {
+                                var khois = record.KhoiLops.toJSON();
+                                var khoi_str = '';
+                                for(var i in khois){
+                                    if(khois.hasOwnProperty(i))
+                                        khoi_str+=khois[i].text+' ';
+                                }
+                                return khoi_str;
+                            }
+                            return '';
+                        },
+                        editor: khoiEditor
+                    },
                     { command: ["edit", "destroy"], title: "&nbsp;", width: "250px" }],
                 editable: "inline",
             });
 
-            function detailInit(e) {
-                $("<div/>").appendTo(e.detailCell).kendoGrid({
-                    dataSource: {
-                        transport: {
-                            read: {
-                                url: "@Html.Raw(Url.Action("ReadMonHocKhoi"))",
-                                type: "POST",
-                                dataType: "json",
-                            },
-                            update: {
-                                url: "@Html.Raw(Url.Action("UpdateMonHocKhoi"))",
-                                type: "POST",
-                                dataType: "json",
-                            },
-                            destroy: {
-                                url: "@Html.Raw(Url.Action("DestroyMonHocKhoi"))",
-                                type: "POST",
-                                dataType: "json",
-                            },
-                            create: {
-                                url: "@Html.Raw(Url.Action("CreateMonHocKhoi"))",
-                                type: "POST",
-                                dataType: "json",
-                            },
-                            parameterMap: function (options, operation) {
-                                if (operation !== "read" && options.models) {
-                                    return { models: kendo.stringify(options.models) };
-                                }
-                            }
-                        },
-                        batch: true,
-                        schema: {
-                            model: {
-                                id: "Id",
-                                fields: {
-                                    Id: {type: "number", nullable: false },
-                                    MaMonHoc: { type: "number", nullable: false, defaultValue: e.data.MaMonHoc},
-                                    MaKhoi: {type: "number", nullable: false },
-                                }
-                            }
-                        },
-                        filter: { field: "MaMonHoc", operator: "eq", value: e.data.MaMonHoc }
-                    },
-                    sortable: true,
-                    editable: "inline",
-                    toolbar: ["create"],
-                    columns: [
-                        { field: "MaKhoi", values: listKhoiLop, title: "Khối được giảng dạy" },
-                        { command: ["edit", "destroy"], title: "&nbsp;", width: "250px" }
-                    ],
-                    save: function (e) {
-                        var id = e.model.Id;
-                        var maMonHoc = e.model.MaMonHoc;
-                        var maKhoi = e.model.MaKhoi;
-                        var data = this.dataSource.data();
-                        for (item in data) {
-                            if (data[item].Id != id &&
-                                data[item].MaMonHoc == maMonHoc &&
-                               data[item].MaKhoi == maKhoi) {
-                                e.preventDefault();
-                                alert("Khối được chọn đã tồn tại");
-                            }
-                        }
-                    },
+            function khoiEditor(container, options) {
+                    $("<select multiple='multiple' data-bind='value :KhoiLops'/>")
+                .appendTo(container)
+                .kendoMultiSelect({
+                    dataTextField:'text',
+                    dataValueField:'value',
+                    dataSource: listKhoiLop
                 });
             }
         });

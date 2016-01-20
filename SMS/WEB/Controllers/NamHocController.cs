@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 
 namespace WEB.Controllers
 {
+    [Authorize(Roles = "Admin, Hiệu Trưởng")]
     public class NamHocController : Controller
     {
         private UnitOfWork _UnitOfWork = new UnitOfWork();

@@ -30,6 +30,20 @@ namespace SMS.SERVICE.Service
             return _LopHocRepository.Entities.Where(m => m.Active == true);
         }
 
+        /// <summary>
+        /// get LopHoc
+        /// </summary>
+        /// <returns>list LopHoc</returns>
+        public IEnumerable<LopHoc> GetAllWithChild()
+        {
+            var listLopHoc = _LopHocRepository.Entities.Where(m => m.Active == true);
+            foreach (LopHoc lop in listLopHoc)
+            {
+                _LopHocRepository.DbContext.Entry(lop).Collection(m => m.dsHocSinh).Load();
+            }
+            return listLopHoc;
+        }
+
         public IEnumerable<LopHoc> GetAllInactive()
         {
             //giaovien's persontypeid is 1
@@ -43,6 +57,17 @@ namespace SMS.SERVICE.Service
         public LopHoc GetByID(int id)
         {
             return _LopHocRepository.GetEntityById(id);
+        }
+
+        /// <summary>
+        /// get LopHoc by id
+        /// </summary>
+        /// <returns>list LopHoc with dsHocSinh</returns>
+        public LopHoc GetByIDWithChild(int id)
+        {
+            var lopHoc = _LopHocRepository.GetEntityById(id);
+            _LopHocRepository.DbContext.Entry(lopHoc).Collection(m => m.dsHocSinh).Load();
+            return lopHoc;
         }
 
         /// <summary>
