@@ -56,7 +56,7 @@ namespace WEB.Controllers
         {
             try
             {
-                var dsThongKe = _BaoCaoService.BaoCaoNhomDiem();
+                var dsThongKe = _BaoCaoService.BaoCaoNhomDiem().OrderBy(e => e.TenLop);
                 return Json(dsThongKe, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
