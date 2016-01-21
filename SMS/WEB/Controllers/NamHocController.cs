@@ -16,10 +16,14 @@ namespace WEB.Controllers
     {
         private UnitOfWork _UnitOfWork = new UnitOfWork();
         private readonly INamHocService _NamHocService;
+        private readonly IHocKyNamHocService _HocKyNamHocService;
+        private readonly IHocKyService _HocKyService;
 
         public NamHocController()
         {
             _NamHocService = new NamHocService(_UnitOfWork);
+            _HocKyNamHocService = new HocKyNamHocService(_UnitOfWork);
+            _HocKyService = new HocKyService(_UnitOfWork);
         }
 
         //
@@ -174,6 +178,13 @@ namespace WEB.Controllers
                     foreach (NamHoc namhoc in namhocs)
                     {
                         _NamHocService.Insert(namhoc);
+                        foreach(HocKy hocKy in _HocKyService.GetAll())
+                        {
+                            HocKyNamHoc hocKyNamHoc = new HocKyNamHoc();
+                            hocKyNamHoc.MaHocKy = hocKy.MaHocKy;
+                            hocKyNamHoc.MaNamHoc = namhoc.MaNamHoc;
+                            _HocKyNamHocService.Insert(hocKyNamHoc);
+                        }
                     }
                 }
                 return Json(namhocs);

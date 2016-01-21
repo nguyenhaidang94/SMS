@@ -1737,7 +1737,7 @@
     <Content Include="Views\Authentication\Index.cshtml" />
     <Content Include="Views\Authentication\QuanLyRole.cshtml" />
     <Content Include="Views\Authentication\CreateUser.cshtml" />
-    <Content Include="Views\HocTap\DanhSachBangDiem.cshtml" />
+    <Content Include="Views\HocTap\BangDiemMonHoc.cshtml" />
     <Content Include="Views\BaoCao\ThongKeNhomDiem.cshtml" />
     <Content Include="Views\QDKyLuat\QuanLyQDKyLuat.cshtml" />
     <Content Include="Scripts\kendo\2015.3.1111\kendo.all.min.js.map" />

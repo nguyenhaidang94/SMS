@@ -44,7 +44,7 @@ namespace WEB.Controllers
 
         //
         // GET: /BangDiem/
-        public ActionResult DanhSachBangDiem()
+        public ActionResult BangDiemMonHoc()
         {
             ViewBag.listNamHoc = _NamHocService.GetAll().Select(m => new { value = m.MaNamHoc, text = m.NamBatDau + " - " + m.NamKetThuc });
             ViewBag.listHocKy = _HocKyService.GetAll().Select(m => new { value = m.MaHocKy, text = m.TenHocKy });
@@ -441,6 +441,8 @@ namespace WEB.Controllers
                         bangDiem.DiemTB = sumDiem / sumHeSo;
                         _HocTapService.InsertCotDiem(listCotDiemTemp);
                         _HocTapService.UpdateBangDiem(bangDiem);
+
+                        model.MaBangDiem = bangDiem.MaBangDiem;
                     }
                 }
                 return Json(viewModels);

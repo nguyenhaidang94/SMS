@@ -1,15 +1,9 @@
 ﻿@{
-    ViewBag.Title = "Bảng điểm lớp học";
+    ViewBag.Title = "Bảng điểm môn học";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@using Newtonsoft.Json
-
-
-<link rel="stylesheet" href="~/Content/kendo/2015.3.1111/kendo.common.min.css" />
-<link rel="stylesheet" href="~/Content/kendo/2015.3.1111/kendo.default.min.css" />
-
-<h2>Bảng điểm lớp học</h2>
+<h2>Bảng điểm môn học</h2>
 <div class="form-inline" style="margin-bottom:5px">
     <div class="form-group">
         <label>Năm học:</label>
@@ -20,12 +14,10 @@
         <label>Học kỳ:</label>
         @Html.DropDownList("dropdownHocKy", new SelectList(ViewBag.listHocKy, "value", "text"), new {@class = "form-control"})
     </div>
+    
+    <button class="btn btn-default" id="btnSearch">Xem điểm</button>
+</div>
 
-    <div class="form-group" style="margin-left:10px">
-        <button class="btn btn-default" id="btnSearch">Xem bảng điểm</button>
-    <div/>
-</div>
-</div>
 <div id="grid"></div>
 
 
@@ -47,7 +39,7 @@
         var listLopHoc = @Html.Raw(ViewBag.listLopHoc);
 
         $(document).ready(function () {
-            dataSource = new kendo.data.DataSource({
+            var dataSource = new kendo.data.DataSource({
                 type: "json",
                 transport: {
                     read: {
@@ -95,10 +87,10 @@
                             Diem1T_1: { type: "number", validation: { min: 0, max: 10 } },
                             Diem1T_2: { type: "number", validation: { min: 0, max: 10 } },
                             DiemHK: { type: "number", validation: { min: 0, max: 10 } },
-                            DiemTrungBinh: { type: "number", editable: false }
+                            DiemTrungBinh: { type: "number", editable: false },
                         }
                     }
-                }
+                },
             });
 
             var grid = $("#grid").kendoGrid({
@@ -148,7 +140,13 @@
                         title: "Điểm hệ số 3",
                         columns: [{ field: "DiemHK", format: "{0:n2}", title: "Điểm Học Kỳ", width: 100 }]
                     },
-                    { field: "DiemTrungBinh", title: "Điểm Trung Bình", format: "{0:n2}", width: 100 }]
+                    { field: "DiemTrungBinh", title: "Điểm Trung Bình", format: "{0:n2}", width: 100 }
+                ],
+                save: function(e) {
+                    if (e.values.DiemHK != null && e.values.Diem1T_2 != null) 
+                        e.model.DiemTrungBinh = (e.values.DiemHK * 3 + e.values.Diem1T_2 *2)/5
+                    e.sender.refresh();
+                }
             });
 
             //Mon hoc
@@ -193,7 +191,7 @@
                 change: function () {
                     var value = this.value();
                     if (value) {
-                        dropdownLop.dataSource.filter([{ field: "MaKhoi", operator: "eq", value: parseInt(value) }]);
+                        dropdownLop.dataSource.filter([{ field: "MaKhoi", operator: "eq", value: parseInt(value)}, {field: "MaNamHoc", operator: "eq", value: parseInt($('#dropdownNam').val()) }]);
                         dropdownLop.select(0);
                         dropdownLop.trigger("change");  //trigger event for filter when initialize
                     } else {
@@ -249,6 +247,7 @@
 
             $('#btnSearch').click(function(){
                 $('#grid').data('kendoGrid').dataSource.read();
+                dropdownKhoi.trigger("change");  //trigger event for filter when initialize
             });
         });
     </script>

@@ -71,10 +71,12 @@
                     }
                     @if(User.IsInRole("Admin"))
                     {
-                    <li>@Html.ActionLink("Phân quyền", "Index", "Authentication")</li>
+                        <li>@Html.ActionLink("Phân quyền", "Index", "Authentication")</li>
                     }
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    @if (User.IsInRole("Admin") || User.IsInRole("Giáo Viên"))
+                    {
+                        <li>@Html.ActionLink("Quản lý điểm", "BangDiemMonHoc", "HocTap")</li>
+                    }
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
