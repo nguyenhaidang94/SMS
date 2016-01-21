@@ -44,7 +44,7 @@ namespace WEB.Controllers
         public ActionResult XepLop()
         {
             ViewBag.listKhoiLop = JsonConvert.SerializeObject(_KhoiLopService.GetAll().Select(m => new { value = m.MaKhoi, text = m.TenKhoi }));
-            ViewBag.listLopHoc = JsonConvert.SerializeObject(_LopHocService.GetAll().Select(m => new { value = m.MaLopHoc, text = m.TenLop, MaNamHoc = m.MaNamHoc, MaKhoi = m.MaKhoi }));
+            ViewBag.listLopHoc = JsonConvert.SerializeObject(_LopHocService.GetAll().Select(m => new { value = m.MaLopHoc, text = m.TenLop, MaKhoi = m.MaKhoi }));
             ViewBag.listNamHoc = JsonConvert.SerializeObject(_NamHocService.GetAll().Select(m => new { value = m.MaNamHoc, text = m.NamBatDau + " - " + m.NamKetThuc }));
             ViewBag.listPhongHoc = JsonConvert.SerializeObject(_PhongHocService.GetAll().Select(m => new { value = m.MaPhong, text = m.TenPhong }));
             return View();

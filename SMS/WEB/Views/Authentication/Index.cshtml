@@ -49,7 +49,7 @@
                         id: "Id",
                         fields: {
                             Id: { editable:false, nullable: false },
-                            Email: { editable:false, validation: { required: true } },
+                            Email: { validation: { required: true } },
                             UserName: { validation: { required: true } },
                             RolesList: { validation: { required: true } },
                         }
@@ -70,7 +70,7 @@
                 toolbar: ["save", "cancel"],
                 columns: [
                     { field: "Email", title: "Email" },
-                    { field: "UserName", title: "Email" },
+                    { field: "UserName", title: "UserName" },
                     {
                         field: "RolesList",
                         template: "#= RolesList.join(', ') #",

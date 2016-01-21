@@ -115,7 +115,7 @@ namespace SMS.DATA.Models
                 }
 
                 //Diem 1t id = 3
-                if (cotDiem.LoaiDiem.MaLoaiDiem == 3 && countMieng < 2)
+                if (cotDiem.LoaiDiem.MaLoaiDiem == 3 && count1T < 2)
                 {
                     if (count1T == 0)
                     {
@@ -131,10 +131,11 @@ namespace SMS.DATA.Models
                 }
 
                 //Diem HK id = 4
-                if (cotDiem.LoaiDiem.MaLoaiDiem == 6 && countHK < 1)
+                if (cotDiem.LoaiDiem.MaLoaiDiem == 4 && countHK < 1)
                 {
                     MaDiemHK = cotDiem.MaCotDiem;
                     DiemHK = cotDiem.GiaTri;
+                    countHK++;
                 }
             }
 
@@ -194,7 +195,7 @@ namespace SMS.DATA.Models
                 }
                 else
                 {
-                    Diem1T_1 = -1;
+                    MaDiem1T_1 = -1;
                     Diem1T_1 = null;
                 }
             }

@@ -22,6 +22,7 @@ namespace WEB.Controllers
         private readonly IHocSinhService _HocSinhService;
         private readonly ILopHocService _LopHocService;
         private readonly IMonHocService _MonHocService;
+        private readonly IKhoiLopService _KhoiLopService;
 
         public HocTapController()
         {
@@ -31,6 +32,7 @@ namespace WEB.Controllers
             _HocSinhService = new HocSinhService(_UnitOfWork);
             _LopHocService = new LopHocService(_UnitOfWork);
             _MonHocService = new MonHocService(_UnitOfWork);
+            _KhoiLopService = new KhoiLopService(_UnitOfWork);
         }
 
         //
@@ -46,7 +48,8 @@ namespace WEB.Controllers
         {
             ViewBag.listNamHoc = _NamHocService.GetAll().Select(m => new { value = m.MaNamHoc, text = m.NamBatDau + " - " + m.NamKetThuc });
             ViewBag.listHocKy = _HocKyService.GetAll().Select(m => new { value = m.MaHocKy, text = m.TenHocKy });
-            ViewBag.listLopHoc = JsonConvert.SerializeObject(_LopHocService.GetAll().Select(m => new { value = m.MaLopHoc, text = m.TenLop }));
+            ViewBag.listKhoiLop = JsonConvert.SerializeObject(_KhoiLopService.GetAll().Select(m => new { value = m.MaKhoi, text = m.TenKhoi }));
+            ViewBag.listLopHoc = JsonConvert.SerializeObject(_LopHocService.GetAll().Select(m => new { value = m.MaLopHoc, text = m.TenLop, MaNamHoc = m.MaNamHoc, MaKhoi = m.MaKhoi }));
             ViewBag.listMonHoc = JsonConvert.SerializeObject(_MonHocService.GetAll().Select(m => new { value = m.MaMonHoc, text = m.TenMonHoc }));
             return View();
         }
@@ -323,11 +326,12 @@ namespace WEB.Controllers
                             }
                         }
 
+                        bangDiem = _HocTapService.GetBangDiemByID(model.MaBangDiem);
                         float sumDiem = 0;
                         float sumHeSo = 0;
-                        foreach (CotDiem cotDiem in listCotDiemTemp)
+                        foreach (CotDiem cotDiem in bangDiem.dsCotDiem)
                         {
-                            sumDiem += cotDiem.GiaTri;
+                            sumDiem += cotDiem.GiaTri* cotDiem.LoaiDiem.HeSo;
                             sumHeSo += cotDiem.LoaiDiem.HeSo;
                         }
                         bangDiem.DiemTB = sumDiem / sumHeSo;
@@ -431,10 +435,11 @@ namespace WEB.Controllers
                         float sumHeSo = 0;
                         foreach(CotDiem cotDiem in listCotDiemTemp)
                         {
-                            sumDiem += cotDiem.GiaTri;
+                            sumDiem += cotDiem.GiaTri * cotDiem.LoaiDiem.HeSo;
                             sumHeSo += cotDiem.LoaiDiem.HeSo;
                         }
                         bangDiem.DiemTB = sumDiem / sumHeSo;
+                        _HocTapService.InsertCotDiem(listCotDiemTemp);
                         _HocTapService.UpdateBangDiem(bangDiem);
                     }
                 }

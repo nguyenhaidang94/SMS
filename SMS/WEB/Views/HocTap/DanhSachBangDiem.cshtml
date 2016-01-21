@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "BẢNG ĐIỂM LỚP HỌC";
+    ViewBag.Title = "Bảng điểm lớp học";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="~/Content/kendo/2015.3.1111/kendo.common.min.css" />
 <link rel="stylesheet" href="~/Content/kendo/2015.3.1111/kendo.default.min.css" />
 
-<h2>BẢNG ĐIỂM LỚP HỌC</h2>
+<h2>Bảng điểm lớp học</h2>
 <div class="form-inline" style="margin-bottom:5px">
     <div class="form-group">
         <label>Năm học:</label>
@@ -32,16 +32,18 @@
 @section scripts{
     <script type="text/x-kendo-template" id="template">
         <div class="toolbar">
-            <label class="category-label" for="listMonHoc">Môn Học:</label>
-            <input type="search" id="listMonHoc" style="width: 150px; margin-left:20px"/>
-
+            <label class="category-label" for="listKhoi">Khối Lớp:</label>
+            <input type="search" id="listKhoi" style="width: 150px"/>
             <label class="category-label" for="listLopHoc">Lớp Học:</label>
             <input type="search" id="listLopHoc" style="width: 150px"/>
+            <label class="category-label" for="listMonHoc">Môn Học:</label>
+            <input type="search" id="listMonHoc" style="width: 150px; margin-left:20px"/>
         </div>
     </script>
 
     <script>
         var listMonHoc = @Html.Raw(ViewBag.listMonHoc);
+        var listKhoiLop = @Html.Raw(ViewBag.listKhoiLop);
         var listLopHoc = @Html.Raw(ViewBag.listLopHoc);
 
         $(document).ready(function () {
@@ -119,14 +121,14 @@
                                 {
                                     title: "Điểm Miệng",
                                     columns: [
-                                    { field: "DiemMieng_1", format: "{0:n1}", title: "1", width: 50 },
-                                    { field: "DiemMieng_2", format: "{0:n1}", title: "2", width: 50 }]
+                                    { field: "DiemMieng_1", format: "{0:n2}", title: "1", width: 50 },
+                                    { field: "DiemMieng_2", format: "{0:n2}", title: "2", width: 50 }]
                                 },
                                 {
                                     title: "Điểm 15'",
                                     columns: [
-                                        { field: "Diem15_1", format: "{0:n1}", title: "1", width: 50 },
-                                        { field: "Diem15_2", format: "{0:n1}", title: "2", width: 50 }]
+                                        { field: "Diem15_1", format: "{0:n2}", title: "1", width: 50 },
+                                        { field: "Diem15_2", format: "{0:n2}", title: "2", width: 50 }]
                                 },
                             ]
                     },
@@ -137,16 +139,16 @@
                             {
                                 title: "Điểm KT 1 tiết",
                                 columns: [
-                                { field: "Diem1T_1", format: "{0:n1}", title: "1", width: 50 },
-                                { field: "Diem1T_2", format: "{0:n1}", title: "2", width: 50 }]
+                                { field: "Diem1T_1", format: "{0:n2}", title: "1", width: 50 },
+                                { field: "Diem1T_2", format: "{0:n2}", title: "2", width: 50 }]
                             },
                         ]
                     },
                     {
                         title: "Điểm hệ số 3",
-                        columns: [{ field: "DiemHK", format: "{0:n1}", title: "Điểm Học Kỳ", width: 100 }]
+                        columns: [{ field: "DiemHK", format: "{0:n2}", title: "Điểm Học Kỳ", width: 100 }]
                     },
-                    { field: "DiemTrungBinh", title: "Điểm Trung Bình", width: 100 }]
+                    { field: "DiemTrungBinh", title: "Điểm Trung Bình", format: "{0:n2}", width: 100 }]
             });
 
             //Mon hoc
@@ -182,6 +184,40 @@
                 };
 
             //Khoi lop
+            $("#listKhoi").kendoDropDownList({
+                dataTextField: "text",
+                dataValueField: "value",
+                dataSource: listKhoiLop,
+                //select 1st value
+                index: 0,
+                change: function () {
+                    var value = this.value();
+                    if (value) {
+                        dropdownLop.dataSource.filter([{ field: "MaKhoi", operator: "eq", value: parseInt(value) }]);
+                        dropdownLop.select(0);
+                        dropdownLop.trigger("change");  //trigger event for filter when initialize
+                    } else {
+                        grid.data("kendoGrid").dataSource.filter({});
+                    }
+                }
+            });
+            var dropdownKhoi = $("#listKhoi").data("kendoDropDownList"),
+                setValue = function(e) {
+                    if (e.type != "keypress" || kendo.keys.ENTER == e.keyCode)
+                        dropdownlist.value($("#value").val());
+                },
+                setIndex = function(e) {
+                    if (e.type != "keypress" || kendo.keys.ENTER == e.keyCode) {
+                        var index = parseInt($("#index").val());
+                        dropdownlist.select(index);
+                    }
+                },
+                setSearch = function(e) {
+                    if (e.type != "keypress" || kendo.keys.ENTER == e.keyCode)
+                        dropdownlist.search($("#word").val());
+                };
+
+            //Lop hoc
             $("#listLopHoc").kendoDropDownList({
                 dataTextField: "text",
                 dataValueField: "value",
@@ -190,11 +226,7 @@
                 index: 0,
                 change: function () {
                     var value = this.value();
-                    if (value) {
-                        grid.data("kendoGrid").dataSource.filter([{ field: "MaLop", operator: "eq", value: parseInt(value) }, { field: "MaMonHoc", operator: "eq", value: parseInt(dropdownMon.value()) }]);
-                    } else {
-                        grid.data("kendoGrid").dataSource.filter({});
-                    }
+                    grid.data("kendoGrid").dataSource.filter([{ field: "MaLop", operator: "eq", value: parseInt(value) }, { field: "MaMonHoc", operator: "eq", value: parseInt(dropdownMon.value()) }]);
                 }
             });
             var dropdownLop = $("#listLopHoc").data("kendoDropDownList"),
@@ -213,7 +245,7 @@
                         dropdownlist.search($("#word").val());
                 };
 
-            dropdownLop.trigger("change");  //trigger event for filter when initialize
+            dropdownKhoi.trigger("change");  //trigger event for filter when initialize
 
             $('#btnSearch').click(function(){
                 $('#grid').data('kendoGrid').dataSource.read();

@@ -30,6 +30,10 @@ namespace SMS.SERVICE.Service
             foreach (BangDiemHKMH bangdiem in listBangDiem)
             {
                 _BangDiemRepository.DbContext.Entry(bangdiem).Collection(m => m.dsCotDiem).Load();
+                foreach (CotDiem cotDiem in bangdiem.dsCotDiem)
+                {
+                    _CotDiemRepository.DbContext.Entry(cotDiem).Reference(m => m.LoaiDiem).Load();
+                }
             }
             return listBangDiem;
         }
@@ -42,6 +46,10 @@ namespace SMS.SERVICE.Service
         {
             BangDiemHKMH bangDiem = _BangDiemRepository.Entities.Find(id);
             _BangDiemRepository.DbContext.Entry(bangDiem).Collection(m => m.dsCotDiem).Load();
+            foreach (CotDiem cotDiem in bangDiem.dsCotDiem)
+            {
+                _CotDiemRepository.DbContext.Entry(cotDiem).Reference(m => m.LoaiDiem).Load();
+            }
             return bangDiem;
         }
 
