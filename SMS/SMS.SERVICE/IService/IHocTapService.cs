@@ -100,5 +100,12 @@ namespace SMS.SERVICE.IService
         /// </summary>
         /// <param name="entity">CotDiem</param>
         void DeleteCotDiem(IEnumerable<CotDiem> entities);
+
+
+        /// <summary>
+        /// get all LoaiDiem
+        /// </summary>
+        /// <returns>list CotDiem</returns>
+        IEnumerable<LoaiDiem> GetAllLoaiDiem();
     }
 }

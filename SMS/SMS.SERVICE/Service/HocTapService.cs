@@ -11,12 +11,13 @@ namespace SMS.SERVICE.Service
         private readonly UnitOfWork _UnitOfWork;
         private readonly GenericRepository<BangDiemHKMH> _BangDiemRepository;
         private readonly GenericRepository<CotDiem> _CotDiemRepository;
-
+        private readonly GenericRepository<LoaiDiem> _LoaiDiemRepository;
         public HocTapService(UnitOfWork unitOfWork)
         {
             _UnitOfWork = unitOfWork;
             _BangDiemRepository = _UnitOfWork.Repository<BangDiemHKMH>();
             _CotDiemRepository = _UnitOfWork.Repository<CotDiem>();
+            _LoaiDiemRepository = _UnitOfWork.Repository<LoaiDiem>();
         }
 
         /// <summary>
@@ -173,5 +174,15 @@ namespace SMS.SERVICE.Service
             _CotDiemRepository.Delete(entities);
         }
         #endregion
+
+        /// <summary>
+        /// get all LoaiDiem
+        /// </summary>
+        /// <returns>list LoaiDiem</returns>
+        public IEnumerable<LoaiDiem> GetAllLoaiDiem()
+        {
+            IEnumerable<LoaiDiem> listLoaiDiem = _LoaiDiemRepository.Entities.Where(m => m.Active == true);
+            return listLoaiDiem;
+        }
     }
 }

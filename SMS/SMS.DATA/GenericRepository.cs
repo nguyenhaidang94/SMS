@@ -105,6 +105,11 @@ namespace SMS.DATA
                 var fail = new Exception(msg, dbEx);
                 throw fail;
             }
+            catch (Exception ex)
+            {
+                var fail = new Exception(ex.Message, ex);
+                throw fail;
+            }
         }
 
         /// <summary>

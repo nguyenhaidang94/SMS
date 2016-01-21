@@ -74,14 +74,14 @@ namespace WEB.Controllers
                         foreach (MonHoc monHoc in listMonHoc)
                         {
                             //da có bảng điểm
-                            if (listBangDiem.Where(m => m.MaHocSinh == hs.MaHocSinh && m.MaMonHoc == monHoc.MaMonHoc).Count() > 0)
+                            if (listBangDiem.Where(m => m.MaHocSinh == hs.PersonId && m.MaMonHoc == monHoc.MaMonHoc).Count() > 0)
                             {
-                                result.Add(new BangDiemViewModel(listBangDiem.Where(m => m.MaHocSinh == hs.MaHocSinh &&
+                                result.Add(new BangDiemViewModel(listBangDiem.Where(m => m.MaHocSinh == hs.PersonId &&
                                     m.MaMonHoc == monHoc.MaMonHoc).FirstOrDefault(), hs.HoTen, lop.MaLopHoc));
                             }
                             else    //chưa có tạo bảng giả
                             {
-                                result.Add(new BangDiemViewModel(countMaBangDiemGia, hs.MaHocSinh, hs.HoTen, monHoc.MaMonHoc, lop.MaLopHoc));
+                                result.Add(new BangDiemViewModel(countMaBangDiemGia, hs.PersonId, hs.HoTen, monHoc.MaMonHoc, lop.MaLopHoc));
                                 countMaBangDiemGia++;
                             }
                         }
@@ -106,14 +106,19 @@ namespace WEB.Controllers
             try
             {
                 var viewModels = JsonConvert.DeserializeObject<IEnumerable<BangDiemViewModel>>(models);
-
+                IEnumerable<LoaiDiem> listLoaiDiem = _HocTapService.GetAllLoaiDiem();
+                //loai diem phai ton tai truoc
+                LoaiDiem loaiDiemMieng = listLoaiDiem.Where(m => m.TenLoaiDiem == "Điểm Miệng").FirstOrDefault();
+                LoaiDiem loaiDiem15 = listLoaiDiem.Where(m => m.TenLoaiDiem == "Điểm 15'").FirstOrDefault();
+                LoaiDiem loaiDiem1T = listLoaiDiem.Where(m => m.TenLoaiDiem == "Điểm 1 Tiết").FirstOrDefault();
+                LoaiDiem loaiDiemHK = listLoaiDiem.Where(m => m.TenLoaiDiem == "Điểm Học Kỳ").FirstOrDefault();
                 foreach (BangDiemViewModel model in viewModels)
                 {
+                    List<CotDiem> listCotDiemTemp = new List<CotDiem>();    //store for calculate dtb
                     //normal case, BangDiem already exist
                     if (model.MaBangDiem > 0)
                     {
                         BangDiemHKMH bangDiem =_HocTapService.GetBangDiemByID(model.MaBangDiem);
-                        bangDiem.DiemTB = (float)model.DiemTrungBinh;
                         //Mieng 1
                         if (model.MaDiemMieng_1 != -1)
                         {
@@ -135,9 +140,11 @@ namespace WEB.Controllers
                             {
                                 CotDiem cotDiem = new CotDiem();
                                 cotDiem.GiaTri = (float)model.DiemMieng_1;
-                                cotDiem.MaLoaiDiem = 1; //hard code, 1 is Mieng
+                                cotDiem.LoaiDiem = loaiDiemMieng;
                                 cotDiem.TenCotDiem = "cot diem";
+                                cotDiem.MaBangDiem = bangDiem.MaBangDiem;
                                 _HocTapService.InsertCotDiem(cotDiem);
+                                listCotDiemTemp.Add(cotDiem);
                             }
                         }
 
@@ -162,9 +169,11 @@ namespace WEB.Controllers
                             {
                                 CotDiem cotDiem = new CotDiem();
                                 cotDiem.GiaTri = (float)model.DiemMieng_2;
-                                cotDiem.MaLoaiDiem = 1; //hard code, 1 is Mieng
+                                cotDiem.LoaiDiem = loaiDiemMieng;
                                 cotDiem.TenCotDiem = "cot diem";
+                                cotDiem.MaBangDiem = bangDiem.MaBangDiem;
                                 _HocTapService.InsertCotDiem(cotDiem);
+                                listCotDiemTemp.Add(cotDiem);
                             }
                         }
 
@@ -189,9 +198,11 @@ namespace WEB.Controllers
                             {
                                 CotDiem cotDiem = new CotDiem();
                                 cotDiem.GiaTri = (float)model.Diem15_1;
-                                cotDiem.MaLoaiDiem = 2; //hard code, 2 is 15'
+                                cotDiem.LoaiDiem = loaiDiem15;
                                 cotDiem.TenCotDiem = "cot diem";
+                                cotDiem.MaBangDiem = bangDiem.MaBangDiem;
                                 _HocTapService.InsertCotDiem(cotDiem);
+                                listCotDiemTemp.Add(cotDiem);
                             }
                         }
 
@@ -216,9 +227,11 @@ namespace WEB.Controllers
                             {
                                 CotDiem cotDiem = new CotDiem();
                                 cotDiem.GiaTri = (float)model.Diem15_2;
-                                cotDiem.MaLoaiDiem = 2; //hard code, 2 is 15'
+                                cotDiem.LoaiDiem = loaiDiem15;
                                 cotDiem.TenCotDiem = "cot diem";
+                                cotDiem.MaBangDiem = bangDiem.MaBangDiem;
                                 _HocTapService.InsertCotDiem(cotDiem);
+                                listCotDiemTemp.Add(cotDiem);
                             }
                         }
 
@@ -243,9 +256,11 @@ namespace WEB.Controllers
                             {
                                 CotDiem cotDiem = new CotDiem();
                                 cotDiem.GiaTri = (float)model.Diem1T_1;
-                                cotDiem.MaLoaiDiem = 3; //hard code, 3 is 1 tiet
+                                cotDiem.LoaiDiem = loaiDiem1T;
                                 cotDiem.TenCotDiem = "cot diem";
+                                cotDiem.MaBangDiem = bangDiem.MaBangDiem;
                                 _HocTapService.InsertCotDiem(cotDiem);
+                                listCotDiemTemp.Add(cotDiem);
                             }
                         }
 
@@ -270,9 +285,12 @@ namespace WEB.Controllers
                             {
                                 CotDiem cotDiem = new CotDiem();
                                 cotDiem.GiaTri = (float)model.Diem1T_2;
-                                cotDiem.MaLoaiDiem = 3; //hard code, 3 is 1 tiet
+                                cotDiem.LoaiDiem = loaiDiem1T;
                                 cotDiem.TenCotDiem = "cot diem";
+                                cotDiem.MaBangDiem = model.MaBangDiem;
+                                cotDiem.MaBangDiem = bangDiem.MaBangDiem;
                                 _HocTapService.InsertCotDiem(cotDiem);
+                                listCotDiemTemp.Add(cotDiem);
                             }
                         }
 
@@ -297,11 +315,24 @@ namespace WEB.Controllers
                             {
                                 CotDiem cotDiem = new CotDiem();
                                 cotDiem.GiaTri = (float)model.DiemHK;
-                                cotDiem.MaLoaiDiem = 4; //hard code, 4 is hk
+                                cotDiem.LoaiDiem = loaiDiemHK;
                                 cotDiem.TenCotDiem = "cot diem";
+                                cotDiem.MaBangDiem = bangDiem.MaBangDiem;
                                 _HocTapService.InsertCotDiem(cotDiem);
+                                listCotDiemTemp.Add(cotDiem);
                             }
                         }
+
+                        float sumDiem = 0;
+                        float sumHeSo = 0;
+                        foreach (CotDiem cotDiem in listCotDiemTemp)
+                        {
+                            sumDiem += cotDiem.GiaTri;
+                            sumHeSo += cotDiem.LoaiDiem.HeSo;
+                        }
+                        bangDiem.DiemTB = sumDiem / sumHeSo;
+
+                        _HocTapService.UpdateBangDiem(bangDiem);
                     }
                     else    //bang diem moi
                     {
@@ -310,84 +341,101 @@ namespace WEB.Controllers
                         bangDiem.MaHocSinh = model.MaHocSinh;
                         bangDiem.MaMonHoc = model.MaMonHoc;
                         bangDiem.MaNamHoc = idNam;
-                        bangDiem.DiemTB = (float)model.DiemTrungBinh;
-                        List<CotDiem> temps = new List<CotDiem>();
+                        bangDiem.DiemTB = 0;
+                        _HocTapService.InsertBangDiem(bangDiem);
                         //mieng 1
                         if(model.DiemMieng_1 != null)
-                        { 
-                            temps.Add(new CotDiem()
+                        {
+                            listCotDiemTemp.Add(new CotDiem()
                             {
                                 GiaTri = (float)model.DiemMieng_1,
-                                MaLoaiDiem = 1, //hard code, 1 is mieng
+                                LoaiDiem = loaiDiemMieng,
                                 TenCotDiem = "cot diem",
+                                MaBangDiem = bangDiem.MaBangDiem
                             });
                         }
 
                         //1 tiet 1
                         if (model.DiemMieng_2 != null)
                         {
-                            temps.Add(new CotDiem()
+                            listCotDiemTemp.Add(new CotDiem()
                             {
                                 GiaTri = (float)model.DiemMieng_2,
-                                MaLoaiDiem = 1, //hard code, 1 is mieng
+                                LoaiDiem = loaiDiemMieng,
                                 TenCotDiem = "cot diem",
+                                MaBangDiem = bangDiem.MaBangDiem
                             });
                         }
 
                         //15' 1
                         if (model.Diem15_1 != null)
                         {
-                            temps.Add(new CotDiem()
+                            listCotDiemTemp.Add(new CotDiem()
                             {
                                 GiaTri = (float)model.Diem15_1,
-                                MaLoaiDiem = 2, //hard code, 2 is 15'
+                                LoaiDiem = loaiDiem15,
                                 TenCotDiem = "cot diem",
+                                MaBangDiem = bangDiem.MaBangDiem
                             });
                         }
 
                         //15' 2
                         if (model.Diem15_2 != null)
                         {
-                            temps.Add(new CotDiem()
+                            listCotDiemTemp.Add(new CotDiem()
                             {
                                 GiaTri = (float)model.Diem15_2,
-                                MaLoaiDiem = 2, //hard code, 2 is 15'
+                                LoaiDiem = loaiDiem15,
                                 TenCotDiem = "cot diem",
+                                MaBangDiem = bangDiem.MaBangDiem
                             });
                         }
 
                         //1 tiet 1
                         if (model.Diem1T_1 != null)
                         {
-                            temps.Add(new CotDiem()
+                            listCotDiemTemp.Add(new CotDiem()
                             {
                                 GiaTri = (float)model.Diem1T_1,
-                                MaLoaiDiem = 3, //hard code, 4 is hk
+                                LoaiDiem = loaiDiem1T,
                                 TenCotDiem = "cot diem",
+                                MaBangDiem = bangDiem.MaBangDiem
                             });
                         }
 
                         //1 tiet 2
                         if (model.Diem1T_2 != null)
                         {
-                            temps.Add(new CotDiem()
+                            listCotDiemTemp.Add(new CotDiem()
                             {
                                 GiaTri = (float)model.Diem1T_2,
-                                MaLoaiDiem = 3, //hard code, 3 is 1 tiet
+                                LoaiDiem = loaiDiem1T,
                                 TenCotDiem = "cot diem",
+                                MaBangDiem = bangDiem.MaBangDiem
                             });
                         }
 
                         //hk
                         if (model.DiemHK != null)
                         {
-                            temps.Add(new CotDiem()
+                            listCotDiemTemp.Add(new CotDiem()
                             {
                                 GiaTri = (float)model.DiemHK,
-                                MaLoaiDiem = 4, //hard code, 3 is 1 tiet
+                                LoaiDiem = loaiDiemHK,
                                 TenCotDiem = "cot diem",
+                                MaBangDiem = bangDiem.MaBangDiem
                             });
                         }
+
+                        float sumDiem = 0;
+                        float sumHeSo = 0;
+                        foreach(CotDiem cotDiem in listCotDiemTemp)
+                        {
+                            sumDiem += cotDiem.GiaTri;
+                            sumHeSo += cotDiem.LoaiDiem.HeSo;
+                        }
+                        bangDiem.DiemTB = sumDiem / sumHeSo;
+                        _HocTapService.UpdateBangDiem(bangDiem);
                     }
                 }
                 return Json(viewModels);

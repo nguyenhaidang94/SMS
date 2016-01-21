@@ -98,21 +98,6 @@ namespace SMS.DATA.Models
                     countMieng++;
                 }
 
-                //fill fake ViewModel for table
-                for (int i = 0; i < 2 - countMieng; i++)
-                {
-                    if (i == 0)
-                    {
-                        MaDiemMieng_2 = -1;
-                        DiemMieng_2 = cotDiem.GiaTri;
-                    }
-                    else
-                    {
-                        MaDiemMieng_1 = cotDiem.MaCotDiem;
-                        DiemMieng_1 = cotDiem.GiaTri;
-                    }
-                }
-
                 //Diem 15' id = 3
                 if (cotDiem.LoaiDiem.MaLoaiDiem == 2 && count15 < 2)
                 {
@@ -151,6 +136,74 @@ namespace SMS.DATA.Models
                     MaDiemHK = cotDiem.MaCotDiem;
                     DiemHK = cotDiem.GiaTri;
                 }
+            }
+
+            //fill fake ViewModel for table
+            for (int i = 0; i < 2 - countMieng; i++)
+            {
+                if (i == 0)
+                {
+                    MaDiemMieng_2 = -1;
+                    DiemMieng_2 = null;
+                }
+                else
+                {
+                    MaDiemMieng_1 = -1;
+                    DiemMieng_1 = null;
+                }
+            }
+
+            //fill fake ViewModel for table
+            //mieng
+            for (int i = 0; i < 2 - countMieng; i++)
+            {
+                if (i == 0)
+                {
+                    MaDiemMieng_2 = -1;
+                    DiemMieng_2 = null;
+                }
+                else
+                {
+                    MaDiemMieng_1 = -1;
+                    DiemMieng_1 = null;
+                }
+            }
+
+            //15'
+            for (int i = 0; i < 2 - count15; i++)
+            {
+                if (i == 0)
+                {
+                    MaDiem15_2 = -1;
+                    Diem15_2 = null;
+                }
+                else
+                {
+                    MaDiem15_1 = -1;
+                    Diem15_1 = null;
+                }
+            }
+
+            //1 tiet
+            for (int i = 0; i < 2 - count1T; i++)
+            {
+                if (i == 0)
+                {
+                    MaDiem1T_2 = -1;
+                    Diem1T_2 = null;
+                }
+                else
+                {
+                    Diem1T_1 = -1;
+                    Diem1T_1 = null;
+                }
+            }
+
+            //1 tiet
+            for (int i = 0; i < 1 - countHK; i++)
+            {
+                MaDiemHK = -1;
+                DiemHK = null;
             }
 
             DiemTrungBinh = bangDiem.DiemTB;
