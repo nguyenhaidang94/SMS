@@ -20,6 +20,7 @@ namespace SMS.CORE.Data
         public virtual ICollection<LopHoc> dsLopHoc { get; set; }
         public virtual ICollection<QuyetDinhKhenThuong> dsQDKhenThuong { get; set; }
         public virtual ICollection<QuyetDinhKyLuat> dsQDKyLuat { get; set; }
+        public virtual ICollection<HocSinh> dsHocSinhVaoTruong { get; set; }
 
         public NamHoc()
         {
@@ -27,6 +28,7 @@ namespace SMS.CORE.Data
             dsLopHoc = new HashSet<LopHoc>();
             dsQDKhenThuong = new HashSet<QuyetDinhKhenThuong>();
             dsQDKyLuat = new HashSet<QuyetDinhKyLuat>();
+            dsHocSinhVaoTruong = new HashSet<HocSinh>();
         }
     }
 }

@@ -243,6 +243,14 @@
     <Compile Include="Migrations\201601201639336_UPDATE-DATABASE-07.Designer.cs">
       <DependentUpon>201601201639336_UPDATE-DATABASE-07.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201601210341285_ADD-NAMVAOTRUONG-TO-HOCSINH.cs" />
+    <Compile Include="Migrations\201601210341285_ADD-NAMVAOTRUONG-TO-HOCSINH.Designer.cs">
+      <DependentUpon>201601210341285_ADD-NAMVAOTRUONG-TO-HOCSINH.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201601210350414_MAP-HOCSINH-TO-NAMHOC.cs" />
+    <Compile Include="Migrations\201601210350414_MAP-HOCSINH-TO-NAMHOC.Designer.cs">
+      <DependentUpon>201601210350414_MAP-HOCSINH-TO-NAMHOC.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationRole.cs" />
@@ -1796,6 +1804,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201601201639336_UPDATE-DATABASE-07.resx">
       <DependentUpon>201601201639336_UPDATE-DATABASE-07.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201601210341285_ADD-NAMVAOTRUONG-TO-HOCSINH.resx">
+      <DependentUpon>201601210341285_ADD-NAMVAOTRUONG-TO-HOCSINH.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201601210350414_MAP-HOCSINH-TO-NAMHOC.resx">
+      <DependentUpon>201601210350414_MAP-HOCSINH-TO-NAMHOC.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
