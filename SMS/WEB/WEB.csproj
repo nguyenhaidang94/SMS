@@ -1488,6 +1488,9 @@
     <Content Include="Scripts\kendo\2015.3.1111\cultures\kendo.culture.zu-ZA.min.js" />
     <Content Include="Scripts\kendo\2015.3.1111\cultures\kendo.culture.zu.min.js" />
     <Content Include="Scripts\kendo\2015.3.1111\jquery.min.js" />
+    <None Include="Scripts\kendo\2015.3.1111\kendo.all-vsdoc.js" />
+    <None Include="Scripts\kendo\2015.3.1111\kendo.all.min.intellisense.js" />
+    <Content Include="Scripts\kendo\2015.3.1111\kendo.all.min.js" />
     <Content Include="Scripts\kendo\2015.3.1111\kendo.angular.min.js" />
     <Content Include="Scripts\kendo\2015.3.1111\kendo.angular2.min.js" />
     <Content Include="Scripts\kendo\2015.3.1111\kendo.autocomplete.min.js" />
@@ -1737,6 +1740,7 @@
     <Content Include="Views\HocTap\DanhSachBangDiem.cshtml" />
     <Content Include="Views\BaoCao\ThongKeNhomDiem.cshtml" />
     <Content Include="Views\QDKyLuat\QuanLyQDKyLuat.cshtml" />
+    <Content Include="Scripts\kendo\2015.3.1111\kendo.all.min.js.map" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
