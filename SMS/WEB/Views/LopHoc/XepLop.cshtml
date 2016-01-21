@@ -378,11 +378,20 @@
                         alert("Vui lòng chọn ít nhất một học sinh");
                     }
                     else{
-                        for(i = 0; i < selectedItems.length; i++)
-                        {
-                            selectedItems[i].set("MaLopHoc", dropdownLopLeft.value());
-                            selectedItems[i].set("MaNamHoc", dropdownNam.value());
-                            selectedItems[i].set("MaKhoi", dropdownKhoiLeft.value());
+                        if(!$('#cbNewStudent').is(":checked")){
+                            for(i = 0; i < selectedItems.length; i++)
+                            {
+                                selectedItems[i].set("MaLopHoc", dropdownLopLeft.value());
+                                selectedItems[i].set("MaNamHoc", dropdownNam.value());
+                                selectedItems[i].set("MaKhoi", dropdownKhoiLeft.value());
+                            }
+                        }
+                        else{
+                            for(i = 0; i < selectedItems.length; i++)
+                            {
+                                selectedItems[i].set("MaLopHoc", -1);
+                                selectedItems[i].set("MaKhoi", -1);
+                            }
                         }
                     }
                 }

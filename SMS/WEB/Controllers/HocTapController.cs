@@ -12,7 +12,7 @@ using SMS.DATA.Models;
 
 namespace WEB.Controllers
 {
-    [Authorize(Roles = "Admin, Hiệu Trưởng")]
+    [Authorize(Roles = "Admin, Giáo Viên")]
     public class HocTapController : Controller
     {
         private readonly UnitOfWork _UnitOfWork = new UnitOfWork();
@@ -46,11 +46,25 @@ namespace WEB.Controllers
         // GET: /BangDiem/
         public ActionResult BangDiemMonHoc()
         {
+            List<MonHocOfKhoiLop> monHocKhoiLop = new List<MonHocOfKhoiLop>();
+            foreach (MonHoc monHoc in _MonHocService.GetAllWithChild())
+            {
+                foreach (KhoiLop khoiLop in monHoc.dsKhoi)
+                {
+                    monHocKhoiLop.Add(new MonHocOfKhoiLop
+                    {
+                        MaMonHoc = monHoc.MaMonHoc,
+                        TenMonHoc = monHoc.TenMonHoc,
+                        MaKhoi = khoiLop.MaKhoi
+                    });
+                }
+            }
+
             ViewBag.listNamHoc = _NamHocService.GetAll().Select(m => new { value = m.MaNamHoc, text = m.NamBatDau + " - " + m.NamKetThuc });
             ViewBag.listHocKy = _HocKyService.GetAll().Select(m => new { value = m.MaHocKy, text = m.TenHocKy });
             ViewBag.listKhoiLop = JsonConvert.SerializeObject(_KhoiLopService.GetAll().Select(m => new { value = m.MaKhoi, text = m.TenKhoi }));
             ViewBag.listLopHoc = JsonConvert.SerializeObject(_LopHocService.GetAll().Select(m => new { value = m.MaLopHoc, text = m.TenLop, MaNamHoc = m.MaNamHoc, MaKhoi = m.MaKhoi }));
-            ViewBag.listMonHoc = JsonConvert.SerializeObject(_MonHocService.GetAll().Select(m => new { value = m.MaMonHoc, text = m.TenMonHoc }));
+            ViewBag.listMonHoc = JsonConvert.SerializeObject(monHocKhoiLop.Select(m => new { value = m.MaMonHoc, text = m.TenMonHoc, MaKhoi = m.MaKhoi }));
             return View();
         }
 
@@ -335,8 +349,8 @@ namespace WEB.Controllers
                             sumHeSo += cotDiem.LoaiDiem.HeSo;
                         }
                         bangDiem.DiemTB = sumDiem / sumHeSo;
-
                         _HocTapService.UpdateBangDiem(bangDiem);
+                        model.DiemTrungBinh = bangDiem.DiemTB;
                     }
                     else    //bang diem moi
                     {
@@ -441,89 +455,11 @@ namespace WEB.Controllers
                         bangDiem.DiemTB = sumDiem / sumHeSo;
                         _HocTapService.InsertCotDiem(listCotDiemTemp);
                         _HocTapService.UpdateBangDiem(bangDiem);
-
+                        model.DiemTrungBinh = bangDiem.DiemTB;
                         model.MaBangDiem = bangDiem.MaBangDiem;
                     }
                 }
                 return Json(viewModels);
-            }
-            catch (Exception e)
-            {
-                return Json(new { error = e.Message });
-            }
-        }
-
-        /// <summary>
-        /// Set PhongHoc to inactive
-        /// </summary>
-        /// <returns></returns>
-        [HttpPost]
-        public ActionResult DestroyBangDiem(string models)
-        {
-            try
-            {
-                var phongHocs = JsonConvert.DeserializeObject<IEnumerable<PhongHoc>>(models);
-
-                if (phongHocs != null)
-                {
-                    foreach (PhongHoc phongHoc in phongHocs)
-                    {
-                        //_PhongHocService.FakeDelete(phongHoc);
-                    }
-                }
-                return Json(phongHocs);
-            }
-            catch (Exception e)
-            {
-                return Json(new { error = e.Message });
-            }
-        }
-
-        /// <summary>
-        /// Delete NamHoc from database
-        /// </summary>
-        /// <returns></returns>
-        [HttpPost]
-        public ActionResult RealDestroyBangDiem(string models)
-        {
-            try
-            {
-                var phongHocs = JsonConvert.DeserializeObject<IEnumerable<PhongHoc>>(models);
-
-                if (phongHocs != null)
-                {
-                    foreach (PhongHoc phongHoc in phongHocs)
-                    {
-                        //_PhongHocService.Delete(phongHoc);
-                    }
-                }
-                return Json(phongHocs);
-            }
-            catch (Exception e)
-            {
-                return Json(new { error = e.Message });
-            }
-        }
-
-        /// <summary>
-        /// Add new PhongHoc in database
-        /// </summary>
-        /// <returns></returns>
-        [HttpPost]
-        public ActionResult CreateBangDiem(string models)
-        {
-            try
-            {
-                var PhongHocs = JsonConvert.DeserializeObject<IEnumerable<PhongHoc>>(models);
-
-                if (PhongHocs != null)
-                {
-                    foreach (PhongHoc PhongHoc in PhongHocs)
-                    {
-                        //_PhongHocService.Insert(PhongHoc);
-                    }
-                }
-                return Json(PhongHocs);
             }
             catch (Exception e)
             {

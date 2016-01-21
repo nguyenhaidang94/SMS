@@ -141,12 +141,7 @@
                         columns: [{ field: "DiemHK", format: "{0:n2}", title: "Điểm Học Kỳ", width: 100 }]
                     },
                     { field: "DiemTrungBinh", title: "Điểm Trung Bình", format: "{0:n2}", width: 100 }
-                ],
-                save: function(e) {
-                    if (e.values.DiemHK != null && e.values.Diem1T_2 != null) 
-                        e.model.DiemTrungBinh = (e.values.DiemHK * 3 + e.values.Diem1T_2 *2)/5
-                    e.sender.refresh();
-                }
+                ]
             });
 
             //Mon hoc
@@ -191,6 +186,8 @@
                 change: function () {
                     var value = this.value();
                     if (value) {
+                        dropdownMon.dataSource.filter([{ field: "MaKhoi", operator: "eq", value: parseInt(value)}]);
+                        dropdownMon.select(0);
                         dropdownLop.dataSource.filter([{ field: "MaKhoi", operator: "eq", value: parseInt(value)}, {field: "MaNamHoc", operator: "eq", value: parseInt($('#dropdownNam').val()) }]);
                         dropdownLop.select(0);
                         dropdownLop.trigger("change");  //trigger event for filter when initialize
