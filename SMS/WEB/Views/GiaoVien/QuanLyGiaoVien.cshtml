@@ -17,6 +17,7 @@
     <script>
         var dsGioiTinh = [{"value": true,"text" : "Nam"}, {"value": false,"text" : "Nữ"}];
         var dsGiaoVien= @Html.Raw(ViewBag.dsGiaoVien);
+        var dsMonHoc =  @Html.Raw(ViewBag.dsMonHoc);
         var wnd, detailsTemplate;
 
         $(document).ready(function () {
@@ -66,6 +67,7 @@
                         CMND : {  field: "CMND", nullable: false, validation: { required: true } },   
                         TonGiao: { field: "TonGiao", nullable: false, validation: { required: true } },
                         DanToc: { field: "DanToc", nullable: false , validation: { required: true }},
+                        MaMonHoc: {field : "MaMonHoc", nullable : false, validation : {required : true}},
                         Active: { type: "boolean", defaultValue: true }
                     }
                 }
@@ -95,6 +97,7 @@
                 { field: "SDT", title: "Số Điện Thoại",hidden : true},
                 { field: "CMND", title: "Số Chứng Minh Nhân Dân", hidden: true},
                 { field: "DanToc", title: "Dân tộc", hidden: true},
+                { feild: "MaMonHoc",values: dsMonHoc, title :"Môn học", hidden : true},
                 { command: ["edit", "destroy",{ text: "View Details", click: showDetails }], title: "&nbsp;", width: "150px" }
             ],
             editable: "popup"

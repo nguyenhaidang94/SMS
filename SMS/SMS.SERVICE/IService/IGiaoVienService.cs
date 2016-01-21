@@ -16,5 +16,7 @@ namespace SMS.SERVICE.IService
         void AddDsGiaoVien(IEnumerable<GiaoVien> dsGiaoVien);
         void UpdateDsGiaoVien(IEnumerable<GiaoVien> dsGiaoVien);
         void DeleteDsGiaoVien(IEnumerable<GiaoVien> dsGiaoVien);
+        List<GiaoVien> LayDanhSachGiaoVienTheoMon(int id);
+       
     }
 }

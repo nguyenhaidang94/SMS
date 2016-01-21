@@ -1,0 +1,188 @@
+﻿@using Newtonsoft.Json
+
+
+@{
+    ViewBag.Title = "Lập Thời Khóa Biểu";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" href="~/Content/kendo/2015.3.1111/kendo.common.min.css" />
+<link rel="stylesheet" href="~/Content/kendo/2015.3.1111/kendo.default.min.css" />
+
+<h3>Lập Thời Khóa Biểu</h3>
+
+    <div id="input">
+        <label> Năm Học</label>
+        <input id="NamHoc" style="width: 20%" />
+         <label>Học Kỳ</label>
+        <input id="HocKy" style="width: 20%" />
+    
+        <button type="submit" id="btnTKB">Tạo Lịch Giảng Dạy</button>
+    </div>
+<br />
+
+<div id="grid-lapTKB"></div>
+
+<script type="text/x-kendo-template" id="template">
+                <div class="toolbar">
+                    <label class="category-label" for="category">Lọc Thời Khóa Biểu Theo Lớp:</label>
+                    <input type="search" id="Lop" style="width: 150px"/>
+                </div>
+
+</script>
+
+@section scripts{
+    <script>
+       
+        var dsTKB = @Html.Raw(ViewBag.dsTKB);
+        var dsNamHoc = @Html.Raw(ViewBag.dsNamHoc);
+        var dsHocKy = @Html.Raw(ViewBag.dsHocKy); 
+        var dsGiaoVien = @Html.Raw(ViewBag.dsGiaoVien);
+        //var dsLopHoc = @Html.Raw(ViewBag.dsLopHoc);
+        
+
+            $(document).ready(function() {
+                $("#NamHoc").kendoDropDownList({
+                    dataTextField: "NamBatDau",
+                    dataValueField: "MaNamHoc",
+                    dataSource:dsNamHoc,
+                });
+            });
+
+            $(document).ready(function() {
+                $("#HocKy").kendoDropDownList({
+                    dataTextField: "TenHocKy",
+                    dataValueField: "MaHocKy",
+                    dataSource:dsHocKy,
+                });
+            });
+
+        
+
+            $(document).ready(function () {
+            
+                $('#btnTKB').click(function(){
+                    $.ajax({
+                        type: "POST",
+                        url: "/ThoiKhoaBieu/TaoThoiKhoaBieu",
+                        data: { NamHoc: $('#NamHoc').val(),
+                            HocKy :  $('#HocKy').val()
+                        },
+                        success: function (result) {
+                            $("#grid-lapTKB").data('kendoGrid').dataSource.data(result);
+                        },
+                        error: function () {
+                            $("#grid-lapTKB").data('kendoGrid').dataSource.read();
+                        }
+                       
+                    });});
+
+            var dataSource = new kendo.data.DataSource({
+                type: "json",
+                transport: {
+                    create: {
+                        url: "@Url.Action("Create")",
+                        type: "POST",
+                        dataType: "json"
+                    },
+                    read: {
+                        url: "@Url.Action("Read")",
+                        type: "POST",
+                        dataType: "json"
+                    },
+                    //update: {
+                    //    url: "@Url.Action("Update")",
+                    //    type: "POST",
+                    //    dataType: "json"
+                    //},
+                    //destroy: {
+                    //    url: "@Url.Action("Delete")",
+                    //    type: "POST",
+                    //    dataType: "json"
+                    //},
+                parameterMap: function(options, operation) {
+                    if (operation !== "read" && options.models) {
+                        return { models: kendo.stringify(options.models) };
+                    }
+                }
+            },
+            batch: true,
+            pageSize: 20,
+            schema: {
+                model: {
+                    id: "MaLichGiangDay",
+                    fields: {
+                        MaLichGiangDay: { type :"number", field :"MaLichGiangDay",  nullable: true, editable: false},
+                        MaNamHoc: { type :"number",field :"MaNamHoc", nullable : false, validation:{ required : true}},
+                        MaHocKy: { field :"MaHocKy", nullable : false, validation:{ required : true}},
+                        MaLopHoc: {  type :"number",field :"MaLopHoc",  nullable: true, editable: false},
+                        MaMonHoc: { type :"number",field :"MaMonHoc",  nullable: true, editable: false},
+                        MaTietHoc: {type :"number", field :"MaTietHoc",  nullable: true, editable: false},
+                        MaPhongHoc: { type :"number",field :"MaPhongHoc",  nullable: true, editable: false},
+                        MaGiaoVien : {type : "number",field :"MaGiaoVien",nullable: true, editable: false},
+                        TenGiaoVien :{field: "TenGiaoVien",nullable: true, editable: false}, 
+                        TenMonHoc :{field: "TenMonHoc",nullable: true, editable: false}, 
+                        TenLopHoc: {field: "TenLopHoc",nullable: true, editable: false}, 
+                        TenPhongHoc : {field :"TenPhongHoc",nullable : true,editable : false},
+                        TenNamHoc : {field :"TenNamHoc",nullable: true,editable: false},
+                        TenHocKy: {field :"TenHocKy",nullable : true, editable : false},
+                        Thu: { field: "Thu", nullable: true, editable: false  },
+           
+                        Active: { type: "boolean", defaultValue: true }
+                    }
+                }
+            }
+        });
+
+      var grid=  $("#grid-lapTKB").kendoGrid({
+            dataSource: dataSource,
+            filterable: true,
+            sortable: true,
+            pageable: {
+                refresh: true,
+                pageSizes: true,
+                buttonCount: 5
+            },
+            height: 500,
+            toolbar:kendo.template($("#template").html()),
+            columns: [
+                { field: "Thu", title: "Thứ"},
+                //{ field :"MaLichGiangDay", title:"Mã Lịch Giảng Dạy"},
+                { field :"TenNamHoc",title:"Tên Năm Học"},
+                { field :"TenHocKy",title:"Tên Học Kỳ"},
+                { field :"MaTietHoc", title:"Mã Tiết Học"},
+                { field :"TenPhongHoc", title:"Tên Phòng Học"},
+                { field :"TenGiaoVien",title:"Tên Giáo Viên"},
+                { field :"TenMonHoc",title:"Tên Môn Học"},
+                { field :"TenLopHoc",title:"Tên Lớp Học"},
+                { field :"MaGiaoVien",title:"Mã Giáo Viên",hidden: true},
+                //{ command: ["edit", "destroy"], title: "&nbsp;", width: "150px" }
+            ],
+            editable:{
+                        mode: "popup",
+            },
+           
+        });    
+
+        var dropDown = grid.find("#Lop").kendoDropDownList({
+            dataTextField: "HoTen",
+            dataValueField: "PersonId",
+            autoBind: false,
+            optionLabel: "All",
+            dataSource: dsGiaoVien,
+            change: function() {
+                var value = this.value();
+                if (value) {
+                    grid.data("kendoGrid").dataSource.filter({ field: "MaGiaoVien", operator: "eq", value: parseInt(value) });
+                } else {
+                    grid.data("kendoGrid").dataSource.filter({});
+                }
+            }
+        });
+
+          
+    });
+    </script>
+    </div>
+
+}

@@ -48,6 +48,9 @@
     <Compile Include="IService\IHocKyService.cs" />
     <Compile Include="IService\IHocTapService.cs" />
     <Compile Include="IService\IBaoCaoService.cs" />
+    <Compile Include="IService\IChuongTrinhHocService.cs" />
+    <Compile Include="IService\ILapThoiKhoaBieuService.cs" />
+    <Compile Include="IService\IMonHocKhoiService.cs" />
     <Compile Include="IService\IMonHocService.cs" />
     <Compile Include="IService\ICTQDKhenThuongService.cs" />
     <Compile Include="IService\IKhoiLopService.cs" />
@@ -67,6 +70,9 @@
     <Compile Include="Service\HocKyService.cs" />
     <Compile Include="Service\HocTapService.cs" />
     <Compile Include="Service\BaoCaoService.cs" />
+    <Compile Include="Service\ChuongTrinhHocService.cs" />
+    <Compile Include="Service\LapThoiKhoaBieuService.cs" />
+    <Compile Include="Service\MonHocKhoiService.cs" />
     <Compile Include="Service\MonHocService.cs" />
     <Compile Include="Service\CTQDKhenThuongService.cs" />
     <Compile Include="Service\KhoiLopService.cs" />

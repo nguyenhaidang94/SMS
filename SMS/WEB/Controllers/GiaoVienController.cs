@@ -15,10 +15,12 @@ namespace WEB.Controllers
     {
         private readonly UnitOfWork _UnitOfWork = new UnitOfWork();
         private readonly IGiaoVienService _GiaoVienService;
+        private readonly IMonHocService _MonHocService;
 
         public GiaoVienController()
         {
             _GiaoVienService = new GiaoVienService(_UnitOfWork);
+            _MonHocService = new MonHocService(_UnitOfWork);
         }
 
         /// <summary>
@@ -28,6 +30,8 @@ namespace WEB.Controllers
         public ActionResult QuanLyGiaoVien()
         {
             ViewBag.dsGiaoVien = JsonConvert.SerializeObject(_GiaoVienService.GetAllGiaoVien());
+            ViewBag.dsMonHoc = JsonConvert.SerializeObject(_MonHocService.GetAll()
+                .Select(e => new { value = e.MaMonHoc, text = e.TenMonHoc}));
 
             return View();
         }

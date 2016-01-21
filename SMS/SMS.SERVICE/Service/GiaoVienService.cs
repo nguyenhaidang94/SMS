@@ -13,6 +13,7 @@ namespace SMS.SERVICE.Service
     {
         private readonly UnitOfWork _UnitOfWork;
         private readonly GenericRepository<GiaoVien> _GiaoVienRepository;
+        private readonly GenericRepository<MonHoc> _MonHocRepository;
         private readonly GenericRepository<Nguoi> _NguoiRepository;
 
         public GiaoVienService(UnitOfWork unitOfWork)
@@ -20,6 +21,8 @@ namespace SMS.SERVICE.Service
             _UnitOfWork = unitOfWork;
             _GiaoVienRepository = _UnitOfWork.Repository<GiaoVien>();
             _NguoiRepository = _UnitOfWork.Repository<Nguoi>();
+            _MonHocRepository = _UnitOfWork.Repository<MonHoc>();
+
         }
 
         /// <summary>
@@ -42,6 +45,10 @@ namespace SMS.SERVICE.Service
             foreach (GiaoVien gv in dsGiaoVien)
             {
                 GiaoVien giaovien = new GiaoVien();
+                GiaoVienMonHoc giaovienmh = new GiaoVienMonHoc();
+                giaovienmh.MaGiaoVien = gv.MaGiaoVien;
+                
+
                 giaovien.NgaySinh = gv.NgaySinh;
                 giaovien.NoiSinh = gv.NoiSinh;
                 giaovien.HoTen = gv.HoTen;
@@ -51,6 +58,7 @@ namespace SMS.SERVICE.Service
                 giaovien.DiaChi = gv.DiaChi;
                 giaovien.SDT = gv.SDT;
                 giaovien.CMND = gv.CMND;
+               
                 giaovien.PersonTypeId = 1;
 
                 _GiaoVienRepository.Insert(giaovien);
@@ -76,5 +84,10 @@ namespace SMS.SERVICE.Service
             _GiaoVienRepository.FakeDelete(dsGiaoVien);
         }
 
+       public List<GiaoVien> LayDanhSachGiaoVienTheoMon(int id)
+        {
+           return _MonHocRepository.Entities.Where(c => c.MaMonHoc == id && c.Active)
+                .SelectMany(e => e.dsGiaoVienMonHoc).Select(d => d.GiaoVien).ToList<GiaoVien>();
+        }
     }
 }
