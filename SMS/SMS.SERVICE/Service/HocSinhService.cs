@@ -114,6 +114,7 @@ namespace SMS.SERVICE.Service
         /// <param name="entity">HocSinh</param>
         public void Insert(HocSinh entity)
         {
+            entity.PersonId = 2;
             _HocSinhRepository.Insert(entity);
         }
 
@@ -123,6 +124,10 @@ namespace SMS.SERVICE.Service
         /// <param name="entity">List HocSinh</param>
         public void Insert(IEnumerable<HocSinh> entities)
         {
+            foreach (HocSinh hs in entities)
+            {
+                hs.PersonTypeId = 2;
+            }
             _HocSinhRepository.Insert(entities);
         }
 

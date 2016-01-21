@@ -36,10 +36,18 @@
                     </div>
  </script>
 
+<script type="text/x-kendo-template" id="templateNam">
+        <div class="toolbar">
+            <label class="category-label" for="namhoc">Năm Học:</label>
+            <input type="search" id="listNamHoc" style="width: 150px; margin-left:20px"/>
+        </div>
+    </script>
+
 @section scripts{
     <script>
+        var listNamHoc = @Html.Raw(ViewBag.listNamHoc);
+
         var dsGioiTinh = [{"value": true,"text" : "Nam"}, {"value": false,"text" : "Nữ"}];
-        var dsHocSinh = @Html.Raw(ViewBag.dsHocSinh);
         var wnd, detailsTemplate;
   
 
@@ -93,13 +101,21 @@
                         HoTenMe: {  field: "HoTenMe", nullable: false , validation: { required: true }},
                         NgheNghiepCha: {  field: "NgheNghiepCha", nullable: false , validation: { required: true }},
                         NgheNghiepMe: {  field: "NgheNghiepMe", nullable: false , validation: { required: true }},
+                        MaNamVaoTruong: {  field: "MaNamVaoTruong" },
                         Active: { type: "boolean", defaultValue: true }
                     }
+                }
+            },
+            change: function (e) {
+                if (e.action == "add") {
+                    var newItem = e.items[0];
+                    var nam = dropdownNam.value();
+                    newItem.set("MaNamVaoTruong",nam);
                 }
             }
         });
 
-        $("#grid-hosohocsinh").kendoGrid({
+        var grid = $("#grid-hosohocsinh").kendoGrid({
             dataSource: dataSource,
             filterable: true,
             sortable: true,
@@ -109,7 +125,7 @@
                 buttonCount: 5
             },
             height: 500,
-            toolbar: ["create"],
+            toolbar: ["create", {name: 'filter', template: kendo.template($("#templateNam").html())}],
             columns: [
                 { field: "HoTen", title: "Họ Tên"},
                 { field: "NgaySinh", title: "Ngày Sinh", template: "#= kendo.toString(NgaySinh, 'dd/MM/yyyy') #" },
@@ -126,7 +142,7 @@
                 { command: ["edit", "destroy",{ text: "View Details", click: showDetails }], title: "&nbsp;", width: "150px" }
             ],
             editable:{
-                        mode: "popup",
+                mode: "popup",
             },
            
         });    
@@ -148,6 +164,40 @@
             wnd.content(detailsTemplate(dataItem));
             wnd.center().open();
         }
+
+        //Nam hoc
+        $("#listNamHoc").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: listNamHoc,
+            //select 1st value
+            index: 0,
+            change: function () {
+                var value = this.value();
+                if (value) {
+                    grid.data("kendoGrid").dataSource.filter([{ field: "MaNamVaoTruong", operator: "eq", value: parseInt(value) }]);
+                } else {
+                    grid.data("kendoGrid").dataSource.filter({});
+                }
+            },
+        });
+        var dropdownNam = $("#listNamHoc").data("kendoDropDownList"),
+            setValue = function(e) {
+                if (e.type != "keypress" || kendo.keys.ENTER == e.keyCode)
+                    dropdownlist.value($("#value").val());
+            },
+            setIndex = function(e) {
+                if (e.type != "keypress" || kendo.keys.ENTER == e.keyCode) {
+                    var index = parseInt($("#index").val());
+                    dropdownlist.select(index);
+                }
+            },
+            setSearch = function(e) {
+                if (e.type != "keypress" || kendo.keys.ENTER == e.keyCode)
+                    dropdownlist.search($("#word").val());
+            };
+
+        dropdownNam.trigger("change");
           
     });
     </script>
@@ -176,7 +226,4 @@
                     font-weight:bold;
                 }
             </style>
-
-        </div>
-    
 }

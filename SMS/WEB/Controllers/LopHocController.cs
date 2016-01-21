@@ -230,16 +230,23 @@ namespace WEB.Controllers
                 {
                     foreach (NamHoc namHoc in namHocs)
                     {
-                        if (hocSinh.dsLopHoc.Where(m => m.MaNamHoc == namHoc.MaNamHoc).Count() > 0)
+                        //chi xep lop cho hoc sinh vao sau nam do
+                        if (hocSinh.MaNamVaoTruong != null)
                         {
-                            foreach (LopHoc lopHoc in hocSinh.dsLopHoc)
+                            if (_NamHocService.GetByID((int)hocSinh.MaNamVaoTruong).NamBatDau >= namHoc.NamBatDau)
                             {
-                                xepLopViewModels.Add(new XepLopViewModel(hocSinh, lopHoc));
+                                if (hocSinh.dsLopHoc.Where(m => m.MaNamHoc == namHoc.MaNamHoc).Count() > 0)
+                                {
+                                    foreach (LopHoc lopHoc in hocSinh.dsLopHoc)
+                                    {
+                                        xepLopViewModels.Add(new XepLopViewModel(hocSinh, lopHoc));
+                                    }
+                                }
+                                else
+                                {
+                                    xepLopViewModels.Add(new XepLopViewModel(hocSinh, namHoc.MaNamHoc));
+                                }
                             }
-                        }
-                        else
-                        {
-                            xepLopViewModels.Add(new XepLopViewModel(hocSinh, namHoc.MaNamHoc));
                         }
                     }
                 }

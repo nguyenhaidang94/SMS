@@ -15,10 +15,12 @@ namespace WEB.Controllers
     {
         private readonly UnitOfWork _UnitOfWork = new UnitOfWork();
         private readonly IHocSinhService _HocSinhService;
+        private readonly INamHocService _NamHocService;
 
         public HocSinhController()
         {
             _HocSinhService = new HocSinhService(_UnitOfWork);
+            _NamHocService = new NamHocService(_UnitOfWork);
         }
 
         /// <summary>
@@ -27,7 +29,7 @@ namespace WEB.Controllers
         /// <returns>QuanLyHocSinh.cshtml</returns>
         public ActionResult QuanLyHocSinh()
         {
-            ViewBag.dsHocSinh = JsonConvert.SerializeObject(_HocSinhService.GetAll());
+            ViewBag.listNamHoc = JsonConvert.SerializeObject(_NamHocService.GetAll().Select(m => new { text = m.NamBatDau + " - " + m.NamKetThuc, value = m.MaNamHoc}));
 
             return View();
         }
@@ -65,7 +67,6 @@ namespace WEB.Controllers
             try
             {
                 var dshocsinh = JsonConvert.DeserializeObject<IEnumerable<HocSinh>>(models);
-
                 if (dshocsinh != null)
                 {
                     _HocSinhService.Insert(dshocsinh);
@@ -75,7 +76,7 @@ namespace WEB.Controllers
             catch (Exception ex)
             {
                 //Show Message here
-                return Json(null);
+                return Json(new { error = ex.Message});
             }
         }
 
