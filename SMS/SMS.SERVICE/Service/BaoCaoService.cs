@@ -53,17 +53,21 @@ namespace SMS.SERVICE.Service
 
                         //bang diem cua hocsinh thuoc lop
                         var dsBangDiem = lophoc.dsHocSinh.SelectMany(e => e.dsBangDiemHKMH);
-                        BaoCaoNhomDiemViewModel item = new BaoCaoNhomDiemViewModel() 
-                        { 
+                        var total = dsBangDiem.Count();
+                        BaoCaoNhomDiemViewModel item = new BaoCaoNhomDiemViewModel()
+                        {
                             MaNamHoc = namhoc.MaNamHoc,
                             MaKhoi = khoi.MaKhoi,
                             MaLop = lophoc.MaLopHoc,
-                            TenLop = lophoc.TenLop,
-                            good = dsBangDiem.Count(e => e.DiemTB >= 8),
-                            prettygood = dsBangDiem.Count(e => e.DiemTB >= 6.5 && e.DiemTB < 8),
-                            medium = dsBangDiem.Count(e => e.DiemTB >= 5 && e.DiemTB < 6.5),
-                            undermedium = dsBangDiem.Count(e => e.DiemTB < 5)
+                            TenLop = lophoc.TenLop 
                         };
+                        if (total > 0)
+                        {
+                            item.good = dsBangDiem.Count(e => e.DiemTB >= 8) * 100 / total;
+                            item.prettygood = dsBangDiem.Count(e => e.DiemTB >= 6.5 && e.DiemTB < 8) * 100 / total;
+                            item.medium = dsBangDiem.Count(e => e.DiemTB >= 5 && e.DiemTB < 6.5) * 100 / total;
+                            item.undermedium = dsBangDiem.Count(e => e.DiemTB < 5) * 100 / total;
+                        }
                         dsThongKe.Add(item);
                     }
                 }

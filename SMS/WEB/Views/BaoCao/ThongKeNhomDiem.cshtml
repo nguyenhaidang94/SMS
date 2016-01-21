@@ -3,7 +3,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h3>Thống kê số lượng nhóm điểm theo khối</h3>
+<h3>Thống kê phần trăm nhóm điểm của từng lớp theo khối</h3>
 
 <div id="example">
     <div class="k-content wide">
@@ -59,7 +59,8 @@
                 },
                 {
                     field: "medium",
-                    name: "Điểm từ 5 đến 6.5"
+                    name: "Điểm từ 5 đến 6.5",
+                    color: "#aa0000"
                 },
                 {
                     field: "prettygood",
@@ -82,7 +83,7 @@
                 },
                 tooltip: {
                     visible: true,
-                    template: "số lượng: #= value #"
+                    template: "#= value #%"
                 }
             });
 
@@ -155,7 +156,7 @@
                         dropdownlist.search($("#word").val());
                 };
 
-            //dropdownKhoi.trigger("change");
+            dropdownKhoi.trigger("change");
         });
     </script>
 

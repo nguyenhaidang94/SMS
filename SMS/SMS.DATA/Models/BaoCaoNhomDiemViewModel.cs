@@ -10,12 +10,12 @@
 
         public string TenLop { get; set; }
 
-        public int good { get; set; }
+        public float good { get; set; }
 
-        public int prettygood { get; set; }
+        public float prettygood { get; set; }
 
-        public int medium { get; set; }
+        public float medium { get; set; }
 
-        public int undermedium { get; set; }
+        public float undermedium { get; set; }
     }
 }

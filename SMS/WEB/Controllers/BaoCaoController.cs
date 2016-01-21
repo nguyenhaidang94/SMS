@@ -62,7 +62,7 @@ namespace WEB.Controllers
             catch (Exception ex)
             {
                 //show message here
-                return Json(new { error = ex.Message });
+                return Json(new { error = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
 
