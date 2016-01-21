@@ -55,7 +55,6 @@
     <Compile Include="Data\LoaiDiem.cs" />
     <Compile Include="Data\LopHoc.cs" />
     <Compile Include="Data\MonHoc.cs" />
-    <Compile Include="Data\MonHocKhoi.cs" />
     <Compile Include="Data\NamHoc.cs" />
     <Compile Include="Data\Nguoi.cs" />
     <Compile Include="Data\PersonType.cs" />

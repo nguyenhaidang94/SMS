@@ -16,13 +16,11 @@ namespace WEB.Controllers
     {
         private UnitOfWork _UnitOfWork = new UnitOfWork();
         private readonly IMonHocService _MonHocService;
-        private readonly IMonHocKhoiService _MonHocKhoiService;
         private readonly IKhoiLopService _KhoiLopService;
 
         public MonHocController()
         {
             _MonHocService = new MonHocService(_UnitOfWork);
-            _MonHocKhoiService = new MonHocKhoiService(_UnitOfWork);
             _KhoiLopService = new KhoiLopService(_UnitOfWork);
         }
 
