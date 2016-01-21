@@ -218,7 +218,8 @@ namespace SMS.SERVICE.Service
                              lich.MaNamHoc = MaNamHoc;
                              lich.MaPhongHoc = int.Parse(lop.MaPhong);
                              lich.MaTietHoc = SoTietHocTrongTuan.Count() % 5 +1 ;
-                             lich.MaMonHoc = _MonHocService.LayMonHocTheoMaGiaoVien(_ListGiaoVien[j].PersonId).First().MaMonHoc;
+                             lich.MaMonHoc = _GiaoVienMonHocRepository.Entities.Where(e => e.Active
+                                 && e.MaGiaoVien == _ListGiaoVien[j].PersonId).Select(e => e.MaMonHoc).First();
                              lich.MaLopHoc = lop.MaLopHoc;
                              int thu = (SoTietHocTrongTuan.Count() / 5 + 2);
                              if(thu>=7) thu = 7;

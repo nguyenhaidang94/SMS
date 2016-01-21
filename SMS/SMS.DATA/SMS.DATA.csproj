@@ -95,6 +95,7 @@
     <Compile Include="Models\BangDiemViewModel.cs" />
     <Compile Include="Models\CTKyLuatViewModel.cs" />
     <Compile Include="Models\LopHocViewModel.cs" />
+    <Compile Include="Models\ThoiKhoaBieuViewModel.cs" />
     <Compile Include="Models\MonHocOfKhoiLop.cs" />
     <Compile Include="Models\MonHocViewModel.cs" />
     <Compile Include="Models\BaoCaoNhomDiemViewModel.cs" />
