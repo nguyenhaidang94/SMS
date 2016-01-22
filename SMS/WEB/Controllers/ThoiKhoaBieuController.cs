@@ -12,7 +12,7 @@ using System.Web.Mvc;
 
 namespace WEB.Controllers
 {
-     [Authorize(Roles = " Hiệu Trưởng")]
+     [Authorize(Roles = "Admin,Hiệu Trưởng")]
 
     public class ThoiKhoaBieuController : Controller
     {
