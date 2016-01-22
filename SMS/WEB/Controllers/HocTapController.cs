@@ -63,7 +63,7 @@ namespace WEB.Controllers
             ViewBag.listNamHoc = _NamHocService.GetAll().Select(m => new { value = m.MaNamHoc, text = m.NamBatDau + " - " + m.NamKetThuc });
             ViewBag.listHocKy = _HocKyService.GetAll().Select(m => new { value = m.MaHocKy, text = m.TenHocKy });
             ViewBag.listKhoiLop = JsonConvert.SerializeObject(_KhoiLopService.GetAll().Select(m => new { value = m.MaKhoi, text = m.TenKhoi }));
-            ViewBag.listLopHoc = JsonConvert.SerializeObject(_LopHocService.GetAll().Select(m => new { value = m.MaLopHoc, text = m.TenLop, MaNamHoc = m.MaNamHoc, MaKhoi = m.MaKhoi }));
+            ViewBag.listLopHoc = JsonConvert.SerializeObject(_LopHocService.GetAll().OrderBy(m=>m.TenLop).Select(m => new { value = m.MaLopHoc, text = m.TenLop, MaNamHoc = m.MaNamHoc, MaKhoi = m.MaKhoi }));
             ViewBag.listMonHoc = JsonConvert.SerializeObject(monHocKhoiLop.Select(m => new { value = m.MaMonHoc, text = m.TenMonHoc, MaKhoi = m.MaKhoi }));
             return View();
         }

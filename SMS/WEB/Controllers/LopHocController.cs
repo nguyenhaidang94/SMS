@@ -37,15 +37,15 @@ namespace WEB.Controllers
         {
             ViewBag.listKhoiLop = JsonConvert.SerializeObject(_KhoiLopService.GetAll().Select(m => new { value = m.MaKhoi, text = m.TenKhoi }));
             ViewBag.listPhongHoc = JsonConvert.SerializeObject(_PhongHocService.GetAll().Select(m => new { value = m.MaPhong, text = m.TenPhong }));
-            ViewBag.listNamHoc = JsonConvert.SerializeObject(_NamHocService.GetAll().Select(m => new { value = m.MaNamHoc, text = m.NamBatDau + " - " + m.NamKetThuc }));
+            ViewBag.listNamHoc = JsonConvert.SerializeObject(_NamHocService.GetAll().OrderBy(m => m.NamBatDau).Select(m => new { value = m.MaNamHoc, text = m.NamBatDau + " - " + m.NamKetThuc }));
             return View();
         }
 
         public ActionResult XepLop()
         {
             ViewBag.listKhoiLop = JsonConvert.SerializeObject(_KhoiLopService.GetAll().Select(m => new { value = m.MaKhoi, text = m.TenKhoi }));
-            ViewBag.listLopHoc = JsonConvert.SerializeObject(_LopHocService.GetAll().Select(m => new { value = m.MaLopHoc, text = m.TenLop, MaNamHoc = m.MaNamHoc, MaKhoi = m.MaKhoi }));
-            ViewBag.listNamHoc = JsonConvert.SerializeObject(_NamHocService.GetAll().Select(m => new { value = m.MaNamHoc, text = m.NamBatDau + " - " + m.NamKetThuc }));
+            ViewBag.listLopHoc = JsonConvert.SerializeObject(_LopHocService.GetAll().OrderBy(m => m.TenLop).Select(m => new { value = m.MaLopHoc, text = m.TenLop, MaNamHoc = m.MaNamHoc, MaKhoi = m.MaKhoi }));
+            ViewBag.listNamHoc = JsonConvert.SerializeObject(_NamHocService.GetAll().OrderBy(m => m.NamBatDau).Select(m => new { value = m.MaNamHoc, text = m.NamBatDau + " - " + m.NamKetThuc }));
             ViewBag.listPhongHoc = JsonConvert.SerializeObject(_PhongHocService.GetAll().Select(m => new { value = m.MaPhong, text = m.TenPhong }));
             return View();
         }
