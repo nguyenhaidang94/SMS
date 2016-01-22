@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using SMS.CORE.Data;
 using SMS.DATA;
+using SMS.DATA.Models;
 using SMS.SERVICE.IService;
 using SMS.SERVICE.Service;
 using System;
@@ -16,6 +17,7 @@ namespace WEB.Controllers
         private readonly UnitOfWork _UnitOfWork = new UnitOfWork();
         private readonly IGiaoVienService _GiaoVienService;
         private readonly IMonHocService _MonHocService;
+        private IEnumerable<GiaoVienViewModel> listGiaoVienViewModel;
 
         public GiaoVienController()
         {
@@ -31,7 +33,7 @@ namespace WEB.Controllers
         {
             ViewBag.dsGiaoVien = JsonConvert.SerializeObject(_GiaoVienService.GetAllGiaoVien());
             ViewBag.dsMonHoc = JsonConvert.SerializeObject(_MonHocService.GetAll()
-                .Select(e => new { value = e.MaMonHoc, text = e.TenMonHoc}));
+                .Select(e => new { value = e.MaMonHoc, text = e.TenMonHoc }));
 
             return View();
         }
@@ -45,12 +47,14 @@ namespace WEB.Controllers
         {
             try
             {
-                var dsGiaoVien = _GiaoVienService.GetAllGiaoVien();
-                if (dsGiaoVien == null)
+                listGiaoVienViewModel = _GiaoVienService.KhoiTaoModel();
+
+                //var dsGiaoVien = _GiaoVienService.GetAllGiaoVien();
+                if (listGiaoVienViewModel == null)
                 {
                     return Json(null);
                 }
-                return Json(dsGiaoVien);
+                return Json(listGiaoVienViewModel);
             }
             catch (Exception ex)
             {
@@ -69,11 +73,12 @@ namespace WEB.Controllers
         {
             try
             {
-                var dsGiaoVien = JsonConvert.DeserializeObject<IEnumerable<GiaoVien>>(models);
+
+                var dsGiaoVien = JsonConvert.DeserializeObject<IEnumerable<GiaoVienViewModel>>(models);
 
                 if (dsGiaoVien != null)
                 {
-                   _GiaoVienService.AddDsGiaoVien(dsGiaoVien);
+                    _GiaoVienService.AddDsGiaoVien(dsGiaoVien);
                 }
                 return Json(dsGiaoVien);
             }
@@ -94,7 +99,7 @@ namespace WEB.Controllers
         {
             try
             {
-                var dsGiaoVien = JsonConvert.DeserializeObject<IEnumerable<GiaoVien>>(models);
+                var dsGiaoVien = JsonConvert.DeserializeObject<IEnumerable<GiaoVienViewModel>>(models);
                 if (dsGiaoVien != null)
                 {
                     _GiaoVienService.UpdateDsGiaoVien(dsGiaoVien);
@@ -118,7 +123,7 @@ namespace WEB.Controllers
         {
             try
             {
-                var dsGiaoVien = JsonConvert.DeserializeObject<IEnumerable<GiaoVien>>(models);
+                var dsGiaoVien = JsonConvert.DeserializeObject<IEnumerable<GiaoVienViewModel>>(models);
                 if (dsGiaoVien != null)
                 {
                     _GiaoVienService.DeleteDsGiaoVien(dsGiaoVien);

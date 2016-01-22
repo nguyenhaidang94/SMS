@@ -82,5 +82,7 @@ namespace SMS.SERVICE.IService
         /// </summary>
         /// <param name="entity">MonHoc</param>
         void FakeDelete(IEnumerable<MonHoc> entities);
+
+        List<MonHoc> LayMonHocTheoMaGiaoVien(int id);
     }
 }

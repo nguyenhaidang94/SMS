@@ -26,59 +26,60 @@
                 transport: {
                     create: {
                         url: "@Url.Action("Create")",
-                        type: "POST",
-                        dataType: "json"
-                    },
-                    read: {
-                        url: "@Url.Action("Read")",
-                        type: "POST",
-                        dataType: "json"
-                    },
-                    update: {
-                        url: "@Url.Action("Update")",
-                        type: "POST",
-                        dataType: "json"
-                    },
-                    destroy: {
-                        url: "@Url.Action("Delete")",
-                        type: "POST",
-                        dataType: "json"
-                    },
-                parameterMap: function(options, operation) {
-                    if (operation !== "read" && options.models) {
-                        return { models: kendo.stringify(options.models) };
-                    }
-                }
+                    type: "POST",
+                    dataType: "json"
+                },
+                read: {
+                    url: "@Url.Action("Read")",
+                type: "POST",
+                dataType: "json"
             },
-            batch: true,
+                update: {
+                url: "@Url.Action("Update")",
+                type: "POST",
+            dataType: "json"
+        },
+            destroy: {
+            url: "@Url.Action("Delete")",
+            type: "POST",
+            dataType: "json"
+            },
+        parameterMap: function(options, operation) {
+            if (operation !== "read" && options.models) {
+                return { models: kendo.stringify(options.models) };
+            }
+        }
+        },
+        batch: true,
             pageSize: 20,
-            schema: {
-                model: {
+        schema: {
+            model: {
                     id: "PersonId",
                     fields: {
-                        PersonId: { type:"number", editable: false, nullable: false , validation: { required: true }},
-                        MaGiaoVien: { type: "number", field: "MaGiaoVien", nullable: false , validation: { required: true }},
-                        HoTen: {  field: "HoTen", nullable: false, validation: { required: true } },
-                        NgaySinh: { type: "date", field: "NgaySinh", nullable: false, validation: { required: true } },
-                        GioiTinh: { type: "bool", field: "GioiTinh" , nullable : true, validation: { required: true }},
-                        NoiSinh: {  field: "NoiSinh", nullable: false , validation: { required: true }},
-                        DiaChi: {  field: "DiaChi", nullable: false , validation: { required: true }},
-                        SDT : {  type: "number", field: "SDT", nullable: false, validation: { required: true } },
-                        CMND : {  field: "CMND", nullable: false, validation: { required: true } },   
-                        TonGiao: { field: "TonGiao", nullable: false, validation: { required: true } },
-                        DanToc: { field: "DanToc", nullable: false , validation: { required: true }},
-                        MaMonHoc: {field : "MaMonHoc", nullable : false, validation : {required : true}},
-                        Active: { type: "boolean", defaultValue: true }
+                    PersonId: { type:"number", editable: false, nullable: false , validation: { required: true }},
+                    MaGiaoVien: { type:"number", field: "MaGiaoVien", nullable: false , validation: { required: true }},
+                    HoTen: {  field: "HoTen", nullable: false, validation: { required: true } },
+                    NgaySinh: { type: "date", field: "NgaySinh", nullable: false, validation: { required: true} },
+                    GioiTinh: { type: "bool", field: "GioiTinh" , nullable : true, validation: { required: true }},
+                    NoiSinh: {  field: "NoiSinh", nullable: false , validation: { required: true }},
+                    DiaChi: {  field: "DiaChi", nullable: false , validation: { required: true }},
+                    SDT : {  type: "number", field: "SDT", nullable: false, validation: { required: true } },
+                    CMND : {  field: "CMND", nullable: false, validation: { required: true } },   
+                    TonGiao: { field: "TonGiao", nullable: false, validation: { required: true } },
+                    DanToc: { field: "DanToc", nullable: false , validation: { required: true }},
+                    MaMonHoc: {field : "MaMonHoc", nullable : false, validation : {required : true}},
+                    TenMonHoc:{field :"TenMonHoc", nullable : false ,editable: false, validation :{required : true}},
+                    Active: { type: "boolean", defaultValue: true }
                     }
-                }
             }
+        }
         });
         
          
 
         $("#grid-hosogiaovien").kendoGrid({
             dataSource: dataSource,
-            filterable: false,
+            filterable: true,
             sortable: true,
             pageable: {
                 refresh: true,
@@ -90,14 +91,14 @@
             columns: [
                 { field: "HoTen", title: "Họ Tên"},
                 { field: "NgaySinh", title: "Ngày Sinh", template: "#= kendo.toString(NgaySinh, 'dd/MM/yyyy') #" },
-                { field: "GioiTinh",values : dsGioiTinh, title: "Giới Tính",defaultValue: true},
-                { field: "NoiSinh", title: "Nơi Sinh"},
+                { field: "GioiTinh",values : dsGioiTinh, title: "Giới Tính",defaultValue: true, filterable : false},
+                { field: "NoiSinh", title: "Nơi Sinh", filterable : false},
                 { field: "DiaChi", title: "Địa Chỉ"},
                 { field: "TonGiao", title: "Tôn Giáo",hidden : true},
                 { field: "SDT", title: "Số Điện Thoại",hidden : true},
                 { field: "CMND", title: "Số Chứng Minh Nhân Dân", hidden: true},
                 { field: "DanToc", title: "Dân tộc", hidden: true},
-                { feild: "MaMonHoc",values: dsMonHoc, title :"Môn học", hidden : true},
+                { field: "MaMonHoc",values : dsMonHoc, title :"Mã Môn học",hidden : true},
                 { command: ["edit", "destroy",{ text: "View Details", click: showDetails }], title: "&nbsp;", width: "150px" }
             ],
             editable: "popup"

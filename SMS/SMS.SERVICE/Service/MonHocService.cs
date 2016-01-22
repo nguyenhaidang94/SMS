@@ -13,11 +13,14 @@ namespace SMS.SERVICE.Service
     {
         private readonly UnitOfWork _UnitOfWork;
         private readonly GenericRepository<MonHoc> _MonHocRepository;
+        private readonly GenericRepository<GiaoVien> _GiaoVienRepository;
+
 
         public MonHocService(UnitOfWork unitOfWork)
         {
             _UnitOfWork = unitOfWork;
             _MonHocRepository = _UnitOfWork.Repository<MonHoc>();
+            _GiaoVienRepository = _UnitOfWork.Repository<GiaoVien>();
         }
 
         /// <summary>
@@ -140,6 +143,12 @@ namespace SMS.SERVICE.Service
         public void FakeDelete(IEnumerable<MonHoc> entities)
         {
             _MonHocRepository.FakeDelete(entities);
+        }
+
+        public List<MonHoc> LayMonHocTheoMaGiaoVien(int id)
+        {
+            return _GiaoVienRepository.Entities.Where(c => c.PersonId == id && c.Active)
+                .SelectMany(e => e.dsGiaoVienMonHoc).Select(d => d.MonHoc).ToList<MonHoc>();
         }
 
     }

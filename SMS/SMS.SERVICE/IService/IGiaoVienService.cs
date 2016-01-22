@@ -1,5 +1,6 @@
 ﻿
 using SMS.CORE.Data;
+using SMS.DATA.Models;
 using System.Collections.Generic;
 namespace SMS.SERVICE.IService
 {
@@ -13,10 +14,12 @@ namespace SMS.SERVICE.IService
         /// </summary>
         /// <returns>list nguoi as giaovien</returns>
         IEnumerable<GiaoVien> GetAllGiaoVien();
-        void AddDsGiaoVien(IEnumerable<GiaoVien> dsGiaoVien);
-        void UpdateDsGiaoVien(IEnumerable<GiaoVien> dsGiaoVien);
-        void DeleteDsGiaoVien(IEnumerable<GiaoVien> dsGiaoVien);
+        IEnumerable<GiaoVienViewModel> KhoiTaoModel();
+        void AddDsGiaoVien(IEnumerable<GiaoVienViewModel> dsGiaoVien);
+        void UpdateDsGiaoVien(IEnumerable<GiaoVienViewModel> dsGiaoVien);
+        void DeleteDsGiaoVien(IEnumerable<GiaoVienViewModel> dsGiaoVien);
         List<GiaoVien> LayDanhSachGiaoVienTheoMon(int id);
-       
+        int GetLastPersonId();
+
     }
 }
